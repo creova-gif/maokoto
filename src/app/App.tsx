@@ -29,11 +29,13 @@ export interface Transaction {
 export interface Goal {
   id: string;
   title: string;
+  emoji?: string;
   target: number;
   current: number;
   daysLeft?: number;
   deadline?: string;
   completed: boolean;
+  milestonesCelebrated?: number[];
 }
 
 export interface SavingsChallenge {
@@ -97,6 +99,7 @@ interface AppContextType {
   clearAllData: () => void;
   setCategoryBudget: (category: string, amount: number) => void;
   deleteTransaction: (id: string) => void;
+  deleteGoal: (id: string) => void;
   editTransaction: (id: string, updates: Partial<Pick<Transaction, 'amount' | 'category' | 'source' | 'notes'>>) => void;
   setLoanBalance: (amount: number) => void;
   toggleRoundUp: () => void;
@@ -286,15 +289,23 @@ function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const updateGoal = (id: string, amount: number) => {
+    const MILESTONE_STEPS = [25, 50, 75, 100];
     setState(prev => ({
       ...prev,
       goals: prev.goals.map(goal => {
         if (goal.id === id) {
           const newCurrent = goal.current + amount;
+          const oldPct = (goal.current / goal.target) * 100;
+          const newPct = (newCurrent / goal.target) * 100;
+          const celebrated = goal.milestonesCelebrated ?? [];
+          const newMilestones = MILESTONE_STEPS.filter(
+            ms => newPct >= ms && oldPct < ms && !celebrated.includes(ms)
+          );
           return {
             ...goal,
             current: newCurrent,
             completed: newCurrent >= goal.target,
+            milestonesCelebrated: [...celebrated, ...newMilestones],
           };
         }
         return goal;
@@ -375,6 +386,10 @@ function AppProvider({ children }: { children: ReactNode }) {
       ...prev,
       categoryBudgets: { ...prev.categoryBudgets, [category]: amount },
     }));
+  };
+
+  const deleteGoal = (id: string) => {
+    setState(prev => ({ ...prev, goals: prev.goals.filter(g => g.id !== id) }));
   };
 
   const deleteTransaction = (id: string) => {
@@ -513,6 +528,7 @@ function AppProvider({ children }: { children: ReactNode }) {
         clearAllData,
         setCategoryBudget,
         deleteTransaction,
+        deleteGoal,
         editTransaction,
         setLoanBalance,
         toggleRoundUp,

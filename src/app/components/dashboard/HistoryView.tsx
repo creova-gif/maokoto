@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, TrendingUp, TrendingDown, Filter, X, Trash2 } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, Filter, X, Trash2, Search, ChevronRight } from 'lucide-react';
 import { useApp, type PaymentSource, type Transaction } from '@/app/App';
 import { t } from '@/app/utils/translations';
 import { getCategoryIcon } from '@/app/utils/categoryIcons';
@@ -18,6 +18,10 @@ type DateRange = 'all' | 'today' | 'week' | 'month';
 
 const PAGE_SIZE = 25;
 
+const SOURCE_ICONS: Record<string, string> = {
+  cash: '💵', mpesa: '📲', airtel: '📶', tigo: '📡', bank: '🏦', loan: '💳',
+};
+
 export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
   const { state, deleteTransaction } = useApp();
   const lang = state.language;
@@ -30,6 +34,9 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
   const touchStartRef = useRef<number>(0);
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [detailTx, setDetailTx] = useState<Transaction | null>(null);
 
   const formatCurrency = (amount: number) => fmtCurrency(amount, state.region);
 
@@ -51,12 +58,26 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
     if (filterType !== 'all' && tx.type !== filterType) return false;
     if (filterSource !== 'all' && tx.source !== filterSource) return false;
     if (dateRangeStart && tx.date < dateRangeStart) return false;
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      const hay = [tx.category, tx.notes ?? '', tx.source, tx.type].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
     return true;
   });
 
-  const isFiltered = filterType !== 'all' || filterSource !== 'all' || filterDateRange !== 'all';
+  const isFiltered = filterType !== 'all' || filterSource !== 'all' || filterDateRange !== 'all' || searchQuery.trim().length > 0;
 
-  // Group ALL filtered transactions by date first, then limit visible date groups
+  const netSummary = filteredTransactions.reduce(
+    (acc, tx) => {
+      if (tx.type === 'income') acc.income += tx.amount;
+      else acc.expense += tx.amount;
+      return acc;
+    },
+    { income: 0, expense: 0 }
+  );
+  const net = netSummary.income - netSummary.expense;
+
   const groupedTransactions = filteredTransactions.reduce((acc, transaction) => {
     const dateKey = format(transaction.date, 'yyyy-MM-dd');
     if (!acc[dateKey]) acc[dateKey] = [];
@@ -66,7 +87,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
 
   const allSortedDates = Object.keys(groupedTransactions).sort((a, b) => b.localeCompare(a));
 
-  // Include date groups until we've shown visibleCount total items
   let shownSoFar = 0;
   const sortedDates = allSortedDates.filter(dateKey => {
     if (shownSoFar >= visibleCount) return false;
@@ -79,10 +99,8 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
     const today = new Date();
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    if (format(date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd'))
-      return t('today', lang);
-    if (format(date, 'yyyy-MM-dd') === format(yesterday, 'yyyy-MM-dd'))
-      return t('yesterday', lang);
+    if (format(date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd')) return t('today', lang);
+    if (format(date, 'yyyy-MM-dd') === format(yesterday, 'yyyy-MM-dd')) return t('yesterday', lang);
     return format(date, 'MMM dd, yyyy');
   };
 
@@ -101,7 +119,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
     { value: 'bank', label: t('bank', lang) },
   ];
 
-  // Swipe handlers
   const onTouchStart = (e: React.TouchEvent, id: string) => {
     touchStartRef.current = e.touches[0].clientX;
   };
@@ -114,11 +131,10 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
       setSwipedId(null);
     } else if (Math.abs(delta) < 10) {
       if (swipedId === tx.id) setSwipedId(null);
-      else onEditTransaction?.(tx);
+      else setDetailTx(tx);
     }
   };
 
-  // 2-tap delete confirmation — prevents accidental deletes (consistent with Dashboard)
   const handleDeleteTx = (txId: string) => {
     if (confirmDeleteId === txId) {
       if (confirmTimerRef.current) clearTimeout(confirmTimerRef.current);
@@ -134,7 +150,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
     }
   };
 
-  // Daily totals for date header
   const getDayTotals = (txs: Transaction[]) => {
     const income = txs.filter(t => t.type === 'income').reduce((s, t) => s + t.amount, 0);
     const expense = txs.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
@@ -144,7 +159,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
   return (
     <div className="min-h-screen bg-gray-50 pb-24">
       {/* Header */}
-      <div className="bg-gradient-to-br from-orange-600 to-orange-700 text-white px-6 pb-6 min-safe-top">
+      <div className="bg-gradient-to-br from-orange-600 to-orange-700 text-white px-6 pb-5 min-safe-top">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
             <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
@@ -169,49 +184,102 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
         </p>
       </div>
 
-      {/* Date range quick filter chips */}
-      <div className="bg-white border-b border-gray-100 px-4 py-2.5 flex gap-2 overflow-x-auto">
-        {([
-          { value: 'all', sw: 'Zote', en: 'All time' },
-          { value: 'today', sw: 'Leo', en: 'Today' },
-          { value: 'week', sw: 'Wiki hii', en: 'This week' },
-          { value: 'month', sw: 'Mwezi huu', en: 'This month' },
-        ] as { value: DateRange; sw: string; en: string }[]).map(opt => (
-          <button
-            key={opt.value}
-            onClick={() => { setFilterDateRange(opt.value); setVisibleCount(PAGE_SIZE); }}
-            className={`shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition ${
-              filterDateRange === opt.value
-                ? 'bg-orange-500 text-white shadow-sm'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-            }`}
-          >
-            {lang === 'sw' ? opt.sw : opt.en}
-          </button>
-        ))}
+      {/* Date range + search sticky bar */}
+      <div className="bg-white border-b border-gray-100 sticky top-0 z-10 shadow-sm">
+        {/* Date chips */}
+        <div className="px-4 pt-2.5 pb-0 flex gap-2 overflow-x-auto">
+          {([
+            { value: 'all', sw: 'Zote', en: 'All time' },
+            { value: 'today', sw: 'Leo', en: 'Today' },
+            { value: 'week', sw: 'Wiki hii', en: 'This week' },
+            { value: 'month', sw: 'Mwezi huu', en: 'This month' },
+          ] as { value: DateRange; sw: string; en: string }[]).map(opt => (
+            <button
+              key={opt.value}
+              onClick={() => { setFilterDateRange(opt.value); setVisibleCount(PAGE_SIZE); }}
+              className={`shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition ${
+                filterDateRange === opt.value
+                  ? 'bg-orange-500 text-white shadow-sm'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+              }`}
+            >
+              {lang === 'sw' ? opt.sw : opt.en}
+            </button>
+          ))}
+        </div>
+
+        {/* Search bar */}
+        <div className="px-4 py-2.5">
+          <div className={`flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border-2 transition-colors ${
+            searchFocused ? 'border-orange-400 bg-white' : 'border-transparent'
+          }`}>
+            <Search className="w-4 h-4 text-gray-400 shrink-0" />
+            <input
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              onFocus={() => setSearchFocused(true)}
+              onBlur={() => setSearchFocused(false)}
+              placeholder={lang === 'sw' ? 'Tafuta muamala...' : 'Search transactions...'}
+              className="flex-1 text-sm bg-transparent outline-none text-gray-700 placeholder-gray-400"
+            />
+            {searchQuery && (
+              <button onClick={() => setSearchQuery('')} className="p-0.5">
+                <X className="w-3.5 h-3.5 text-gray-400" />
+              </button>
+            )}
+          </div>
+        </div>
       </div>
+
+      {/* Net summary bar */}
+      {filteredTransactions.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mx-4 mt-3 bg-white rounded-2xl shadow-sm overflow-hidden"
+        >
+          <div className="grid grid-cols-3 divide-x divide-gray-100">
+            <div className="px-3 py-3 text-center">
+              <p className="text-[10px] text-gray-400 mb-0.5">{t('income', lang)}</p>
+              <p className="text-sm font-bold text-emerald-600">+{formatCurrency(netSummary.income)}</p>
+            </div>
+            <div className="px-3 py-3 text-center">
+              <p className="text-[10px] text-gray-400 mb-0.5">{t('expense', lang)}</p>
+              <p className="text-sm font-bold text-red-500">-{formatCurrency(netSummary.expense)}</p>
+            </div>
+            <div className="px-3 py-3 text-center">
+              <p className="text-[10px] text-gray-400 mb-0.5">{lang === 'sw' ? 'Jumla' : 'Net'}</p>
+              <p className={`text-sm font-bold ${net >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
+                {net >= 0 ? '+' : ''}{formatCurrency(net)}
+              </p>
+            </div>
+          </div>
+        </motion.div>
+      )}
 
       {/* Swipe hint */}
       {filteredTransactions.length > 0 && (
-        <p className="text-xs text-gray-400 text-center py-2 bg-white border-b border-gray-100">
-          {t('swipeHint', lang)}
+        <p className="text-xs text-gray-400 text-center py-2">
+          {lang === 'sw' ? '← Buruta kufuta · Bonyeza kuona maelezo' : '← Swipe to delete · Tap for details'}
         </p>
       )}
 
-      <div className="px-4 py-4">
+      <div className="px-4 py-2">
         {filteredTransactions.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-2xl p-10 shadow-md text-center mt-4"
           >
-            <p className="text-4xl mb-3">📭</p>
+            <p className="text-4xl mb-3">{searchQuery ? '🔍' : '📭'}</p>
             <p className="text-gray-500 font-medium">
-              {isFiltered ? t('noTransactionsFilter', lang) : t('noTransactionsYet', lang)}
+              {searchQuery
+                ? (lang === 'sw' ? `Hakuna matokeo ya "${searchQuery}"` : `No results for "${searchQuery}"`)
+                : isFiltered ? t('noTransactionsFilter', lang) : t('noTransactionsYet', lang)}
             </p>
             {isFiltered && (
               <button
-                onClick={() => { setFilterType('all'); setFilterSource('all'); setFilterDateRange('all'); }}
+                onClick={() => { setFilterType('all'); setFilterSource('all'); setFilterDateRange('all'); setSearchQuery(''); }}
                 className="mt-3 text-sm text-orange-600 font-medium"
               >
                 {t('clearFilters', lang)}
@@ -219,13 +287,13 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             )}
           </motion.div>
         ) : (
-          <div className="space-y-4">
-            {sortedDates.map((dateKey, dateIndex) => {
+          <div className="space-y-4 mt-2">
+            {sortedDates.map((dateKey) => {
               const txs = groupedTransactions[dateKey];
               const { income, expense } = getDayTotals(txs);
               return (
                 <div key={dateKey}>
-                  {/* Date header with daily totals */}
+                  {/* Date header */}
                   <div className="flex items-center justify-between mb-2 px-1">
                     <span className="text-sm font-bold text-gray-700">{getDateLabel(dateKey)}</span>
                     <div className="flex items-center gap-2 text-xs">
@@ -237,7 +305,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                   <div className="bg-white rounded-2xl shadow-md overflow-hidden">
                     {txs.map((transaction, index) => (
                       <div key={transaction.id} className="relative overflow-hidden">
-                        {/* Swipe-revealed action buttons */}
+                        {/* Swipe-revealed buttons */}
                         <AnimatePresence>
                           {swipedId === transaction.id && (
                             <motion.div
@@ -248,9 +316,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                             >
                               <button
                                 onClick={() => handleDeleteTx(transaction.id)}
-                                aria-label={confirmDeleteId === transaction.id
-                                  ? t('confirmDelete', lang)
-                                  : t('deleteTransaction', lang)}
                                 className={`text-white px-5 h-full flex flex-col items-center justify-center gap-0.5 transition-colors ${
                                   confirmDeleteId === transaction.id ? 'bg-red-700' : 'bg-red-500'
                                 }`}
@@ -277,11 +342,10 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                           onTouchStart={e => onTouchStart(e, transaction.id)}
                           onTouchEnd={e => onTouchEnd(e, transaction)}
                           initial={{ opacity: 0, x: -20 }}
-                          className={`flex items-center justify-between p-4 bg-white ${
+                          className={`flex items-center justify-between p-4 bg-white cursor-pointer active:bg-gray-50 ${
                             index < txs.length - 1 ? 'border-b border-gray-100' : ''
                           }`}
                         >
-                          {/* Category icon */}
                           <div className="flex items-center gap-3">
                             <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0 ${
                               transaction.type === 'income' ? 'bg-emerald-50' : 'bg-red-50'
@@ -291,17 +355,20 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                             <div className="min-w-0">
                               <p className="font-semibold text-gray-900 text-sm truncate">{transaction.category}</p>
                               <p className="text-xs text-gray-400">
-                                {transaction.source.toUpperCase()}
+                                {SOURCE_ICONS[transaction.source] ?? '💰'} {transaction.source.toUpperCase()}
                                 {transaction.notes ? ` · ${transaction.notes}` : ''}
                               </p>
                             </div>
                           </div>
 
-                          <div className="text-right shrink-0 ml-2">
-                            <p className={`font-bold text-sm ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>
-                              {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                            </p>
-                            <p className="text-xs text-gray-300">{format(transaction.date, 'HH:mm')}</p>
+                          <div className="flex items-center gap-2 shrink-0 ml-2">
+                            <div className="text-right">
+                              <p className={`font-bold text-sm ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>
+                                {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                              </p>
+                              <p className="text-xs text-gray-300">{format(transaction.date, 'HH:mm')}</p>
+                            </div>
+                            <ChevronRight className="w-4 h-4 text-gray-200 shrink-0" />
                           </div>
                         </motion.div>
                       </div>
@@ -311,7 +378,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
               );
             })}
 
-            {/* ── Load More (Pagination) ── */}
+            {/* Load More */}
             {filteredTransactions.length > visibleCount && (
               <motion.button
                 initial={{ opacity: 0 }}
@@ -325,7 +392,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
               </motion.button>
             )}
 
-            {/* ── End of list ── */}
             {filteredTransactions.length <= visibleCount && filteredTransactions.length > 0 && (
               <p className="text-center text-xs text-gray-300 py-2">
                 {t('endOfHistory', lang)}
@@ -351,7 +417,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
               onClick={e => e.stopPropagation()}
             >
               <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
-
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-lg font-bold text-gray-900">{t('filter', lang)}</h3>
                 <button onClick={() => setShowFilter(false)} className="p-2 hover:bg-gray-100 rounded-full">
@@ -359,7 +424,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 </button>
               </div>
 
-              {/* Type filter */}
               <div className="mb-5">
                 <p className="text-sm font-semibold text-gray-700 mb-2">{t('type', lang)}</p>
                 <div className="flex gap-2">
@@ -379,7 +443,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 </div>
               </div>
 
-              {/* Source filter */}
               <div className="mb-6">
                 <p className="text-sm font-semibold text-gray-700 mb-2">{t('source', lang)}</p>
                 <div className="flex gap-2 flex-wrap">
@@ -399,7 +462,6 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 </div>
               </div>
 
-              {/* Actions */}
               <div className="flex gap-3">
                 <button
                   onClick={() => { setFilterType('all'); setFilterSource('all'); }}
@@ -412,6 +474,114 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                   className="flex-1 py-3.5 bg-orange-500 rounded-2xl text-white font-bold text-sm"
                 >
                   {t('showResults', lang)}
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── Transaction Detail Sheet ── */}
+      <AnimatePresence>
+        {detailTx && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50"
+              onClick={() => setDetailTx(null)}
+            />
+            <motion.div
+              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 pb-8"
+              onClick={e => e.stopPropagation()}
+            >
+              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-4 mb-1" />
+
+              {/* Colored accent bar */}
+              <div className={`mx-5 mt-4 rounded-2xl p-5 ${
+                detailTx.type === 'income' ? 'bg-emerald-50' : 'bg-red-50'
+              }`}>
+                <div className="flex items-center gap-4">
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl ${
+                    detailTx.type === 'income' ? 'bg-emerald-100' : 'bg-red-100'
+                  }`}>
+                    {getCategoryIcon(detailTx.category)}
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
+                      {detailTx.category}
+                    </p>
+                    <p className={`text-3xl font-black ${
+                      detailTx.type === 'income' ? 'text-emerald-700' : 'text-red-700'
+                    }`}>
+                      {detailTx.type === 'income' ? '+' : '-'}{formatCurrency(detailTx.amount)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Details */}
+              <div className="px-5 mt-5 space-y-3">
+                {[
+                  {
+                    icon: '📅',
+                    label: lang === 'sw' ? 'Tarehe' : 'Date',
+                    value: format(detailTx.date, 'EEEE, MMM dd yyyy'),
+                  },
+                  {
+                    icon: '🕐',
+                    label: lang === 'sw' ? 'Muda' : 'Time',
+                    value: format(detailTx.date, 'HH:mm'),
+                  },
+                  {
+                    icon: SOURCE_ICONS[detailTx.source] ?? '💰',
+                    label: lang === 'sw' ? 'Chanzo' : 'Source',
+                    value: detailTx.source.toUpperCase(),
+                  },
+                  {
+                    icon: '🏷️',
+                    label: lang === 'sw' ? 'Aina' : 'Type',
+                    value: detailTx.type === 'income'
+                      ? (lang === 'sw' ? 'Mapato' : 'Income')
+                      : (lang === 'sw' ? 'Matumizi' : 'Expense'),
+                  },
+                  ...(detailTx.notes ? [{
+                    icon: '📝',
+                    label: lang === 'sw' ? 'Maelezo' : 'Notes',
+                    value: detailTx.notes,
+                  }] : []),
+                ].map(({ icon, label, value }) => (
+                  <div key={label} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+                    <span className="text-lg shrink-0">{icon}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs text-gray-400">{label}</p>
+                      <p className="text-sm font-semibold text-gray-900 truncate">{value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Actions */}
+              <div className="px-5 mt-5 flex gap-3">
+                <button
+                  onClick={() => {
+                    setDetailTx(null);
+                    onEditTransaction?.(detailTx);
+                  }}
+                  className="flex-1 py-3.5 bg-blue-500 text-white rounded-2xl font-bold text-sm"
+                >
+                  ✏️ {t('edit', lang)}
+                </button>
+                <button
+                  onClick={() => {
+                    deleteTransaction(detailTx.id);
+                    setDetailTx(null);
+                    if (navigator.vibrate) navigator.vibrate([30, 20, 50]);
+                  }}
+                  className="flex-1 py-3.5 bg-red-500 text-white rounded-2xl font-bold text-sm"
+                >
+                  🗑️ {t('delete', lang)}
                 </button>
               </div>
             </motion.div>
