@@ -44,6 +44,129 @@ function HealthBar({ score }: { score: number }) {
   );
 }
 
+function PhoneInstallCard({ lang }: { lang: 'sw' | 'en' }) {
+  const [copied, setCopied] = useState(false);
+  const [showQR, setShowQR] = useState(false);
+  const appUrl = window.location.origin;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&color=059669&bgcolor=ffffff&data=${encodeURIComponent(appUrl)}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(appUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      /* fallback: show URL */
+    }
+  };
+
+  return (
+    <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl shadow-xl overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 pt-4 pb-3">
+        <div className="w-10 h-10 rounded-xl bg-emerald-500/20 flex items-center justify-center shrink-0">
+          <span className="text-xl">📱</span>
+        </div>
+        <div className="flex-1">
+          <p className="text-white font-bold text-sm">
+            {lang === 'sw' ? 'Fungua kwenye simu yako' : 'Open on your phone'}
+          </p>
+          <p className="text-white/40 text-xs">
+            {lang === 'sw' ? 'Scan QR au nakili kiungo' : 'Scan QR or copy link'}
+          </p>
+        </div>
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowQR(v => !v)}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
+            showQR ? 'bg-emerald-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/15'
+          }`}
+        >
+          {showQR ? (lang === 'sw' ? 'Ficha' : 'Hide') : (lang === 'sw' ? 'QR Code' : 'QR Code')}
+        </motion.button>
+      </div>
+
+      {/* QR Panel */}
+      <AnimatePresence>
+        {showQR && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col items-center px-4 pb-4">
+              {/* Phone-frame QR */}
+              <div className="relative mt-2 mb-3">
+                <div className="bg-white rounded-2xl p-3 shadow-2xl">
+                  <img
+                    src={qrUrl}
+                    alt="QR Code"
+                    width={160}
+                    height={160}
+                    className="rounded-lg"
+                  />
+                </div>
+                {/* Scan corners decoration */}
+                {[
+                  'top-0 left-0 border-t-2 border-l-2 rounded-tl-xl',
+                  'top-0 right-0 border-t-2 border-r-2 rounded-tr-xl',
+                  'bottom-0 left-0 border-b-2 border-l-2 rounded-bl-xl',
+                  'bottom-0 right-0 border-b-2 border-r-2 rounded-br-xl',
+                ].map((cls, i) => (
+                  <div key={i} className={`absolute w-5 h-5 border-emerald-400 ${cls} -m-1`} />
+                ))}
+              </div>
+
+              <p className="text-white/50 text-xs text-center mb-3">
+                {lang === 'sw'
+                  ? 'Scan na kamera yako · Safari au Chrome'
+                  : 'Scan with your camera · Safari or Chrome'}
+              </p>
+
+              {/* Steps */}
+              <div className="w-full space-y-2 mb-3">
+                {[
+                  { n: '1', en: 'Scan the QR code above', sw: 'Scan QR code hapo juu' },
+                  { n: '2', en: 'Open in Safari (iPhone) or Chrome (Android)', sw: 'Fungua Safari (iPhone) au Chrome (Android)' },
+                  { n: '3', en: 'Tap "Add to Home Screen" for app experience', sw: 'Bonyeza "Add to Home Screen" kwa uzoefu wa app' },
+                ].map(step => (
+                  <div key={step.n} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black flex items-center justify-center shrink-0 mt-0.5">
+                      {step.n}
+                    </div>
+                    <p className="text-white/60 text-xs leading-relaxed">
+                      {lang === 'sw' ? step.sw : step.en}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* URL copy row — always visible */}
+      <div className="flex items-center gap-2 px-4 pb-4">
+        <div className="flex-1 bg-white/[0.06] border border-white/10 rounded-xl px-3 py-2 min-w-0">
+          <p className="text-white/50 text-[10px] font-semibold uppercase tracking-wide mb-0.5">URL</p>
+          <p className="text-white/70 text-xs font-mono truncate">{appUrl}</p>
+        </div>
+        <motion.button
+          whileTap={{ scale: 0.92 }}
+          onClick={handleCopy}
+          className={`shrink-0 px-4 py-3 rounded-xl text-xs font-bold transition-colors ${
+            copied ? 'bg-emerald-500 text-white' : 'bg-white/10 text-white/70 hover:bg-white/15'
+          }`}
+        >
+          {copied ? '✓' : (lang === 'sw' ? 'Nakili' : 'Copy')}
+        </motion.button>
+      </div>
+    </div>
+  );
+}
+
 export function SettingsView({ onBack }: SettingsViewProps) {
   const { state, setLanguage, setRegion, clearAllData, setAppLockPin, disableAppLock, setUserName } = useApp();
   const lang = state.language;
@@ -502,6 +625,9 @@ export function SettingsView({ onBack }: SettingsViewProps) {
             </motion.button>
           </div>
         </div>
+
+        {/* Try on your phone */}
+        <PhoneInstallCard lang={lang} />
 
         {/* App Info */}
         <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
