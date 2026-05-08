@@ -2,6 +2,7 @@
   "expo": {
     "name": "PesaPlan",
     "slug": "pesaplan",
+    "owner": "jaymafie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,7 +28,10 @@
         "backgroundColor": "#059669"
       },
       "package": "com.pesaplan.app",
-      "permissions": ["INTERNET", "ACCESS_NETWORK_STATE"]
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
     },
     "web": {
       "bundler": "metro"
@@ -45,6 +49,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "924ffc4a-bbbf-45f4-b2a9-4b41b00342dc"
+      }
     }
   }
 }
