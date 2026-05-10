@@ -1,15 +1,14 @@
 /**
- * PesaPlan i18n Engine
- * Uses react-i18next + i18next for production-grade bilingual support.
- *
- * Languages: English (en) · Kiswahili (sw)
- * Translations are inlined as TS objects (avoids JSON import issues in the build environment).
+ * PesaPlan i18n Engine — single source of truth for all translations.
+ * Uses react-i18next + i18next. Languages: English (en) · Kiswahili (sw).
+ * Components call t(key, lang) from translations.ts (thin bridge to this file).
  */
 
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 const en = {
+  // Splash & Onboarding
   tagline: 'Control your money, not fear it',
   dailyFinances: 'Track daily finances with mobile money',
   fastSetup: 'Fast setup in under 1 min!',
@@ -37,6 +36,14 @@ const en = {
   custom: 'Custom goal',
   targetAmount: 'Target amount',
   ready: "Ready! Here's your money map.",
+  freeTagline: 'Free · No ads · Works offline',
+  cashflowHelper: 'This helps us forecast your cash flow',
+  pickFirstGoal: 'Pick your first financial goal',
+  whereAreYou: 'Where are you?',
+  selected: 'Selected',
+  personaliseExperience: 'We personalise your experience',
+
+  // Dashboard
   yourMoneyToday: 'Your Money Today',
   totalBalance: 'Total Balance',
   cash: 'Cash',
@@ -48,6 +55,24 @@ const en = {
   onTrack: 'On track',
   caution: 'Caution',
   overspent: 'Overspent',
+  searchPlaceholder: 'Search... "coffee this week"',
+  monthlySummary: 'Monthly Summary',
+  spendingVsIncome: 'Spending vs Income',
+  limits: 'Limits',
+  startLoggingToday: 'Start logging today',
+  addIncomeOrExpenses: 'Add income or expenses to see your monthly summary here.',
+  used: 'used',
+  spendingAbovePace: 'Spending above pace',
+  sevenDayTrend: '7-day trend',
+  budgetAlerts: 'Budget Alerts',
+  spendingBreakdown: 'Spending Breakdown',
+  spendingInsight: 'Spending Insight',
+  startTracking: 'Start tracking your money',
+  tapToBegin: 'Tap "Expense" or "Income" above to begin',
+  addFirstEntry: '+ Add First Entry',
+  vsLastWeek: 'vs last week',
+
+  // Nav labels
   home: 'Home',
   addExpense: 'Add Expense',
   addIncome: 'Add Income',
@@ -59,6 +84,8 @@ const en = {
   challenges: 'Challenges',
   lessons: 'Lessons',
   notifications: 'Notifications',
+
+  // Period / action labels
   income_label: 'Income',
   spent: 'Spent',
   left: 'Left',
@@ -79,13 +106,25 @@ const en = {
   disable: 'Disable',
   confirm: 'Confirm',
   back: 'Back',
+  viewAll: 'View All',
+  suggested: 'Suggested',
+  type: 'Type',
+  source: 'Source',
+  repeat: 'Repeat',
+  summary: 'Summary',
+  byCategory: 'By Category',
+  saved: 'Saved',
+  min: 'min',
+
+  // Transaction list
   recentTransactions: '🕐 Recent Transactions',
   noTransactions: 'No transactions yet — start recording!',
   swipeHint: '← Swipe to delete · Swipe → to edit',
   contributeToGoal: 'Contribute to Goal',
-  viewAll: 'All',
-  suggested: 'Suggested',
   suggestions: 'Suggestions',
+  noTransactionsYet: 'No transactions yet',
+
+  // Transactions form
   expense: 'Expense',
   income: 'Income',
   amount: 'Amount',
@@ -95,6 +134,8 @@ const en = {
   autoDetects: '(auto-detects category)',
   save: 'Save',
   cancel: 'Cancel',
+
+  // Categories
   chakula: 'Food',
   transport: 'Transport',
   rent: 'Rent',
@@ -104,20 +145,45 @@ const en = {
   health: 'Health',
   entertainment: 'Entertainment',
   familia: 'Family',
+
+  // Payment sources
   mpesa: 'M-Pesa',
   airtel: 'Airtel Money',
   tigo: 'Tigo Pesa',
   loan: 'Credit/Loan',
+
+  // Goals
   contributeNow: 'Contribute now',
   daysLeft: 'days left',
   goalAchieved: 'Congrats! You achieved your goal!',
   goalCompleted: '🎉 Goal Completed!',
   goalProgress: 'Goal Progress',
   goalRemaining: 'Remaining',
+  saveNow: 'Save Now',
+  suggestedToday: 'Suggested today',
+  overdue: 'Overdue',
+  goalName: 'Goal Name',
+  targetAmountLabel: 'Target Amount',
+  setGoalDeadline: 'Set a goal with a deadline',
+  deadlineDaysOptional: 'Deadline (Days) — Optional',
+  goalAdded: '🎯 Goal added!',
+  contributionAdded: '✅ Contribution added!',
+  active: 'active',
+  done: 'Done',
+  completed: 'Completed!',
+  congratulations: 'Congratulations!',
+
+  // Budget
   budgetHealth: 'Budget Health',
   noBudgetsSet: 'No budgets set yet',
   setBudgets: 'Set Budgets',
   setBudgetFirst: 'Set a budget first to track health',
+  budgetLimitsSaved: 'Budget limits saved! ✓',
+  budgetLimitsTitle: '🎯 Budget Limits',
+  budgetLimitsSubtitle: 'Set a spending cap for each category',
+  saveBudgetLimits: 'Save Budget Limits',
+
+  // Settings
   language: 'Language',
   currency: 'Currency',
   incomeFrequency: 'Income Frequency',
@@ -132,6 +198,38 @@ const en = {
   appLock: 'App Lock',
   pinLock: 'PIN Lock',
   secureApp: 'Secure your app with a 4-digit PIN',
+  security: 'Security',
+  actions: 'Actions',
+  yourName: 'Your Name',
+  saveChanges: 'Save Changes',
+  eraseAllData: 'Erase all data and restart',
+  deleteAllDataTitle: 'Delete All Data?',
+  yesDelete: 'Yes, Delete',
+  noDataToExport: 'No data to export',
+  countryCurrency: 'Country / Currency',
+  notSet: 'Not set',
+  dayStreak: 'Day Streak',
+  myStats: 'My Stats',
+  downloaded: 'Downloaded!',
+  enabledTapToChange: 'Enabled — tap to change',
+  securitySettings: 'Security',
+  analyticsSession: 'Analytics Session',
+
+  // Backup / Restore
+  saveBackupJSON: 'Save Backup (JSON)',
+  fullDataBackup: 'Full data backup you can restore later',
+  restoreBackupJSON: 'Restore Backup (JSON)',
+  restoreFromFile: 'Restore from a saved backup file',
+  restoredDone: 'Restored!',
+  restoreBackupTitle: 'Restore Backup?',
+  yesRestore: 'Yes, Restore',
+  invalidBackupFile: 'Invalid file — not a PesaPlan backup',
+  invalidJSONFile: 'Invalid file — could not parse JSON',
+  dataStoredDevice: 'All data saved on this device',
+  connected: 'Connected!',
+  noConnection: 'No connection',
+
+  // Daily summary & misc
   dailySummary: 'Daily Summary',
   goalContributions: 'Goal Contributions',
   viewFullReport: 'View Full Report',
@@ -141,22 +239,39 @@ const en = {
   skip: 'Skip',
   continue: 'Continue',
   finish: 'Finish',
+
+  // Insights
   aiInsights: 'AI Insights',
   highestSpending: 'Highest Spending',
   savingsTip: 'Savings Tip',
   dataPlans: 'Data Plans',
   weeklyReport: 'Weekly Report',
   predictiveSpending: 'Predictive Spending',
+  insightOfDay: 'Insight of the Day',
   addTransactionsPrompt: 'Add transactions to see insights!',
   insightsWillAppear: 'Your insights will appear here',
   transactionsAnalysed: '{{count}} transactions analysed',
-  insightOfDay: 'Insight of the Day',
+  budgetSuggestions: '🤖 Budget Suggestions',
+  thisWeeksReport: "📋 This Week's Report",
+  spentMoreLastWeek: 'more than last week',
+  spentLessLastWeek: 'less than last week',
+  dailyAverage: 'Daily Average',
+  categoryBreakdown: 'Category Breakdown',
+  weeklyTrends: 'Weekly Trends (7 Days)',
+  addTransactionsForChart: 'Add transactions to see chart',
+  predictiveIntelligence: '🔮 Predictive Intelligence',
+  financialEducation: '📚 Financial Education',
+  askAssistantMore: 'Ask Assistant more →',
+
+  // Emergency & Round-up
   emergencyMode: 'Emergency Mode',
   emergencyModeActive: 'Emergency Mode Active',
   emergencyModeDesc: 'Showing only essential expenses',
   roundUpSavings: 'Round-Up Savings',
   roundUpEnabled: 'Round-up is ON',
   roundUpDesc: 'Spare change is auto-saved on every expense',
+
+  // Share & Growth
   shareProgress: 'Share Your Progress',
   inspireYourFriends: 'Inspire your friends!',
   inviteFriend: 'Invite Friend',
@@ -164,11 +279,15 @@ const en = {
   shareOnWhatsApp: 'Share on WhatsApp, TikTok, or Instagram.',
   copyMessage: 'Copy Message',
   growthTip: 'Every friend you invite helps them too — teach others to save.',
+
+  // Greetings by user type
   greetStudent: 'Hello, Student!',
   greetBiashara: 'Welcome, Entrepreneur!',
   greetInformal: 'Good day, Worker!',
   greetFamily: 'Hello, Family Planner!',
   greetDefault: 'Hello!',
+
+  // Notifications
   notificationBudgetExceeded: '{{category}} — Budget Exceeded',
   notificationBudgetNearlyFull: '{{category}} — Budget Nearly Full',
   notificationStreakRisk: '🔥 Your {{streak}}-day streak is at risk!',
@@ -178,21 +297,31 @@ const en = {
   noNotifications: 'No new notifications 🎉',
   allCaughtUp: "You're all caught up!",
   dataStoredSecurely: 'Your data is stored securely on your device.',
+
+  // Stats
   streakDays: '{{count}}-day streak',
   streakLabel: 'Streak',
   savedLabel: 'Saved',
   lessonsLabel: 'Lessons',
   challengesLabel: 'Challenges',
+
+  // PIN Lock
   forgotPin: 'Forgot PIN',
   createPin: 'Create your PIN',
   confirmPin: 'Confirm your PIN',
   enterPin: 'Enter PIN to unlock',
   chooseDigits: 'Choose a 4-digit secret code',
   reEnterPin: 'Re-enter your PIN to confirm',
-  wrongPin: 'Wrong PIN (attempt {{count}})',
   pinsNoMatch: 'PINs do not match. Try again.',
   tooManyAttempts: '⚠️ Too many attempts. Use "Forgot PIN" below.',
   forgotPinWarning: 'This will erase all data. Continue?',
+  pinProtected: 'PIN Protected',
+  pinDisabled: 'PIN Disabled',
+  disablePinLock: 'Disable PIN Lock?',
+  pinRecoveryWarning: 'If you forget your PIN, you will need to clear all app data.',
+  appProtected: 'PesaPlan is protected',
+
+  // Challenges & Learning
   challenge30Day: '30-Day Savings Sprint',
   challengeEmergency: 'Emergency Fund Sprint',
   challengeNoSpend: 'No-Entertainment Week',
@@ -209,13 +338,35 @@ const en = {
   readTime: '{{min}} min read',
   beginner: 'Beginner',
   intermediate: 'Intermediate',
+
+  // AI Assistant / Budget Coach
+  budgetCoach: 'Budget Coach',
+  askAboutSpending: 'Ask about your spending',
+  askMeAnything: 'Ask me anything...',
+  quickQuestions: 'Quick questions',
+
+  // History
+  noResultsFound: 'No results found',
+  noTransactionsFilter: 'No transactions match the filter',
+  endOfHistory: '— End of history —',
+  clearFilters: 'Clear all filters',
+  totalTransactions: 'Total Transactions',
+  filtered: 'filtered',
+  yesterday: 'Yesterday',
+  confirmDelete: 'Confirm delete',
+  deleteTransaction: 'Delete transaction',
+  clearAll: 'Clear All',
+  showResults: 'Show Results',
+
+  // Smart Budget Builder
+  smartBudgetBuilder: 'Smart Budget Builder',
+  avg: 'Avg:',
+
+  // Misc card labels
   netWorth: 'Net Worth',
   cashflowForecast: 'Cashflow Forecast',
   financialHealthScore: 'Financial Health Score',
   loanBalance: 'Loan Balance',
-  appStoreReadiness: 'App Store Readiness',
-  securitySettings: 'Security',
-  analyticsSession: 'Analytics Session',
 };
 
 const sw: typeof en = {
@@ -246,6 +397,13 @@ const sw: typeof en = {
   custom: 'Lengo maalum',
   targetAmount: 'Kiasi cha lengo',
   ready: 'Tayari! Hii hapa ramani yako ya pesa.',
+  freeTagline: 'Bila malipo · Bila matangazo · Bila mtandao',
+  cashflowHelper: 'Hii inasaidia kutabiri mwenendo wa pesa',
+  pickFirstGoal: 'Chagua lengo lako la kwanza',
+  whereAreYou: 'Uko wapi?',
+  selected: 'Imechaguliwa',
+  personaliseExperience: 'Tunaboresha uzoefu wako',
+
   yourMoneyToday: 'Pesa Zako Leo',
   totalBalance: 'Jumla ya Salio',
   cash: 'Taslimu',
@@ -257,6 +415,23 @@ const sw: typeof en = {
   onTrack: 'Uko sawa',
   caution: 'Tahadhari',
   overspent: 'Umetumia zaidi',
+  searchPlaceholder: 'Tafuta... "chakula wiki hii"',
+  monthlySummary: 'Muhtasari wa Mwezi',
+  spendingVsIncome: 'Matumizi dhidi ya Mapato',
+  limits: 'Mipaka',
+  startLoggingToday: 'Anza kurekodi leo',
+  addIncomeOrExpenses: 'Ongeza mapato au matumizi ili kuona muhtasari wako wa mwezi.',
+  used: 'imetumika',
+  spendingAbovePace: 'Matumizi ni makubwa',
+  sevenDayTrend: 'Mwenendo wa siku 7',
+  budgetAlerts: 'Arifa za Bajeti',
+  spendingBreakdown: 'Mgawanyo wa Matumizi',
+  spendingInsight: 'Maarifa ya Matumizi',
+  startTracking: 'Anza kurekodi matumizi yako',
+  tapToBegin: 'Bonyeza "Matumizi" au "Mapato" hapo juu',
+  addFirstEntry: '+ Ongeza Kwanza',
+  vsLastWeek: 'ikilinganishwa na wiki iliyopita',
+
   home: 'Nyumbani',
   addExpense: 'Ongeza Matumizi',
   addIncome: 'Ongeza Mapato',
@@ -268,6 +443,7 @@ const sw: typeof en = {
   challenges: 'Changamoto',
   lessons: 'Masomo',
   notifications: 'Arifa',
+
   income_label: 'Mapato',
   spent: 'Imetumika',
   left: 'Iliyobaki',
@@ -288,13 +464,23 @@ const sw: typeof en = {
   disable: 'Zima',
   confirm: 'Thibitisha',
   back: 'Rudi',
+  viewAll: 'Tazama Zote',
+  suggested: 'Pendekezo',
+  type: 'Aina',
+  source: 'Chanzo',
+  repeat: 'Rudia',
+  summary: 'Muhtasari',
+  byCategory: 'Kwa Jamii',
+  saved: 'Imeokolewa',
+  min: 'dak',
+
   recentTransactions: '🕐 Miamala ya Hivi Karibuni',
   noTransactions: 'Bado hakuna miamala — anza kurekodi!',
   swipeHint: '← Buruta kufuta · Buruta → kuhariri',
   contributeToGoal: 'Changia Lengo',
-  viewAll: 'Zote',
-  suggested: 'Pendekezo',
   suggestions: 'Mapendekezo',
+  noTransactionsYet: 'Bado hakuna miamala',
+
   expense: 'Matumizi',
   income: 'Mapato',
   amount: 'Kiasi',
@@ -304,6 +490,7 @@ const sw: typeof en = {
   autoDetects: '(itatambua jamii otomatifu)',
   save: 'Hifadhi',
   cancel: 'Ghairi',
+
   chakula: 'Chakula',
   transport: 'Usafiri',
   rent: 'Kodi',
@@ -313,20 +500,41 @@ const sw: typeof en = {
   health: 'Afya',
   entertainment: 'Burudani',
   familia: 'Familia',
+
   mpesa: 'M-Pesa',
   airtel: 'Airtel Money',
   tigo: 'Tigo Pesa',
   loan: 'Mkopo',
+
   contributeNow: 'Changia sasa',
   daysLeft: 'siku zilizobaki',
   goalAchieved: 'Hongera! Umefanikisha lengo lako!',
   goalCompleted: '🎉 Lengo Limefanikiwa!',
   goalProgress: 'Maendeleo ya Lengo',
   goalRemaining: 'Iliyobaki',
+  saveNow: 'Weka Akiba',
+  suggestedToday: 'Pendekezo la leo',
+  overdue: 'Imepita',
+  goalName: 'Jina la Lengo',
+  targetAmountLabel: 'Kiasi Lengwa',
+  setGoalDeadline: 'Weka lengo na muda wake',
+  deadlineDaysOptional: 'Muda (Siku) — Hiari',
+  goalAdded: '🎯 Lengo limeongezwa!',
+  contributionAdded: '✅ Mchango umeongezwa!',
+  active: 'hai',
+  done: 'Imekamilika',
+  completed: 'Imekamilika!',
+  congratulations: 'Hongera!',
+
   budgetHealth: 'Afya ya Bajeti',
   noBudgetsSet: 'Bado hakuna bajeti zilizowekwa',
   setBudgets: 'Weka Bajeti',
   setBudgetFirst: 'Weka bajeti kwanza ili kufuatilia afya yako',
+  budgetLimitsSaved: 'Mipaka imehifadhiwa! ✓',
+  budgetLimitsTitle: '🎯 Mipaka ya Bajeti',
+  budgetLimitsSubtitle: 'Weka kikomo cha matumizi kwa kila aina',
+  saveBudgetLimits: 'Hifadhi Mipaka',
+
   language: 'Lugha',
   currency: 'Sarafu',
   incomeFrequency: 'Mara za Mapato',
@@ -341,6 +549,36 @@ const sw: typeof en = {
   appLock: 'Kufunga Programu',
   pinLock: 'Kufunga kwa PIN',
   secureApp: 'Linda programu yako na PIN ya nambari 4',
+  security: 'Usalama',
+  actions: 'Vitendo',
+  yourName: 'Jina Lako',
+  saveChanges: 'Hifadhi Mabadiliko',
+  eraseAllData: 'Futa data zote na anza upya',
+  deleteAllDataTitle: 'Futa Data Zote?',
+  yesDelete: 'Ndio, Futa',
+  noDataToExport: 'Hakuna data ya kuhamisha',
+  countryCurrency: 'Nchi / Sarafu',
+  notSet: 'Haijawekwa',
+  dayStreak: 'Siku Mfululizo',
+  myStats: 'Takwimu Zangu',
+  downloaded: 'Imepakuliwa!',
+  enabledTapToChange: 'Imewezeshwa — gusa kubadilisha',
+  securitySettings: 'Usalama',
+  analyticsSession: 'Kikao cha Takwimu',
+
+  saveBackupJSON: 'Hifadhi Nakala (JSON)',
+  fullDataBackup: 'Hifadhi data yote kwa usalama',
+  restoreBackupJSON: 'Rejesha Nakala (JSON)',
+  restoreFromFile: 'Rejesha kutoka faili ya nakala',
+  restoredDone: 'Imerejesha!',
+  restoreBackupTitle: 'Rejesha Nakala?',
+  yesRestore: 'Ndio, Rejesha',
+  invalidBackupFile: 'Faili batili — si faili la PesaPlan',
+  invalidJSONFile: 'Faili batili — JSON isiyo sahihi',
+  dataStoredDevice: 'Data zote zimehifadhiwa kwenye kifaa',
+  connected: 'Umeunganishwa!',
+  noConnection: 'Hakuna mtandao',
+
   dailySummary: 'Muhtasari wa Leo',
   goalContributions: 'Michango ya Malengo',
   viewFullReport: 'Tazama Ripoti Kamili',
@@ -350,22 +588,36 @@ const sw: typeof en = {
   skip: 'Ruka',
   continue: 'Endelea',
   finish: 'Maliza',
+
   aiInsights: 'Maarifa ya AI',
   highestSpending: 'Matumizi Makubwa',
   savingsTip: 'Mapendekezo ya Akiba',
   dataPlans: 'Mipango ya Data',
   weeklyReport: 'Ripoti ya Wiki',
   predictiveSpending: 'Utabiri wa Matumizi',
+  insightOfDay: 'Ushauri wa Leo',
   addTransactionsPrompt: 'Ongeza miamala ili uone maarifa!',
   insightsWillAppear: 'Maarifa yataonekana hapa',
   transactionsAnalysed: 'Miamala {{count}} imechambuliwa',
-  insightOfDay: 'Ushauri wa Leo',
+  budgetSuggestions: '🤖 Mapendekezo ya Bajeti',
+  thisWeeksReport: '📋 Ripoti ya Wiki Hii',
+  spentMoreLastWeek: 'zaidi kuliko wiki iliyopita',
+  spentLessLastWeek: 'chini kuliko wiki iliyopita',
+  dailyAverage: 'Wastani wa Siku',
+  categoryBreakdown: 'Mgawanyo wa Jamii',
+  weeklyTrends: 'Mwenendo wa Wiki (Siku 7)',
+  addTransactionsForChart: 'Ongeza miamala ili uone grafu',
+  predictiveIntelligence: '🔮 Utabiri wa Matumizi',
+  financialEducation: '📚 Elimu ya Fedha',
+  askAssistantMore: 'Uliza Msaidizi zaidi →',
+
   emergencyMode: 'Hali ya Dharura',
   emergencyModeActive: 'Hali ya Dharura Imewashwa',
   emergencyModeDesc: 'Inaonyesha matumizi muhimu tu',
   roundUpSavings: 'Akiba ya Round-Up',
   roundUpEnabled: 'Round-up imewashwa',
   roundUpDesc: 'Sarafu zilizobaki zinahifadhiwa kiotomatifu kila matumizi',
+
   shareProgress: 'Shiriki Maendeleo Yako',
   inspireYourFriends: 'Wahamasisha marafiki wako!',
   inviteFriend: 'Alika Rafiki',
@@ -373,11 +625,13 @@ const sw: typeof en = {
   shareOnWhatsApp: 'Shiriki ujumbe huu kwenye WhatsApp, TikTok, au Instagram.',
   copyMessage: 'Nakili Ujumbe',
   growthTip: 'Kila rafiki unayemwalika anakusaidia pia — funza wengine jinsi ya kuokoa.',
+
   greetStudent: 'Habari, Mwanafunzi!',
   greetBiashara: 'Karibu, Mfanyabiashara!',
   greetInformal: 'Habari za kazi!',
   greetFamily: 'Habari, Familia!',
   greetDefault: 'Habari!',
+
   notificationBudgetExceeded: '{{category}} — Bajeti Imezidiwa',
   notificationBudgetNearlyFull: '{{category}} — Bajeti Karibu Kumalizika',
   notificationStreakRisk: '🔥 Mfululizo Wako wa {{streak}} Siku Uko Hatarini!',
@@ -387,21 +641,28 @@ const sw: typeof en = {
   noNotifications: 'Hakuna arifa mpya 🎉',
   allCaughtUp: 'Uko vizuri!',
   dataStoredSecurely: 'Data zako zimehifadhiwa salama kwenye kifaa chako.',
+
   streakDays: 'Mfululizo wa siku {{count}}',
   streakLabel: 'Mfululizo',
   savedLabel: 'Imeokolewa',
   lessonsLabel: 'Masomo',
   challengesLabel: 'Changamoto',
+
   forgotPin: 'Sahau PIN',
   createPin: 'Weka PIN yako',
   confirmPin: 'Thibitisha PIN yako',
   enterPin: 'Weka PIN kufungua',
   chooseDigits: 'Chagua nambari 4 za siri',
   reEnterPin: 'Ingiza tena PIN yako kuthibitisha',
-  wrongPin: 'PIN isiyo sahihi (jaribio {{count}})',
   pinsNoMatch: 'PIN hazilingani. Jaribu tena.',
   tooManyAttempts: '⚠️ Majaribio mengi. Tumia "Sahau PIN" hapa chini.',
   forgotPinWarning: 'Hii itafuta data yote. Endelea?',
+  pinProtected: 'PIN Imewezeshwa',
+  pinDisabled: 'PIN Imezimwa',
+  disablePinLock: 'Zima Kufunga?',
+  pinRecoveryWarning: 'Ukisahau PIN yako, itabidi ufute data yote ya programu.',
+  appProtected: 'PesaPlan imelindwa',
+
   challenge30Day: 'Changamoto ya Siku 30',
   challengeEmergency: 'Sprint ya Mfuko wa Dharura',
   challengeNoSpend: 'Wiki ya Bila Starehe',
@@ -418,13 +679,31 @@ const sw: typeof en = {
   readTime: 'Dakika {{min}} ya kusoma',
   beginner: 'Mwanzo',
   intermediate: 'Kati',
+
+  budgetCoach: 'Msaidizi wa Bajeti',
+  askAboutSpending: 'Maswali kuhusu fedha zako',
+  askMeAnything: 'Niulize chochote...',
+  quickQuestions: 'Maswali ya haraka',
+
+  noResultsFound: 'Hakuna matokeo',
+  noTransactionsFilter: 'Hakuna miamala inayolingana na kichujio',
+  endOfHistory: '— Mwisho wa historia —',
+  clearFilters: 'Futa kichujio',
+  totalTransactions: 'Jumla ya Miamala',
+  filtered: 'imechujwa',
+  yesterday: 'Jana',
+  confirmDelete: 'Thibitisha ufutaji',
+  deleteTransaction: 'Futa muamala',
+  clearAll: 'Futa Kichujio',
+  showResults: 'Tazama Matokeo',
+
+  smartBudgetBuilder: 'Muundaji wa Bajeti',
+  avg: 'Wastani:',
+
   netWorth: 'Thamani Halisi',
   cashflowForecast: 'Utabiri wa Fedha',
   financialHealthScore: 'Alama ya Afya ya Fedha',
   loanBalance: 'Salio la Mkopo',
-  appStoreReadiness: 'Utayari wa Duka la Programu',
-  securitySettings: 'Usalama',
-  analyticsSession: 'Kikao cha Takwimu',
 };
 
 i18n
@@ -437,24 +716,17 @@ i18n
     lng: 'sw',
     fallbackLng: 'en',
     supportedLngs: ['en', 'sw'],
-    interpolation: {
-      escapeValue: false,
-    },
+    interpolation: { escapeValue: false },
     missingKeyHandler: (_lng: readonly string[], _ns: string, key: string) => {
-      if (import.meta.env.DEV) {
-        console.warn(`[i18n] Missing key: "${key}"`);
-      }
+      if (import.meta.env.DEV) console.warn(`[i18n] Missing key: "${key}"`);
     },
   });
 
 export default i18n;
 
-/**
- * Sync i18next language with AppState.
- * Called from setLanguage() in App.tsx and on mount.
- */
+export type AppTranslations = typeof en;
+
+/** Sync i18next language with AppState. Called from App.tsx setLanguage(). */
 export function syncI18nLanguage(lang: 'sw' | 'en'): void {
-  if (i18n.language !== lang) {
-    i18n.changeLanguage(lang);
-  }
+  if (i18n.language !== lang) i18n.changeLanguage(lang);
 }
