@@ -272,12 +272,12 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           onKeyDown={e => { if (e.key === 'Enter' && name.trim()) onNext(name.trim()); }}
           maxLength={30}
           placeholder={lang === 'sw' ? 'Andika jina lako...' : 'Type your name...'}
-          className="w-full text-center text-xl font-semibold bg-white/[0.07] border border-white/[0.14] text-white rounded-2xl px-5 py-4 outline-none placeholder:text-white/20 transition-colors"
+          className="w-full text-center text-xl font-semibold bg-white/[0.07] border border-white/[0.14] text-white rounded-2xl px-5 py-4 outline-none placeholder:text-white/40 transition-colors"
           style={{ '--tw-ring-color': '#16a34a' } as React.CSSProperties}
           onFocus={e => (e.target.style.borderColor = 'rgba(22,163,74,0.7)')}
           onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.14)')}
         />
-        <p className="text-white/25 text-xs mt-2 text-center">
+        <p className="text-white/55 text-xs mt-2 text-center">
           {lang === 'sw' ? 'Au bonyeza Endelea bila jina' : 'Or continue without a name'}
         </p>
       </div>
@@ -332,7 +332,7 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
                 <span className="text-3xl shrink-0">{cfg.flag}</span>
                 <div className="flex-1">
                   <p className="text-white font-semibold text-base leading-tight">{lang === 'sw' ? cfg.nameSw : cfg.nameEn}</p>
-                  <p className="text-white/35 text-xs">{cfg.currency} · {cfg.symbol}</p>
+                  <p className="text-white/60 text-xs">{cfg.currency} · {cfg.symbol}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
@@ -398,7 +398,7 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
                 <span className={`text-2xl ${isLast ? '' : 'mb-auto'}`}>{emoji}</span>
                 <div className={isLast ? 'flex-1' : 'mt-2'}>
                   <p className="text-white font-semibold text-sm leading-tight">{lang === 'sw' ? sw_ : en}</p>
-                  <p className="text-white/35 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
+                  <p className="text-white/60 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
@@ -462,10 +462,10 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
                 <span className="text-2xl shrink-0">{emoji}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-semibold text-sm leading-tight">{lang === 'sw' ? sw_ : en}</p>
-                  <p className="text-white/35 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
+                  <p className="text-white/60 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
                 </div>
                 <span className={`px-2.5 py-1 rounded-full text-xs font-medium shrink-0 transition-colors ${
-                  isSelected ? 'text-green-300' : 'bg-white/[0.07] text-white/35'
+                  isSelected ? 'text-green-300' : 'bg-white/[0.07] text-white/60'
                 }`}
                   style={isSelected ? { background: 'rgba(22,163,74,0.25)' } : {}}>
                   {lang === 'sw' ? tagSw : tagEn}
@@ -574,7 +574,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
             {goalId === 'custom' && (
               <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
                 placeholder={lang === 'sw' ? 'Jina la lengo lako...' : 'Name your goal...'}
-                className="w-full bg-white/[0.07] border border-white/[0.12] text-white rounded-2xl px-4 py-3.5 text-sm outline-none placeholder:text-white/25 transition-colors"
+                className="w-full bg-white/[0.07] border border-white/[0.12] text-white rounded-2xl px-4 py-3.5 text-sm outline-none placeholder:text-white/45 transition-colors"
                 onFocus={e => (e.target.style.borderColor = 'rgba(22,163,74,0.6)')}
                 onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.12)')}
               />
@@ -592,11 +592,11 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-white/35 text-base font-semibold">{cfg.symbol}</span>
+                <span className="text-white/60 text-base font-semibold">{cfg.symbol}</span>
                 <input type="number" inputMode="numeric" value={amount}
                   onChange={e => { setAmount(e.target.value); setError(''); }}
                   placeholder="0"
-                  className="flex-1 bg-transparent text-white text-2xl font-bold outline-none placeholder:text-white/20"
+                  className="flex-1 bg-transparent text-white text-2xl font-bold outline-none placeholder:text-white/40"
                 />
               </div>
             </div>
@@ -618,7 +618,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
           {lang === 'sw' ? 'Anza Kuokoa' : 'Start Saving'}
         </motion.button>
         <button onClick={() => onDone(lang === 'sw' ? 'Lengo Langu' : 'My Goal', 10000)}
-          className="w-full text-white/28 text-sm py-2">
+          className="w-full text-white/60 text-sm py-2">
           {lang === 'sw' ? 'Ruka kwa sasa' : 'Skip for now'}
         </button>
       </div>
