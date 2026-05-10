@@ -93,9 +93,9 @@ export function InsightsView({ onBack }: InsightsViewProps) {
   ].filter(Boolean) as NonNullable<(typeof insights)[number]>[];
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#f4f3ef' }}>
       {/* Header */}
-      <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white px-6 pb-6 min-safe-top">
+      <div className="text-white px-6 pb-6 min-safe-top" style={{ background: '#0b1a0d' }}>
         <div className="flex items-center mb-2">
           <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
             <ArrowLeft className="w-6 h-6" />
@@ -115,7 +115,7 @@ export function InsightsView({ onBack }: InsightsViewProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl p-8 shadow-md text-center"
+            className="bg-white rounded-2xl p-8 text-center" style={{ border: '1px solid #e8e7e4' }}"
           >
             <AlertCircle className="w-10 h-10 text-gray-300 mx-auto mb-3" />
             <p className="text-gray-500 font-medium">
@@ -140,7 +140,7 @@ export function InsightsView({ onBack }: InsightsViewProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-2xl p-4 shadow-md"
+                  className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}"
                 >
                   <div className="flex items-start gap-3">
                     <div className={`${insight.bg} p-2 rounded-full shrink-0`}>
@@ -162,7 +162,7 @@ export function InsightsView({ onBack }: InsightsViewProps) {
           <h2 className="text-base font-bold mb-3 text-gray-900">
             {t('weeklyTrends', lang)}
           </h2>
-          <div className="bg-white rounded-2xl p-4 shadow-md">
+          <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
             {hasWeeklyData ? (
               <ResponsiveContainer width="100%" height={200}>
                 <BarChart data={weeklyData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
@@ -221,7 +221,7 @@ export function InsightsView({ onBack }: InsightsViewProps) {
               <h2 className="text-base font-bold mb-3 text-gray-900">
                 {t('thisWeeksReport', lang)}
               </h2>
-              <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+              <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}">
                 <div className="grid grid-cols-3 divide-x divide-gray-100">
                   {[
                     { label: t('income', lang), value: formatCurrency(thisIncome), color: 'text-emerald-600' },
@@ -350,7 +350,7 @@ export function InsightsView({ onBack }: InsightsViewProps) {
             <h2 className="text-base font-bold mb-3 text-gray-900">
               {t('categoryBreakdown', lang)}
             </h2>
-            <div className="bg-white rounded-2xl p-4 shadow-md">
+            <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
               <ResponsiveContainer width="100%" height={220}>
                 <RechartsPieChart>
                   <Pie
@@ -397,13 +397,13 @@ export function InsightsView({ onBack }: InsightsViewProps) {
               {t('summary', lang)}
             </h2>
             <div className="grid grid-cols-2 gap-3">
-              <div className="bg-white rounded-2xl p-4 shadow-md">
+              <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
                 <p className="text-xs text-gray-500 mb-1">
                   {t('totalTransactions', lang)}
                 </p>
                 <p className="text-xl font-bold text-gray-900">{state.transactions.length}</p>
               </div>
-              <div className="bg-white rounded-2xl p-4 shadow-md">
+              <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
                 <p className="text-xs text-gray-500 mb-1">
                   {t('dailyAverage', lang)}
                 </p>

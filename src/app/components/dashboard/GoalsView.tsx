@@ -198,9 +198,9 @@ export function GoalsView({ onBack }: GoalsViewProps) {
   const totalTarget = state.goals.reduce((s, g) => s + g.target, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#f4f3ef' }}>
       {/* Header */}
-      <div className="bg-gradient-to-br from-purple-600 to-purple-700 text-white px-6 pb-8 min-safe-top">
+      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: '#0b1a0d' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <button onClick={onBack} className="p-2 hover:bg-white/10 rounded-full">
@@ -237,18 +237,19 @@ export function GoalsView({ onBack }: GoalsViewProps) {
 
       {/* Overall progress bar */}
       {state.goals.length > 1 && totalTarget > 0 && (
-        <div className="mx-4 mt-4 bg-white rounded-2xl p-4 shadow-sm">
+        <div className="mx-4 mt-4 bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}>
           <div className="flex justify-between items-center mb-2">
             <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">
               {lang === 'sw' ? 'Jumla ya Maendeleo' : 'Overall Progress'}
             </span>
-            <span className="text-xs font-bold text-purple-700">
+            <span className="text-xs font-bold" style={{ color: '#15803d' }}>
               {fmt(totalSaved)} / {fmt(totalTarget)}
             </span>
           </div>
-          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2.5 rounded-full overflow-hidden" style={{ background: '#eae9e6' }}>
             <motion.div
-              className="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full"
+              className="h-full rounded-full"
+              style={{ background: '#16a34a' }}
               initial={{ width: 0 }}
               animate={{ width: `${Math.min((totalSaved / totalTarget) * 100, 100)}%` }}
               transition={{ duration: 1, ease: 'easeOut' }}
@@ -283,7 +284,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
             <motion.button
               whileTap={{ scale: 0.96 }}
               onClick={() => setShowAddGoal(true)}
-              className="bg-purple-600 text-white px-8 py-3.5 rounded-2xl font-bold text-sm shadow-lg shadow-purple-200"
+              className="text-white px-8 py-3.5 rounded-2xl font-bold text-sm"
+              style={{ background: '#16a34a' }}
             >
               + {t('addGoal', lang)}
             </motion.button>
@@ -304,7 +306,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.07 }}
-              className="relative overflow-hidden rounded-2xl shadow-md"
+              className="relative overflow-hidden rounded-2xl"
+              style={{ border: '1px solid #e8e7e4' }}
             >
               {/* Swipe-revealed delete button */}
               <AnimatePresence>
@@ -385,8 +388,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                       </p>
                       {dailyRequired !== null && dailyRequired > 0 && !goal.completed && (
                         <div className="flex items-center gap-1 mt-1.5">
-                          <TrendingUp className="w-3 h-3 text-purple-500" />
-                          <span className="text-[11px] text-purple-600 font-semibold">
+                          <TrendingUp className="w-3 h-3 text-green-600" />
+                          <span className="text-[11px] text-green-700 font-semibold">
                             {lang === 'sw' ? `${fmt(dailyRequired)}/siku inahitajika` : `${fmt(dailyRequired)}/day needed`}
                           </span>
                         </div>
@@ -403,14 +406,14 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                       <div
                         key={ms}
                         className={`flex-1 h-1.5 rounded-full transition-colors ${
-                          progress >= ms ? 'bg-purple-500' : 'bg-gray-100'
+                          progress >= ms ? 'bg-green-600' : 'bg-[#eae9e6]'
                         }`}
                       />
                     ))}
                   </div>
                   <div className="flex justify-between px-0.5">
                     {MILESTONE_STEPS.map(ms => (
-                      <span key={ms} className={`text-[9px] font-bold ${progress >= ms ? 'text-purple-500' : 'text-gray-300'}`}>
+                      <span key={ms} className={`text-[9px] font-bold ${progress >= ms ? 'text-green-600' : 'text-gray-300'}`}>
                         {ms}%
                       </span>
                     ))}
@@ -422,7 +425,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setShowContribute(goal.id)}
-                      className="w-full py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-sm font-bold transition"
+                      className="w-full py-2.5 bg-green-700 hover:bg-purple-700 text-white rounded-xl text-sm font-bold transition"
                     >
                       + {t('contributeNow', lang)}
                     </motion.button>
@@ -458,7 +461,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-5 pb-8 max-h-[92vh] overflow-y-auto"
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 border-t border-[#e8e7e4] p-5 pb-8 max-h-[92vh] overflow-y-auto"
               onClick={e => e.stopPropagation()}
             >
               <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
@@ -491,7 +494,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                         initial={{ opacity: 0, y: -8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -8 }}
-                        className="mt-2 bg-gray-50 rounded-xl p-3 grid grid-cols-10 gap-1.5"
+                        className="mt-2 bg-[#f4f3ef] rounded-xl p-3 grid grid-cols-10 gap-1.5"
                       >
                         {GOAL_EMOJIS.map(em => (
                           <button
@@ -555,7 +558,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     const daily = Math.ceil(parseInt(newGoalTarget) / parseInt(newGoalDeadlineDays));
                     return (
                       <div className="mt-2 bg-purple-50 rounded-xl px-3 py-2 flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-purple-600 shrink-0" />
+                        <TrendingUp className="w-4 h-4 text-green-700 shrink-0" />
                         <p className="text-xs text-purple-800 font-medium">
                           {lang === 'sw'
                             ? `Unahitaji kuokoa ${fmt(daily)} kwa siku`
@@ -577,7 +580,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleAddGoal}
                     disabled={!newGoalTitle || !newGoalTarget}
-                    className="flex-1 py-3.5 bg-purple-600 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
+                    className="flex-1 py-3.5 bg-green-700 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
                   >
                     {t('save', lang)}
                   </motion.button>
@@ -605,7 +608,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
               <motion.div
                 initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
                 transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-5 pb-8"
+                className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 border-t border-[#e8e7e4] p-5 pb-8"
                 onClick={e => e.stopPropagation()}
               >
                 <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
@@ -613,7 +616,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                   <span className="text-3xl">{goal.emoji ?? '🎯'}</span>
                   <div>
                     <h2 className="text-lg font-bold text-gray-900">{goal.title}</h2>
-                    <p className="text-xs text-purple-600 font-medium">
+                    <p className="text-xs text-green-700 font-medium">
                       {t('goalRemaining', lang)}: {fmt(remaining)} · {progress.toFixed(0)}% {lang === 'sw' ? 'imekamilika' : 'done'}
                     </p>
                   </div>
@@ -668,7 +671,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleContribute}
                     disabled={!contributionAmount || parseInt(contributionAmount) <= 0}
-                    className="flex-1 py-3.5 bg-purple-600 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
+                    className="flex-1 py-3.5 bg-green-700 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
                   >
                     {t('contributeNow', lang)}
                   </motion.button>
@@ -691,7 +694,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[88vh] overflow-y-auto"
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 border-t border-[#e8e7e4] max-h-[88vh] overflow-y-auto"
               onClick={e => e.stopPropagation()}
             >
               <div className="sticky top-0 bg-white px-5 pt-5 pb-3 border-b border-gray-100">
@@ -706,7 +709,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                       )}
                     </div>
                   </div>
-                  <button onClick={() => setShowDetail(null)} className="p-2 hover:bg-gray-100 rounded-full">
+                  <button onClick={() => setShowDetail(null)} className="p-2 hover:bg-[#eae9e6] rounded-full">
                     <X className="w-5 h-5 text-gray-500" />
                   </button>
                 </div>
@@ -744,7 +747,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     {
                       label: lang === 'sw' ? 'Lengo' : 'Target',
                       value: fmt(detailGoal.target),
-                      color: 'text-purple-600',
+                      color: 'text-green-700',
                       bg: 'bg-purple-50',
                     },
                     {
@@ -764,7 +767,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                           label: lang === 'sw' ? 'Siku Zilizobaki' : 'Days Left',
                           value: getDaysLeft(detailGoal) !== null ? `${getDaysLeft(detailGoal)}` : '—',
                           color: 'text-gray-700',
-                          bg: 'bg-gray-50',
+                          bg: 'bg-[#f4f3ef]',
                         },
                   ].map(({ label, value, color, bg }) => (
                     <div key={label} className={`${bg} rounded-2xl p-4`}>
@@ -776,8 +779,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
 
                 {/* Projected date */}
                 {getProjectedDate(detailGoal) && !detailGoal.completed && (
-                  <div className="flex items-center gap-3 bg-gray-50 rounded-2xl p-4">
-                    <Calendar className="w-5 h-5 text-purple-500 shrink-0" />
+                  <div className="flex items-center gap-3 bg-[#f4f3ef] rounded-2xl p-4">
+                    <Calendar className="w-5 h-5 text-green-600 shrink-0" />
                     <div>
                       <p className="text-xs text-gray-500">{lang === 'sw' ? 'Tarehe ya Mwisho' : 'Deadline'}</p>
                       <p className="text-sm font-bold text-gray-900">{getProjectedDate(detailGoal)}</p>
@@ -794,7 +797,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     {MILESTONE_STEPS.map(ms => {
                       const reached = (detailGoal.current / detailGoal.target) * 100 >= ms;
                       return (
-                        <div key={ms} className={`flex items-center gap-3 p-3 rounded-xl ${reached ? 'bg-emerald-50' : 'bg-gray-50'}`}>
+                        <div key={ms} className={`flex items-center gap-3 p-3 rounded-xl ${reached ? 'bg-emerald-50' : 'bg-[#f4f3ef]'}`}>
                           <span className="text-lg">{reached ? '✅' : '⬜'}</span>
                           <div className="flex-1">
                             <p className={`text-sm font-semibold ${reached ? 'text-emerald-700' : 'text-gray-400'}`}>
@@ -813,7 +816,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                   <motion.button
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setShowDetail(null); setShowContribute(detailGoal.id); }}
-                    className="w-full py-4 bg-purple-600 text-white rounded-2xl font-bold"
+                    className="w-full py-4 bg-green-700 text-white rounded-2xl font-bold"
                   >
                     + {t('contributeNow', lang)}
                   </motion.button>
@@ -839,7 +842,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: 'spring', damping: 20 }}
-              className="bg-white rounded-3xl p-8 text-center shadow-2xl max-w-sm w-full"
+              className="bg-white rounded-3xl p-8 text-center max-w-sm w-full" style={{ border: '1px solid #e8e7e4' }}
             >
               <motion.div
                 animate={{ rotate: [0, -10, 10, -10, 10, 0] }}

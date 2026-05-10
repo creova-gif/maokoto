@@ -185,7 +185,7 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
   };
 
   const isExpense = type === 'expense';
-  const headerColor = isExpense ? 'from-red-500 to-red-600' : 'from-emerald-500 to-emerald-600';
+  const headerBg = isExpense ? '#b91c1c' : '#15803d';
 
   const quickAmounts = getQuickAmounts(state.region);
   const categories = isExpense ? EXPENSE_CATEGORIES[lang] : INCOME_CATEGORIES[lang];
@@ -211,7 +211,7 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
           onClick={e => e.stopPropagation()}
         >
           {/* Colored header */}
-          <div className={`bg-gradient-to-r ${headerColor} text-white px-5 pt-5 pb-6 rounded-t-3xl`}>
+          <div className="text-white px-5 pt-5 pb-6 rounded-t-3xl" style={{ background: headerBg }}>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold">
                 {isExpense ? t('addExpense', lang) : t('addIncome', lang)}
@@ -425,13 +425,8 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
               whileTap={{ scale: 0.97 }}
               onClick={handleSubmit}
               disabled={!amount || !category}
-              className={`w-full py-4 rounded-2xl text-white font-bold text-base transition shadow-lg ${
-                !amount || !category
-                  ? 'bg-gray-300 cursor-not-allowed'
-                  : isExpense
-                    ? 'bg-red-500 hover:bg-red-600'
-                    : 'bg-emerald-600 hover:bg-emerald-700'
-              }`}
+              className="w-full py-4 rounded-2xl text-white font-bold text-base transition disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ background: !amount || !category ? '#9ca3af' : headerBg }}
             >
               {t('save', lang)} {amount && category ? `– ${symbol} ${parseFloat(amount || '0').toLocaleString()}` : ''}
             </motion.button>

@@ -157,9 +157,9 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#f4f3ef' }}>
       {/* Header */}
-      <div className="bg-gradient-to-br from-orange-600 to-orange-700 text-white px-6 pb-5 min-safe-top">
+      <div className="text-white px-6 pb-5 min-safe-top" style={{ background: '#0b1a0d' }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
             <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
@@ -170,12 +170,12 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
           <button
             onClick={() => setShowFilter(true)}
             className={`flex items-center gap-2 px-3 py-2 rounded-xl transition ${
-              isFiltered ? 'bg-white text-orange-700' : 'bg-white/20 text-white hover:bg-white/30'
+              isFiltered ? 'bg-white text-green-700' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             <Filter className="w-4 h-4" />
             <span className="text-sm font-medium">{t('filter', lang)}</span>
-            {isFiltered && <span className="w-2 h-2 bg-orange-500 rounded-full" />}
+            {isFiltered && <span className="w-2 h-2 rounded-full" style={{ background: '#16a34a' }} />}
           </button>
         </div>
         <p className="text-sm opacity-80 ml-14">
@@ -199,9 +199,10 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
               onClick={() => { setFilterDateRange(opt.value); setVisibleCount(PAGE_SIZE); }}
               className={`shrink-0 text-xs font-semibold px-3 py-1.5 rounded-full transition ${
                 filterDateRange === opt.value
-                  ? 'bg-orange-500 text-white shadow-sm'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'text-white'
+                  : 'text-gray-600 hover:bg-[#e8e7e4]'
               }`}
+            style={filterDateRange === opt.value ? { background: '#16a34a' } : { background: '#eae9e6' }}
             >
               {lang === 'sw' ? opt.sw : opt.en}
             </button>
@@ -210,9 +211,9 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
 
         {/* Search bar */}
         <div className="px-4 py-2.5">
-          <div className={`flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 border-2 transition-colors ${
-            searchFocused ? 'border-orange-400 bg-white' : 'border-transparent'
-          }`}>
+          <div className={`flex items-center gap-2 rounded-xl px-3 py-2 border-2 transition-colors ${
+            searchFocused ? 'bg-white' : 'bg-[#eae9e6]'
+          }`} style={{ borderColor: searchFocused ? '#16a34a' : 'transparent' }}>
             <Search className="w-4 h-4 text-gray-400 shrink-0" />
             <input
               value={searchQuery}
@@ -236,7 +237,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mx-4 mt-3 bg-white rounded-2xl shadow-sm overflow-hidden"
+          className="mx-4 mt-3 bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}
         >
           <div className="grid grid-cols-3 divide-x divide-gray-100">
             <div className="px-3 py-3 text-center">
@@ -249,7 +250,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             </div>
             <div className="px-3 py-3 text-center">
               <p className="text-[10px] text-gray-400 mb-0.5">{lang === 'sw' ? 'Jumla' : 'Net'}</p>
-              <p className={`text-sm font-bold ${net >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
+              <p className={`text-sm font-bold ${net >= 0 ? 'text-blue-600' : 'text-green-600'}`}>
                 {net >= 0 ? '+' : ''}{formatCurrency(net)}
               </p>
             </div>
@@ -280,7 +281,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             {isFiltered && (
               <button
                 onClick={() => { setFilterType('all'); setFilterSource('all'); setFilterDateRange('all'); setSearchQuery(''); }}
-                className="mt-3 text-sm text-orange-600 font-medium"
+                className="mt-3 text-sm text-green-600 font-medium"
               >
                 {t('clearFilters', lang)}
               </button>
@@ -302,7 +303,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                     </div>
                   </div>
 
-                  <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+                  <div className="bg-white rounded-2xl overflow-hidden">
                     {txs.map((transaction, index) => (
                       <div key={transaction.id} className="relative overflow-hidden">
                         {/* Swipe-revealed buttons */}
@@ -342,7 +343,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                           onTouchStart={e => onTouchStart(e, transaction.id)}
                           onTouchEnd={e => onTouchEnd(e, transaction)}
                           initial={{ opacity: 0, x: -20 }}
-                          className={`flex items-center justify-between p-4 bg-white cursor-pointer active:bg-gray-50 ${
+                          className={`flex items-center justify-between p-4 bg-white cursor-pointer active:bg-[#f4f3ef] ${
                             index < txs.length - 1 ? 'border-b border-gray-100' : ''
                           }`}
                         >
@@ -384,7 +385,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 onClick={() => setVisibleCount(v => v + PAGE_SIZE)}
-                className="w-full py-3.5 bg-white border-2 border-gray-200 rounded-2xl text-sm font-semibold text-gray-700 hover:border-orange-400 hover:text-orange-600 transition shadow-sm"
+                className="w-full py-3.5 bg-white border-2 border-gray-200 rounded-2xl text-sm font-semibold text-gray-700 hover:border-green-400 hover:text-green-600 transition shadow-sm"
               >
                 {lang === 'sw'
                   ? `Pakia zaidi (${filteredTransactions.length - visibleCount} zimebaki)`
@@ -413,13 +414,13 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-6 pb-8 shadow-2xl"
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 border-t border-[#e8e7e4] p-6 pb-8 shadow-2xl"
               onClick={e => e.stopPropagation()}
             >
               <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5" />
               <div className="flex items-center justify-between mb-5">
                 <h3 className="text-lg font-bold text-gray-900">{t('filter', lang)}</h3>
-                <button onClick={() => setShowFilter(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                <button onClick={() => setShowFilter(false)} className="p-2 hover:bg-[#eae9e6] rounded-full">
                   <X className="w-5 h-5 text-gray-500" />
                 </button>
               </div>
@@ -433,7 +434,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                       onClick={() => setFilterType(opt.value)}
                       className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition ${
                         filterType === opt.value
-                          ? 'border-orange-500 bg-orange-50 text-orange-700'
+                          ? 'border-green-500 bg-green-50 text-green-700'
                           : 'border-gray-200 text-gray-600 hover:border-gray-300'
                       }`}
                     >
@@ -452,7 +453,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                       onClick={() => setFilterSource(opt.value)}
                       className={`px-4 py-2 rounded-xl border-2 text-sm font-medium transition ${
                         filterSource === opt.value
-                          ? 'border-orange-500 bg-orange-50 text-orange-700'
+                          ? 'border-green-500 bg-green-50 text-green-700'
                           : 'border-gray-200 text-gray-600 hover:border-gray-300'
                       }`}
                     >
@@ -471,7 +472,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 </button>
                 <button
                   onClick={() => setShowFilter(false)}
-                  className="flex-1 py-3.5 bg-orange-500 rounded-2xl text-white font-bold text-sm"
+                  className="flex-1 py-3.5 rounded-2xl text-white font-bold text-sm" style={{ background: '#16a34a' }}
                 >
                   {t('showResults', lang)}
                 </button>
@@ -493,7 +494,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 pb-8"
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 border-t border-[#e8e7e4] pb-8"
               onClick={e => e.stopPropagation()}
             >
               <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mt-4 mb-1" />
@@ -552,7 +553,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                     value: detailTx.notes,
                   }] : []),
                 ].map(({ icon, label, value }) => (
-                  <div key={label} className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+                  <div key={label} className="flex items-center gap-3 bg-[#f4f3ef] rounded-xl px-4 py-3">
                     <span className="text-lg shrink-0">{icon}</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-xs text-gray-400">{label}</p>

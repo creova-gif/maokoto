@@ -31,7 +31,7 @@ function HealthBar({ score }: { score: number }) {
         <span className="text-xs font-semibold text-gray-500">{label.en}</span>
         <span className="text-sm font-black" style={{ color }}>{score}/100</span>
       </div>
-      <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+      <div className="h-2.5 bg-[#eae9e6] rounded-full overflow-hidden">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: color }}
@@ -325,9 +325,9 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24">
+    <div className="min-h-screen pb-24" style={{ background: '#f4f3ef' }}>
       {/* Header */}
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 text-white px-6 pb-8 min-safe-top">
+      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: '#0b1a0d' }}>
         <div className="flex items-center mb-5">
           <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
             <ArrowLeft className="w-6 h-6" />
@@ -363,7 +363,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
       <div className="px-4 py-5 space-y-5">
         {/* Financial Health Score */}
-        <div className="bg-white rounded-2xl shadow-sm p-4">
+        <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="w-4 h-4 text-emerald-600" />
             <h2 className="text-sm font-bold text-gray-800">
@@ -377,7 +377,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               { icon: '🎯', label: lang === 'sw' ? 'Malengo' : 'Goals', value: state.goals.length },
               { icon: '🔥', label: lang === 'sw' ? 'Siku' : 'Streak', value: `${state.streak}d` },
             ].map(({ icon, label, value }) => (
-              <div key={label} className="bg-gray-50 rounded-xl p-2.5 text-center">
+              <div key={label} className="bg-[#f4f3ef] rounded-xl p-2.5 text-center">
                 <p className="text-base">{icon}</p>
                 <p className="text-sm font-bold text-gray-800">{value}</p>
                 <p className="text-[10px] text-gray-400">{label}</p>
@@ -387,7 +387,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         </div>
 
         {/* Name input */}
-        <div className="bg-white rounded-2xl shadow-sm p-4">
+        <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}">
           <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">
             {t('yourName', lang)}
           </label>
@@ -416,18 +416,18 @@ export function SettingsView({ onBack }: SettingsViewProps) {
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
             {t('settings', lang)}
           </h2>
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}">
             {settingsItems.map((item, index) => (
               <motion.button
                 key={index}
                 onClick={item.action}
-                className={`w-full flex items-center justify-between p-4 hover:bg-gray-50 transition ${
+                className={`w-full flex items-center justify-between p-4 hover:bg-[#f4f3ef] transition ${
                   index < settingsItems.length - 1 ? 'border-b border-gray-100' : ''
                 }`}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="bg-gray-100 p-2 rounded-full">
+                  <div className="bg-[#eae9e6] p-2 rounded-full">
                     <item.icon className="w-4 h-4 text-gray-600" />
                   </div>
                   <span className="font-medium text-gray-900 text-sm">{item.label}</span>
@@ -448,7 +448,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
             🔔 {lang === 'sw' ? 'Mipangilio ya Arifa' : 'Notification Preferences'}
           </h2>
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}">
             {[
               {
                 icon: AlertTriangle,
@@ -490,8 +490,9 @@ export function SettingsView({ onBack }: SettingsViewProps) {
                   whileTap={{ scale: 0.9 }}
                   onClick={item.toggle}
                   className={`w-11 h-6 rounded-full flex items-center transition-colors duration-300 shrink-0 ${
-                    item.value ? 'bg-emerald-500 justify-end' : 'bg-gray-200 justify-start'
+                    item.value ? 'justify-end' : 'bg-[#d4d3cf] justify-start'
                   } px-0.5`}
+                  style={item.value ? { background: '#16a34a' } : undefined}
                 >
                   <motion.div
                     layout
@@ -595,17 +596,17 @@ export function SettingsView({ onBack }: SettingsViewProps) {
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
             🔒 {t('security', lang)}
           </h2>
-          <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}">
             <motion.button
               onClick={() => {
                 if (state.appLockEnabled) setShowDisableLockConfirm(true);
                 else setShowLockSetup(true);
               }}
-              className="w-full flex items-center justify-between p-4 hover:bg-gray-50 transition"
+              className="w-full flex items-center justify-between p-4 hover:bg-[#f4f3ef] transition"
               whileTap={{ scale: 0.98 }}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-full ${state.appLockEnabled ? 'bg-emerald-100' : 'bg-gray-100'}`}>
+                <div className={`p-2 rounded-full ${state.appLockEnabled ? 'bg-emerald-100' : 'bg-[#eae9e6]'}`}>
                   {state.appLockEnabled
                     ? <Lock className="w-4 h-4 text-emerald-600" />
                     : <Unlock className="w-4 h-4 text-gray-500" />}
@@ -630,7 +631,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         <PhoneInstallCard lang={lang} />
 
         {/* App Info */}
-        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+        <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }} text-center">
           <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${avatarColor} flex items-center justify-center text-2xl mx-auto mb-2`}>
             💰
           </div>
@@ -660,7 +661,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 z-50 shadow-2xl"
             >
-              <button onClick={() => setShowDeleteConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full">
+              <button onClick={() => setShowDeleteConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[#eae9e6] rounded-full">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
               <div className="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -700,7 +701,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 z-50 shadow-2xl"
             >
-              <button onClick={() => setShowImportConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-gray-100 rounded-full">
+              <button onClick={() => setShowImportConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[#eae9e6] rounded-full">
                 <X className="w-5 h-5 text-gray-500" />
               </button>
               <div className="bg-purple-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
