@@ -1,0 +1,251 @@
+import { motion } from 'motion/react';
+import { useApp } from '@/app/App';
+import { t } from '@/app/utils/translations';
+
+interface SplashScreensProps {
+  onComplete: () => void;
+}
+
+const features = [
+  {
+    icon: '📱',
+    en: 'M-Pesa · Airtel · Tigo Pesa',
+    sw: 'M-Pesa · Airtel · Tigo Pesa',
+    label: { en: 'Mobile Money', sw: 'Pesa ya Simu' },
+    color: '#4E886F',
+  },
+  {
+    icon: '📊',
+    en: 'Smart budget tracking',
+    sw: 'Ufuatiliaji wa bajeti mahiri',
+    label: { en: 'AI Budgeting', sw: 'Bajeti ya AI' },
+    color: '#FD8240',
+  },
+  {
+    icon: '🔒',
+    en: 'Your data stays on your device',
+    sw: 'Data yako inabaki kwenye kifaa chako',
+    label: { en: '100% Private', sw: 'Faragha Kamili' },
+    color: '#215B44',
+  },
+];
+
+export function SplashScreens({ onComplete }: SplashScreensProps) {
+  const { state } = useApp();
+  const lang = state.language;
+
+  return (
+    <div
+      style={{
+        height: '100vh',
+        background: '#fff',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        overflow: 'hidden',
+        position: 'relative',
+        padding: '0 24px',
+      }}
+    >
+      {/* Subtle background accent */}
+      <div
+        style={{
+          position: 'absolute',
+          top: -80,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: 320,
+          height: 320,
+          borderRadius: '50%',
+          background: 'rgba(78,136,111,0.06)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Top section: Logo + Name */}
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingBottom: 24,
+        }}
+      >
+        {/* Logo mark */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.4, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 220, damping: 18, delay: 0.2 }}
+          style={{ marginBottom: 24 }}
+        >
+          <div
+            style={{
+              width: 88,
+              height: 88,
+              borderRadius: 26,
+              background: '#4E886F',
+              boxShadow: '0 20px 50px rgba(78,136,111,0.3)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <path d="M22 9C14.82 9 9 14.82 9 22s5.82 13 13 13 13-5.82 13-13S29.18 9 22 9z" stroke="white" strokeWidth="2.4" />
+              <path d="M22 16v6l5 2.5" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M16 33h12" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
+              <path d="M22 33v4" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </div>
+        </motion.div>
+
+        {/* App name */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.45, duration: 0.5 }}
+          style={{ textAlign: 'center', marginBottom: 10 }}
+        >
+          <h1
+            style={{
+              fontSize: 44,
+              fontWeight: 700,
+              color: '#4D4845',
+              fontFamily: 'Geist, sans-serif',
+              letterSpacing: '-0.02em',
+              margin: 0,
+            }}
+          >
+            Maokoto
+          </h1>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          style={{
+            color: '#928F8B',
+            textAlign: 'center',
+            marginBottom: 36,
+            maxWidth: 260,
+            lineHeight: 1.5,
+            fontSize: 15,
+            fontFamily: 'Geist, sans-serif',
+          }}
+        >
+          {t('tagline', lang)}
+        </motion.p>
+
+        {/* Feature pills */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, width: '100%', maxWidth: 320 }}>
+          {features.map((f, i) => (
+            <motion.div
+              key={f.en}
+              initial={{ opacity: 0, scale: 0.9, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ delay: 0.75 + i * 0.14, type: 'spring', stiffness: 280, damping: 24 }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 14,
+                padding: '14px 16px',
+                borderRadius: 16,
+                background: '#F6F6F4',
+                border: '1px solid #F4F4F2',
+              }}
+            >
+              {/* Left accent */}
+              <div style={{ width: 3, height: 32, borderRadius: 999, background: f.color, flexShrink: 0 }} />
+
+              {/* Icon */}
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 12,
+                  background: `rgba(${f.color === '#4E886F' ? '78,136,111' : f.color === '#FD8240' ? '253,130,64' : '33,91,68'},0.12)`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 20,
+                  flexShrink: 0,
+                }}
+              >
+                {f.icon}
+              </div>
+
+              {/* Text */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 10, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                  {lang === 'sw' ? f.label.sw : f.label.en}
+                </p>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {lang === 'sw' ? f.sw : f.en}
+                </p>
+              </div>
+
+              {/* Check */}
+              <div
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: '50%',
+                  background: f.color,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                  <path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom: CTA */}
+      <div style={{ width: '100%', maxWidth: 360, paddingBottom: 48 }}>
+        <motion.button
+          onClick={onComplete}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.15, type: 'spring', stiffness: 240, damping: 22 }}
+          whileTap={{ scale: 0.97 }}
+          style={{
+            width: '100%',
+            background: '#FD8240',
+            color: '#fff',
+            borderRadius: 999,
+            padding: '18px 0',
+            fontSize: 17,
+            fontWeight: 600,
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'Geist, sans-serif',
+            boxShadow: '0 8px 24px rgba(253,130,64,0.3)',
+          }}
+          aria-label={lang === 'sw' ? 'Endelea kuanza Maokoto' : 'Continue to start Maokoto'}
+        >
+          {t('continue', lang)} →
+        </motion.button>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4 }}
+          style={{ color: '#928F8B', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
+        >
+          {t('freeTagline', lang)}
+        </motion.p>
+      </div>
+    </div>
+  );
+}
