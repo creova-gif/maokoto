@@ -1382,9 +1382,9 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
   const positive = gain >= 0;
 
   const portfolios = [
-    { name: lang === 'sw' ? 'Akiba ya Hisa' : lang === 'fr' ? 'Actions Locales' : 'Local Equities', pct: '+12.4%', amount: portfolioBase * 0.45, color: '#4E886F' },
-    { name: lang === 'sw' ? 'Dhamana za Serikali' : lang === 'fr' ? 'Obligations d\'État' : 'Gov. Bonds', pct: '+5.1%', amount: portfolioBase * 0.3, color: '#215B44' },
-    { name: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : 'Real Estate', pct: '+8.7%', amount: portfolioBase * 0.25, color: '#FD8240' },
+    { id: 'easy_growth',  name: lang === 'sw' ? 'Akiba ya Hisa' : lang === 'fr' ? 'Actions Locales' : 'Local Equities', pct: '+12.4%', amount: portfolioBase * 0.45, color: '#4E886F' },
+    { id: 'balanced',     name: lang === 'sw' ? 'Dhamana za Serikali' : lang === 'fr' ? 'Obligations d\'État' : 'Gov. Bonds', pct: '+5.1%', amount: portfolioBase * 0.3, color: '#215B44' },
+    { id: 'growth_max',   name: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : 'Real Estate', pct: '+8.7%', amount: portfolioBase * 0.25, color: '#FD8240' },
   ];
 
   const assetClasses = [
@@ -1482,7 +1482,7 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
             <MkCard key={p.name}>
               <button
                 type="button"
-                onClick={() => onPortfolioSelect(p.name)}
+                onClick={() => onPortfolioSelect(p.id)}
                 style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
               >
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: `${p.color}1A`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
@@ -1761,12 +1761,12 @@ function WalletTab({
   onAddIncome,
   onAddExpense,
   onSettings,
-  onAI,
+  onHistory,
 }: {
   onAddIncome: () => void;
   onAddExpense: () => void;
   onSettings: () => void;
-  onAI: () => void;
+  onHistory: () => void;
 }) {
   const { state } = useApp();
   const { language: lang } = state;
@@ -1869,7 +1869,8 @@ function WalletTab({
         {/* Quick actions */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <button
-            onClick={onAI}
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('maokoto:open-ai'))}
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
               background: '#F6F6F4', color: '#4D4845', fontSize: 14, fontWeight: 500,
@@ -1880,6 +1881,7 @@ function WalletTab({
             {lang === 'sw' ? 'Msaidizi wa AI' : 'AI Assistant'}
           </button>
           <button
+            type="button"
             onClick={onSettings}
             style={{
               display: 'flex', alignItems: 'center', gap: 6,
@@ -1892,12 +1894,49 @@ function WalletTab({
           </button>
         </div>
 
-        {/* Transaction history */}
+        {/* Recent transactions with full-screen link */}
         <div>
-          <SectionHeader label={historyLabel} sub={lang === 'sw' ? 'Miamala yote' : 'All transactions'} />
-          <div style={{ marginTop: 12 }}>
-            <HistoryView onBack={() => {}} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+            <SectionHeader label={historyLabel} sub={`${state.transactions.length} ${lang === 'sw' ? 'jumla' : 'total'}`} />
+            <button
+              type="button"
+              onClick={onHistory}
+              style={{ fontSize: 12, color: '#928F8B', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', display: 'flex', alignItems: 'center', gap: 4 }}
+            >
+              {lang === 'sw' ? 'Angalia zote' : 'See all'} <ChevronRight size={12} />
+            </button>
           </div>
+          {state.transactions.length === 0 ? (
+            <MkCard>
+              <div style={{ padding: 24, textAlign: 'center' }}>
+                <p style={{ fontSize: 14, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+                  {lang === 'sw' ? 'Hakuna miamala bado' : 'No transactions yet'}
+                </p>
+              </div>
+            </MkCard>
+          ) : (
+            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', overflow: 'hidden' }}>
+              {state.transactions.slice(0, 6).map((tx, i, arr) => (
+                <div
+                  key={tx.id}
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderBottom: i < arr.length - 1 ? '1px solid #F4F4F2' : 'none' }}
+                >
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#F6F6F4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
+                    {getCategoryIcon(tx.category)}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tx.category}</p>
+                    <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+                      {tx.source} · {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
+                    </p>
+                  </div>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: tx.type === 'income' ? '#215B44' : '#C9362B', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
+                    {tx.type === 'income' ? '+' : '-'}{fmt(tx.amount)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -1923,8 +1962,6 @@ export function Dashboard() {
   const [showInsights, setShowInsights] = useState(false);
   const [showHistory, setShowHistory] = useState(false);
   const [showGoalsView, setShowGoalsView] = useState(false);
-  const [showAI, setShowAI] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showBudgetLimits, setShowBudgetLimits] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
@@ -2049,7 +2086,7 @@ export function Dashboard() {
       {/* Top Nav */}
       <TopNav
         title={tabTitles[activeTab][lang] ?? tabTitles[activeTab].en}
-        onBell={() => setShowNotifications(true)}
+        onBell={() => window.dispatchEvent(new Event('maokoto:open-notifications'))}
         onAvatar={() => setShowSettings(true)}
         bellDot={true}
         userName={state.userName}
@@ -2124,7 +2161,7 @@ export function Dashboard() {
                 onAddIncome={openAddIncome}
                 onAddExpense={openAddExpense}
                 onSettings={() => setShowSettings(true)}
-                onAI={() => setShowAI(true)}
+                onHistory={() => setShowHistory(true)}
               />
             )}
           </motion.div>
@@ -2183,8 +2220,8 @@ export function Dashboard() {
       {showBudgetLimits && (
         <BudgetLimitsSheet onClose={() => setShowBudgetLimits(false)} />
       )}
-      {showAI && <AIAssistant />}
-      {showNotifications && <NotificationCenter />}
+      <AIAssistant />
+      <NotificationCenter />
     </div>
   );
 }

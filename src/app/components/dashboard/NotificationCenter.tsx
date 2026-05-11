@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Bell, X, AlertTriangle, CheckCircle, TrendingUp, Target, Flame } from 'lucide-react';
 import { useApp } from '@/app/App';
@@ -20,6 +20,12 @@ export function NotificationCenter() {
   const { state, dismissNotification } = useApp();
   const lang = state.language;
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    window.addEventListener('maokoto:open-notifications', handler);
+    return () => window.removeEventListener('maokoto:open-notifications', handler);
+  }, []);
 
   const fmt = (n: number) => formatCurrency(n, state.region);
 
@@ -162,23 +168,6 @@ export function NotificationCenter() {
 
   return (
     <>
-      {/* Bell button */}
-      <button
-        onClick={() => setOpen(true)}
-        className="relative p-2 hover:bg-white/20 rounded-full transition"
-      >
-        <Bell className="w-5 h-5 text-white" />
-        {unreadCount > 0 && (
-          <motion.span
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-bold"
-          >
-            {Math.min(unreadCount, 9)}
-          </motion.span>
-        )}
-      </button>
-
       {/* Notification sheet */}
       <AnimatePresence>
         {open && (

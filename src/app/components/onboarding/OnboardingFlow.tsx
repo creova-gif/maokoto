@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, Check } from 'lucide-react';
 import { useApp, type Language, type UserType, type IncomeFrequency } from '@/app/App';
-import { REGION_CONFIG, type Region } from '@/app/utils/currency';
+import { REGION_CONFIG, LANGUAGE_REGIONS, getRegionName, type Region } from '@/app/utils/currency';
 
 interface OnboardingFlowProps {
   onComplete: () => void;
@@ -216,48 +216,52 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
     setTimeout(() => onPick(l), 320);
   };
 
-  const options = [
-    { code: 'sw' as Language, name: 'Kiswahili', flag: '🇹🇿', sub: 'Lugha ya kwanza ya Afrika Mashariki' },
-    { code: 'en' as Language, name: 'English',   flag: '🇬🇧', sub: 'International language' },
-    { code: 'fr' as Language, name: 'Français',  flag: '🇫🇷', sub: 'Pour les francophones' },
+  const options: { code: Language; name: string; flag: string; sub: string }[] = [
+    { code: 'sw', name: 'Kiswahili', flag: '🇹🇿', sub: 'Lugha ya kwanza ya Afrika Mashariki' },
+    { code: 'en', name: 'English',   flag: '🇬🇧', sub: 'International language' },
+    { code: 'fr', name: 'Français',  flag: '🇫🇷', sub: 'Pour les pays francophones d\'Afrique' },
+    { code: 'ar', name: 'العربية',   flag: '🇪🇬', sub: 'للدول الناطقة بالعربية في أفريقيا' },
+    { code: 'pt', name: 'Português', flag: '🇦🇴', sub: 'Para os países lusófonos de África' },
   ];
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '0 24px' }}>
       <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
         style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
-        Choose your language
+        Choose your language · Choisissez votre langue
       </motion.p>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 28, fontFamily: 'Geist, sans-serif' }}>
-        Habari? / Hello!
+        style={{ fontSize: 26, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
+        Habari? / Hello! / مرحبا
       </motion.h2>
 
-      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 10 }}>
+      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8 }}>
         {options.map((l, i) => {
           const isSelected = picked === l.code;
+          const isRtl = l.code === 'ar';
           return (
             <motion.button
               key={l.code}
               onClick={() => handle(l.code)}
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.08 }}
+              transition={{ delay: 0.1 + i * 0.07 }}
               whileTap={{ scale: 0.98 }}
               className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
-              style={{ width: '100%', minHeight: 80 }}
+              style={{ width: '100%', minHeight: 72 }}
+              dir={isRtl ? 'rtl' : 'ltr'}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px' }}>
-                <span style={{ fontSize: 32, flexShrink: 0 }}>{l.flag}</span>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: 17, fontWeight: 600, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{l.name}</p>
-                  <p style={{ fontSize: 12, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>{l.sub}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px' }}>
+                <span style={{ fontSize: 28, flexShrink: 0 }}>{l.flag}</span>
+                <div style={{ flex: 1, textAlign: isRtl ? 'right' : 'left' }}>
+                  <p style={{ fontSize: 16, fontWeight: 600, color: '#4D4845', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>{l.name}</p>
+                  <p style={{ fontSize: 11, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>{l.sub}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      style={{ width: 24, height: 24, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check style={{ width: 13, height: 13, color: '#fff' }} strokeWidth={2.5} />
+                      style={{ width: 22, height: 22, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Check style={{ width: 12, height: 12, color: '#fff' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -360,9 +364,13 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
 }
 
 // ── Step 3: Region ─────────────────────────────────────────────────────────
-const REGIONS: { code: Region }[] = [
-  { code: 'TZ' }, { code: 'KE' }, { code: 'UG' }, { code: 'RW' }, { code: 'BI' },
-];
+const REGION_STEP_COPY: Record<Language, { title: string; subtitle: string }> = {
+  sw: { title: 'Uko wapi?',         subtitle: 'Tutapanga sarafu sahihi kwa nchi yako' },
+  en: { title: 'Where are you?',    subtitle: "We'll set the right currency for your country" },
+  fr: { title: 'Où êtes-vous ?',    subtitle: 'Nous configurerons la bonne devise pour votre pays' },
+  ar: { title: 'أين تقيم؟',         subtitle: 'سنضبط العملة الصحيحة لبلدك' },
+  pt: { title: 'Onde você está?',   subtitle: 'Definiremos a moeda certa para o seu país' },
+};
 
 function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Language }) {
   const [picked, setPicked] = useState<Region | null>(null);
@@ -372,31 +380,37 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
     setTimeout(() => onPick(code), 320);
   };
 
+  const regions = LANGUAGE_REGIONS[lang] ?? LANGUAGE_REGIONS.en;
+  const copy = REGION_STEP_COPY[lang];
+  const isRtl = lang === 'ar';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }} dir={isRtl ? 'rtl' : 'ltr'}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
-        {lang === 'sw' ? 'Uko wapi?' : 'Where are you?'}
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+        {copy.title}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
         style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
-        {lang === 'sw' ? 'Tutapanga sarafu sahihi kwa nchi yako' : "We'll set the right currency for your country"}
+        {copy.subtitle}
       </motion.p>
 
-      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {REGIONS.map(({ code }, i) => {
+      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8, overflowY: 'auto', paddingBottom: 8 }}>
+        {regions.map((code, i) => {
           const cfg = REGION_CONFIG[code];
           const isSelected = picked === code;
           return (
             <motion.button key={code} onClick={() => handle(code)}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.06 }} whileTap={{ scale: 0.98 }}
+              transition={{ delay: 0.08 + i * 0.04 }} whileTap={{ scale: 0.98 }}
               className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
-              style={{ width: '100%', minHeight: 64 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 16px' }}>
-                <span style={{ fontSize: 28, flexShrink: 0 }}>{cfg.flag}</span>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: 15, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? cfg.nameSw : cfg.nameEn}</p>
+              style={{ width: '100%', minHeight: 64, flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '13px 16px' }}>
+                <span style={{ fontSize: 26, flexShrink: 0 }}>{cfg.flag}</span>
+                <div style={{ flex: 1, textAlign: isRtl ? 'right' : 'left' }}>
+                  <p style={{ fontSize: 15, fontWeight: 500, color: '#4D4845', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+                    {getRegionName(code, lang)}
+                  </p>
                   <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{cfg.currency} · {cfg.symbol}</p>
                 </div>
                 <AnimatePresence>
@@ -564,22 +578,68 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
   );
 }
 
+// ── Multilingual helper ────────────────────────────────────────────────────
+type L5<T extends string = string> = Record<Language, T>;
+function ml(lang: Language, map: Partial<L5> & { en: string }): string {
+  return map[lang] ?? map.en;
+}
+
 // ── Step 6: Goal Setup ─────────────────────────────────────────────────────
-type GoalOption = { id: string; emoji: string; en: string; sw: string };
-const GOAL_OPTIONS: GoalOption[] = [
-  { id: 'schoolFees',    emoji: '🎓', en: 'School fees',    sw: 'Ada za shule' },
-  { id: 'bills',         emoji: '💡', en: 'Bills & rent',   sw: 'Bili na kodi' },
-  { id: 'emergencyFund', emoji: '🛡️', en: 'Emergency fund', sw: 'Akiba ya dharura' },
-  { id: 'data',          emoji: '📱', en: 'Data & airtime', sw: 'Data na muda' },
-  { id: 'travel',        emoji: '✈️', en: 'Travel savings', sw: 'Akiba ya safari' },
-  { id: 'custom',        emoji: '⭐', en: 'My own goal',    sw: 'Lengo langu' },
+type GoalOption = { id: string; emoji: string } & Partial<L5>;
+const GOAL_OPTIONS: (GoalOption & { en: string })[] = [
+  { id: 'schoolFees',    emoji: '🎓', en: 'School fees',    sw: 'Ada za shule',        fr: 'Frais scolaires',   ar: 'رسوم مدرسية',      pt: 'Propinas escolares' },
+  { id: 'bills',         emoji: '💡', en: 'Bills & rent',   sw: 'Bili na kodi',         fr: 'Factures & loyer',  ar: 'فواتير وإيجار',    pt: 'Contas & aluguel' },
+  { id: 'emergencyFund', emoji: '🛡️', en: 'Emergency fund', sw: 'Akiba ya dharura',    fr: 'Fonds d\'urgence',  ar: 'صندوق طوارئ',      pt: 'Fundo de emergência' },
+  { id: 'data',          emoji: '📱', en: 'Data & airtime', sw: 'Data na muda',         fr: 'Data & forfait',    ar: 'بيانات وإنترنت',   pt: 'Dados & crédito' },
+  { id: 'travel',        emoji: '✈️', en: 'Travel savings', sw: 'Akiba ya safari',      fr: 'Épargne voyage',    ar: 'ادخار السفر',       pt: 'Poupança viagem' },
+  { id: 'custom',        emoji: '⭐', en: 'My own goal',    sw: 'Lengo langu',          fr: 'Mon propre objectif', ar: 'هدفي الخاص',     pt: 'Meu próprio objetivo' },
 ];
 const GOAL_DEFAULTS: Record<string, Record<string, number>> = {
-  TZ: { schoolFees: 500000, bills: 200000, emergencyFund: 300000, data: 50000, travel: 1000000 },
-  KE: { schoolFees: 15000,  bills: 8000,   emergencyFund: 10000,  data: 1500,  travel: 30000 },
-  UG: { schoolFees: 800000, bills: 300000, emergencyFund: 500000, data: 80000, travel: 1500000 },
-  RW: { schoolFees: 100000, bills: 50000,  emergencyFund: 75000,  data: 10000, travel: 200000 },
-  BI: { schoolFees: 200000, bills: 80000,  emergencyFund: 120000, data: 15000, travel: 400000 },
+  // East Africa
+  TZ: { schoolFees: 500000,   bills: 200000,  emergencyFund: 300000,  data: 50000,  travel: 1000000 },
+  KE: { schoolFees: 15000,    bills: 8000,    emergencyFund: 10000,   data: 1500,   travel: 30000 },
+  UG: { schoolFees: 800000,   bills: 300000,  emergencyFund: 500000,  data: 80000,  travel: 1500000 },
+  RW: { schoolFees: 100000,   bills: 50000,   emergencyFund: 75000,   data: 10000,  travel: 200000 },
+  BI: { schoolFees: 200000,   bills: 80000,   emergencyFund: 120000,  data: 15000,  travel: 400000 },
+  CD: { schoolFees: 500000,   bills: 200000,  emergencyFund: 300000,  data: 50000,  travel: 1000000 },
+  // Francophone West & Central Africa
+  SN: { schoolFees: 200000,   bills: 80000,   emergencyFund: 120000,  data: 15000,  travel: 400000 },
+  CI: { schoolFees: 200000,   bills: 80000,   emergencyFund: 120000,  data: 15000,  travel: 400000 },
+  CM: { schoolFees: 200000,   bills: 80000,   emergencyFund: 120000,  data: 15000,  travel: 400000 },
+  ML: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  BF: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  GN: { schoolFees: 2000000,  bills: 800000,  emergencyFund: 1200000, data: 150000, travel: 4000000 },
+  GA: { schoolFees: 300000,   bills: 120000,  emergencyFund: 180000,  data: 20000,  travel: 600000 },
+  TG: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  BJ: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  CG: { schoolFees: 200000,   bills: 80000,   emergencyFund: 120000,  data: 15000,  travel: 400000 },
+  CF: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  NE: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  TD: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  MG: { schoolFees: 1000000,  bills: 400000,  emergencyFund: 600000,  data: 80000,  travel: 2000000 },
+  // North Africa (Arabic)
+  EG: { schoolFees: 5000,     bills: 2000,    emergencyFund: 3000,    data: 500,    travel: 10000 },
+  MA: { schoolFees: 3000,     bills: 1200,    emergencyFund: 1800,    data: 200,    travel: 6000 },
+  DZ: { schoolFees: 30000,    bills: 12000,   emergencyFund: 18000,   data: 2000,   travel: 60000 },
+  TN: { schoolFees: 1500,     bills: 600,     emergencyFund: 900,     data: 100,    travel: 3000 },
+  LY: { schoolFees: 1000,     bills: 400,     emergencyFund: 600,     data: 80,     travel: 2000 },
+  SD: { schoolFees: 500000,   bills: 200000,  emergencyFund: 300000,  data: 40000,  travel: 1000000 },
+  MR: { schoolFees: 100000,   bills: 40000,   emergencyFund: 60000,   data: 8000,   travel: 200000 },
+  // English-speaking
+  NG: { schoolFees: 500000,   bills: 200000,  emergencyFund: 300000,  data: 30000,  travel: 1000000 },
+  GH: { schoolFees: 3000,     bills: 1200,    emergencyFund: 1800,    data: 200,    travel: 6000 },
+  ZA: { schoolFees: 10000,    bills: 4000,    emergencyFund: 6000,    data: 600,    travel: 20000 },
+  ZM: { schoolFees: 10000,    bills: 4000,    emergencyFund: 6000,    data: 800,    travel: 20000 },
+  ZW: { schoolFees: 5000,     bills: 2000,    emergencyFund: 3000,    data: 400,    travel: 10000 },
+  MW: { schoolFees: 300000,   bills: 120000,  emergencyFund: 180000,  data: 20000,  travel: 600000 },
+  BW: { schoolFees: 5000,     bills: 2000,    emergencyFund: 3000,    data: 300,    travel: 10000 },
+  NA: { schoolFees: 6000,     bills: 2400,    emergencyFund: 3600,    data: 400,    travel: 12000 },
+  // Lusophone Africa
+  AO: { schoolFees: 500000,   bills: 200000,  emergencyFund: 300000,  data: 40000,  travel: 1000000 },
+  MZ: { schoolFees: 100000,   bills: 40000,   emergencyFund: 60000,   data: 8000,   travel: 200000 },
+  CV: { schoolFees: 30000,    bills: 12000,   emergencyFund: 18000,   data: 2000,   travel: 60000 },
+  GW: { schoolFees: 150000,   bills: 60000,   emergencyFund: 90000,   data: 12000,  travel: 300000 },
+  ST: { schoolFees: 100000,   bills: 40000,   emergencyFund: 60000,   data: 8000,   travel: 200000 },
 };
 
 function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: number) => void; lang: Language; region: Region }) {
@@ -601,30 +661,32 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
 
   const handleSubmit = () => {
     const num = parseInt(amount);
-    if (!goalId) { setError(lang === 'sw' ? 'Chagua lengo kwanza' : 'Please pick a goal first'); return; }
-    if (!amount || isNaN(num) || num < 100) { setError(lang === 'sw' ? `Ingiza kiasi (angalau ${cfg.symbol} 100)` : `Enter an amount (min ${cfg.symbol} 100)`); return; }
-    if (num > 999_999_999) { setError(lang === 'sw' ? 'Kiasi kikubwa sana' : 'Amount too large'); return; }
+    if (!goalId) { setError(ml(lang, { en: 'Please pick a goal first', sw: 'Chagua lengo kwanza', fr: 'Choisissez un objectif', ar: 'اختر هدفاً أولاً', pt: 'Escolha um objetivo' })); return; }
+    if (!amount || isNaN(num) || num < 100) { setError(ml(lang, { en: `Enter an amount (min ${cfg.symbol} 100)`, sw: `Ingiza kiasi (angalau ${cfg.symbol} 100)`, fr: `Entrez un montant (min ${cfg.symbol} 100)`, ar: `أدخل مبلغاً (الحد الأدنى ${cfg.symbol} 100)`, pt: `Insira um valor (mín ${cfg.symbol} 100)` })); return; }
+    if (num > 999_999_999) { setError(ml(lang, { en: 'Amount too large', sw: 'Kiasi kikubwa sana', fr: 'Montant trop élevé', ar: 'المبلغ كبير جداً', pt: 'Valor muito alto' })); return; }
     const title = goalId === 'custom'
-      ? (customName.trim() || (lang === 'sw' ? 'Lengo Langu' : 'My Goal'))
-      : (lang === 'sw' ? selectedGoal!.sw : selectedGoal!.en);
+      ? (customName.trim() || ml(lang, { en: 'My Goal', sw: 'Lengo Langu', fr: 'Mon Objectif', ar: 'هدفي', pt: 'Meu Objetivo' }))
+      : ml(lang, selectedGoal as Partial<L5> & { en: string });
     onDone(title, num);
   };
 
   const fmt = (n: number) => `${cfg.symbol} ${n.toLocaleString()}`;
 
+  const isRtl = lang === 'ar';
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }} dir={isRtl ? 'rtl' : 'ltr'}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
-        {lang === 'sw' ? 'Lengo lako la kwanza' : 'Your first goal'}
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+        {ml(lang, { en: 'Your first goal', sw: 'Lengo lako la kwanza', fr: 'Votre premier objectif', ar: 'هدفك الأول', pt: 'Seu primeiro objetivo' })}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
         style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
-        {lang === 'sw' ? 'Tuanze safari ya kuokoa!' : "Let's start your savings journey!"}
+        {ml(lang, { en: "Let's start your savings journey!", sw: 'Tuanze safari ya kuokoa!', fr: 'Commençons votre parcours d\'épargne !', ar: 'لنبدأ رحلة الادخار!', pt: 'Vamos começar sua jornada de poupança!' })}
       </motion.p>
 
       <div style={{ width: '100%', maxWidth: 340, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 16 }}>
-        {GOAL_OPTIONS.map(({ id, emoji, en, sw: sw_ }, i) => {
+        {GOAL_OPTIONS.map((opt, i) => {
+          const { id, emoji } = opt;
           const isSelected = goalId === id;
           return (
             <motion.button key={id} onClick={() => handlePick(id)}
@@ -634,7 +696,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '14px 8px', gap: 6, minHeight: 80, position: 'relative' }}>
               <span style={{ fontSize: 22 }}>{emoji}</span>
               <p style={{ fontSize: 10, fontWeight: 500, color: isSelected ? '#FD8240' : '#928F8B', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
-                {lang === 'sw' ? sw_ : en}
+                {ml(lang, opt)}
               </p>
               <AnimatePresence>
                 {isSelected && (
@@ -658,7 +720,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
               style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
               {goalId === 'custom' && (
                 <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
-                  placeholder={lang === 'sw' ? 'Jina la lengo lako...' : 'Name your goal...'}
+                  placeholder={ml(lang, { en: 'Name your goal...', sw: 'Jina la lengo lako...', fr: 'Nommez votre objectif...', ar: 'سمِّ هدفك...', pt: 'Nomeie seu objetivo...' })}
                   style={{
                     width: '100%',
                     background: '#F6F6F4',
@@ -679,11 +741,11 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
               <div style={{ borderRadius: 14, padding: 16, background: '#F6F6F4', border: '1px solid #F4F4F2' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                   <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
-                    {lang === 'sw' ? 'Kiasi cha lengo' : 'Target amount'}
+                    {ml(lang, { en: 'Target amount', sw: 'Kiasi cha lengo', fr: 'Montant cible', ar: 'المبلغ المستهدف', pt: 'Valor alvo' })}
                   </p>
                   {goalId !== 'custom' && defaults[goalId] && (
                     <span style={{ fontSize: 11, color: '#4E886F', fontFamily: 'Geist, sans-serif' }}>
-                      {lang === 'sw' ? 'Pendekezo:' : 'Suggested:'} {fmt(defaults[goalId])}
+                      {ml(lang, { en: 'Suggested:', sw: 'Pendekezo:', fr: 'Suggéré :', ar: 'مقترح:', pt: 'Sugerido:' })} {fmt(defaults[goalId])}
                     </span>
                   )}
                 </div>
@@ -722,11 +784,11 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
               fontFamily: 'Geist, sans-serif',
               transition: 'all 0.2s',
             }}>
-            {lang === 'sw' ? 'Anza Kuokoa' : 'Start Saving'}
+            {ml(lang, { en: 'Start Saving', sw: 'Anza Kuokoa', fr: 'Commencer à épargner', ar: 'ابدأ الادخار', pt: 'Começar a poupar' })}
           </motion.button>
-          <button onClick={() => onDone(lang === 'sw' ? 'Lengo Langu' : 'My Goal', 10000)}
+          <button onClick={() => onDone(ml(lang, { en: 'My Goal', sw: 'Lengo Langu', fr: 'Mon Objectif', ar: 'هدفي', pt: 'Meu Objetivo' }), 10000)}
             style={{ background: 'none', border: 'none', color: '#928F8B', fontSize: 14, padding: '8px 0', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
-            {lang === 'sw' ? 'Ruka kwa sasa' : 'Skip for now'}
+            {ml(lang, { en: 'Skip for now', sw: 'Ruka kwa sasa', fr: 'Passer pour l\'instant', ar: 'تخطى الآن', pt: 'Pular por agora' })}
           </button>
         </div>
       </div>
