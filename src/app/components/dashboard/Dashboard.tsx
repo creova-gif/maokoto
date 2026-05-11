@@ -2101,8 +2101,10 @@ export function Dashboard() {
   const lang = state.language;
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const [showNewTypeSheet, setShowNewTypeSheet] = useState(false);
   const [showAddTx, setShowAddTx] = useState(false);
   const [txType, setTxType] = useState<'expense' | 'income'>('expense');
+  const [prefilledCategory, setPrefilledCategory] = useState<string | undefined>();
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [showDailySummary, setShowDailySummary] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -2151,8 +2153,9 @@ export function Dashboard() {
     wallet:  { en: 'Wallet',       sw: 'Mkoba',     fr: 'Portefeuille',  ar: 'محفظة',     pt: 'Carteira'    },
   };
 
-  function openAddExpense() { setTxType('expense'); setShowAddTx(true); }
-  function openAddIncome()  { setTxType('income');  setShowAddTx(true); }
+  function openAddExpense(category?: string) { setTxType('expense'); setPrefilledCategory(category); setShowAddTx(true); }
+  function openAddIncome()  { setTxType('income'); setPrefilledCategory(undefined); setShowAddTx(true); }
+  function openFAB() { setShowNewTypeSheet(true); }
 
   // Full-screen overlays
   if (showSettings) {
@@ -2321,7 +2324,7 @@ export function Dashboard() {
 
       {/* FAB */}
       <button
-        onClick={openAddExpense}
+        onClick={openFAB}
         style={{
           position: 'fixed',
           bottom: 88,
@@ -2345,11 +2348,66 @@ export function Dashboard() {
       {/* Bottom Nav */}
       <BottomNav active={activeTab} onChange={setActiveTab} lang={lang} />
 
+      {/* Create New type pre-selector */}
+      <AnimatePresence>
+        {showNewTypeSheet && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 z-50"
+              onClick={() => setShowNewTypeSheet(false)}
+            />
+            <motion.div
+              initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 pb-8"
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 4 }}>
+                <div style={{ width: 40, height: 4, borderRadius: 999, background: '#E5E3E0' }} />
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px 16px' }}>
+                <p style={{ fontSize: 17, fontWeight: 600, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                  {lang === 'sw' ? 'Ongeza' : 'New'}
+                </p>
+                <button onClick={() => setShowNewTypeSheet(false)} style={{ background: '#F6F6F4', border: 'none', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <Plus size={14} color="#4D4845" style={{ transform: 'rotate(45deg)' }} />
+                </button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '0 20px' }}>
+                {[
+                  { icon: '💰', label: lang === 'sw' ? 'Bajeti' : 'Budget', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: '#1A3D2E', bg: 'rgba(26,61,46,0.08)', category: undefined as string | undefined },
+                  { icon: '🧾', label: lang === 'sw' ? 'Bili' : 'Bills', sub: lang === 'sw' ? 'Matumizi ya mara kwa mara kama kodi, stima' : 'Recurring expenses like rent, utility, etc.', color: '#FD8240', bg: 'rgba(253,130,64,0.08)', category: lang === 'sw' ? 'Malipo' : 'Bills' },
+                  { icon: '📱', label: lang === 'sw' ? 'Usajili' : 'Subscription', sub: lang === 'sw' ? 'Matumizi ya kila mwezi kama Netflix, Spotify' : 'Recurring expenses like streaming, memberships', color: '#E05C7A', bg: 'rgba(224,92,122,0.08)', category: lang === 'sw' ? 'Burudani' : 'Entertainment' },
+                ].map(opt => (
+                  <button
+                    key={opt.label}
+                    onClick={() => { setShowNewTypeSheet(false); openAddExpense(opt.category); }}
+                    style={{
+                      display: 'flex', alignItems: 'center', gap: 14,
+                      padding: '14px 16px', borderRadius: 16,
+                      background: opt.bg, border: 'none', cursor: 'pointer', textAlign: 'left',
+                    }}
+                  >
+                    <span style={{ fontSize: 24 }}>{opt.icon}</span>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontSize: 15, fontWeight: 600, color: opt.color, fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{opt.label}</p>
+                      <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{opt.sub}</p>
+                    </div>
+                    <ChevronRight size={16} color={opt.color} />
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Dialogs */}
       {showAddTx && (
         <AddTransactionDialog
-          open={showAddTx}
-          defaultType={txType}
+          type={txType}
+          prefilledCategory={prefilledCategory}
           onClose={() => setShowAddTx(false)}
         />
       )}
