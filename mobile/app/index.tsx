@@ -48,11 +48,10 @@ export default function HomeScreen() {
           mediaPlaybackRequiresUserAction={false}
           allowsInlineMediaPlayback
           onShouldStartLoadWithRequest={() => true}
-          userAgent={`PesaPlan/1.0 (${Platform.OS})`}
+          userAgent={`Maokoto/1.0 (${Platform.OS})`}
           injectedJavaScript={`
-            // Suppress console logs in production
-            window.__PESAPLAN_NATIVE__ = true;
-            window.__PESAPLAN_PLATFORM__ = '${Platform.OS}';
+            window.__MAOKOTO_NATIVE__ = true;
+            window.__MAOKOTO_PLATFORM__ = '${Platform.OS}';
             true;
           `}
         />
@@ -72,12 +71,14 @@ export default function HomeScreen() {
       {loading && !error && (
         <View style={styles.splashOverlay}>
           <View style={styles.splashCard}>
-            <Text style={styles.splashEmoji}>💰</Text>
-            <Text style={styles.splashTitle}>PesaPlan</Text>
-            <Text style={styles.splashSub}>Dhibiti pesa zako</Text>
+            <View style={styles.splashIconContainer}>
+              <Text style={styles.splashIconText}>M</Text>
+            </View>
+            <Text style={styles.splashTitle}>Maokoto</Text>
+            <Text style={styles.splashSub}>Smart money, African future</Text>
             <ActivityIndicator
               size="small"
-              color="#059669"
+              color="#FD8240"
               style={{ marginTop: 24 }}
             />
           </View>
@@ -90,15 +91,15 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#030712',
+    backgroundColor: '#1A3D2E',
   },
   webview: {
     flex: 1,
-    backgroundColor: '#030712',
+    backgroundColor: '#1A3D2E',
   },
   splashOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#030712',
+    backgroundColor: '#1A3D2E',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10,
@@ -106,9 +107,19 @@ const styles = StyleSheet.create({
   splashCard: {
     alignItems: 'center',
   },
-  splashEmoji: {
-    fontSize: 72,
-    marginBottom: 16,
+  splashIconContainer: {
+    width: 88,
+    height: 88,
+    borderRadius: 24,
+    backgroundColor: '#4E886F',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  splashIconText: {
+    fontSize: 48,
+    fontWeight: '900',
+    color: '#ffffff',
   },
   splashTitle: {
     fontSize: 36,
@@ -117,14 +128,13 @@ const styles = StyleSheet.create({
     letterSpacing: -1,
   },
   splashSub: {
-    fontSize: 16,
-    color: 'rgba(255,255,255,0.4)',
+    fontSize: 15,
+    color: 'rgba(255,255,255,0.5)',
     marginTop: 6,
-    fontStyle: 'italic',
   },
   errorContainer: {
     flex: 1,
-    backgroundColor: '#030712',
+    backgroundColor: '#1A3D2E',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 32,
@@ -146,7 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
   },
   retryButton: {
-    backgroundColor: '#059669',
+    backgroundColor: '#FD8240',
     paddingHorizontal: 32,
     paddingVertical: 14,
     borderRadius: 24,

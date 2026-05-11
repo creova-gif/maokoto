@@ -1,33 +1,44 @@
 {
   "expo": {
-    "name": "PesaPlan",
-    "slug": "pesaplan",
+    "name": "Maokoto",
+    "slug": "maokoto",
     "owner": "jaymafie",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "pesaplan",
+    "scheme": "maokoto",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#030712"
+      "backgroundColor": "#1A3D2E"
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.pesaplan.app",
+      "bundleIdentifier": "app.maokoto",
+      "buildNumber": "1",
       "infoPlist": {
         "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true
-        }
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "maokoto.replit.app": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true,
+              "NSExceptionMinimumTLSVersion": "TLSv1.2"
+            }
+          }
+        },
+        "NSCameraUsageDescription": "Maokoto uses the camera to scan receipts and QR codes.",
+        "NSPhotoLibraryUsageDescription": "Maokoto accesses your photo library to attach receipts to transactions."
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#059669"
+        "backgroundColor": "#4E886F"
       },
-      "package": "com.pesaplan.app",
+      "package": "app.maokoto",
+      "versionCode": 1,
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"
@@ -41,7 +52,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#030712",
+          "backgroundColor": "#1A3D2E",
           "image": "./assets/splash.png",
           "imageWidth": 200
         }
