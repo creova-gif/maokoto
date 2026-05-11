@@ -4,24 +4,31 @@
     "slug": "maokoto",
     "owner": "jaymafie",
     "version": "1.0.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme": "maokoto",
     "userInterfaceStyle": "light",
+
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#1A3D2E"
     },
+
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "app.maokoto",
       "buildNumber": "1",
+      "requireFullScreen": true,
+      "usesAppleSignIn": false,
       "infoPlist": {
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": false,
           "NSExceptionDomains": {
-            "pesa-plan.replit.app": {
+            "maokoto.app": {
               "NSExceptionAllowsInsecureHTTPLoads": false,
               "NSIncludesSubdomains": true,
               "NSExceptionMinimumTLSVersion": "TLSv1.2"
@@ -29,24 +36,40 @@
           }
         },
         "NSCameraUsageDescription": "Maokoto uses the camera to scan receipts and QR codes.",
-        "NSPhotoLibraryUsageDescription": "Maokoto accesses your photo library to attach receipts to transactions."
+        "NSPhotoLibraryUsageDescription": "Maokoto accesses your photo library to attach receipts to transactions.",
+        "ITSAppUsesNonExemptEncryption": false,
+        "UIStatusBarStyle": "UIStatusBarStyleLightContent",
+        "UIViewControllerBasedStatusBarAppearance": false
       }
     },
+
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#4E886F"
+        "backgroundColor": "#1A3D2E"
       },
       "package": "app.maokoto",
       "versionCode": 1,
       "permissions": [
         "INTERNET",
         "ACCESS_NETWORK_STATE"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            { "scheme": "https", "host": "maokoto.app", "pathPrefix": "/" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
       ]
     },
+
     "web": {
       "bundler": "metro"
     },
+
     "plugins": [
       "expo-router",
       [
@@ -54,17 +77,18 @@
         {
           "backgroundColor": "#1A3D2E",
           "image": "./assets/splash.png",
-          "imageWidth": 200
+          "imageWidth": 200,
+          "resizeMode": "contain"
         }
       ]
     ],
+
     "experiments": {
       "typedRoutes": true
     },
+
     "extra": {
-      "router": {
-        "origin": false
-      },
+      "router": { "origin": false },
       "eas": {
         "projectId": "924ffc4a-bbbf-45f4-b2a9-4b41b00342dc"
       }

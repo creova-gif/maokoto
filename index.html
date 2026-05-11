@@ -2,18 +2,63 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
+    <!-- ── Viewport: cover enables safe-area-inset-* for iPhone notch/island ── -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- ── PWA / Android Chrome ─────────────────────────────────────────────── -->
     <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#FD8240" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A3D2E" media="(prefers-color-scheme: dark)" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- ── Apple / iOS App Store (PWA shell + Safari standalone) ────────────── -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="apple-mobile-web-app-title" content="Maokoto" />
+    <!-- black-translucent = status bar overlays the app, using safe-area insets -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-512.svg" />
+
+    <!-- Apple Splash Screens (portrait, common iPhone sizes) -->
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" />
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)" />
+    <link rel="apple-touch-startup-image"
+      href="/icon-512.svg"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" />
+
+    <!-- ── SEO / Social ────────────────────────────────────────────────────── -->
+    <meta name="description" content="Track spending, set savings goals, and manage mobile money — built for East Africa. Works offline, 100% private." />
+    <meta name="keywords" content="budget,finance,M-Pesa,savings,Tanzania,Kenya,East Africa,money tracker" />
+    <meta name="author" content="Maokoto" />
+    <meta property="og:title" content="Maokoto – Budget & Finance" />
+    <meta property="og:description" content="Track spending, set goals, manage M-Pesa. Built for East Africa. Free & offline." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/icon-512.svg" />
+
+    <!-- ── Fonts ─────────────────────────────────────────────────────────────── -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-    <title>Maokoto</title>
+
+    <title>Maokoto – Budget & Finance</title>
+
     <style>
-      html, body { height: 100%; margin: 0; background: #ffffff; }
-      #root { height: 100%; display: flex; justify-content: center; }
+      html, body { height: 100%; margin: 0; background: #FD8240; }
+      /* Splash bg matches theme-color so no flash during PWA load */
+      #root { height: 100%; display: flex; justify-content: center; background: #fff; }
     </style>
   </head>
   <body>

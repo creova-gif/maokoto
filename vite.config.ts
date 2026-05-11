@@ -31,26 +31,63 @@ export default defineConfig({
         short_name: 'Maokoto',
         description: 'Track spending, set savings goals, and manage mobile money (M-Pesa, Airtel, Tigo) — built for East Africa. Works offline, 100% private.',
         theme_color: '#FD8240',
-        background_color: '#ffffff',
+        background_color: '#1A3D2E',
         display: 'standalone',
+        display_override: ['standalone', 'minimal-ui'],
         orientation: 'portrait',
         scope: '/',
-        start_url: '/',
+        start_url: '/?source=pwa',
+        id: 'app.maokoto',
         categories: ['finance', 'productivity'],
         lang: 'en',
+        dir: 'ltr',
+        // Play Store / iOS App Store: icons must include maskable + 192 + 512
         icons: [
-          { src: '/icon-192.svg', sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
-          { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'any' },
-          { src: '/icon-maskable-512.svg', sizes: '512x512', type: 'image/svg+xml', purpose: 'maskable' },
+          { src: '/icon-192.svg',         sizes: '192x192', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/icon-512.svg',         sizes: '512x512', type: 'image/svg+xml', purpose: 'any' },
+          { src: '/icon-maskable-512.svg',sizes: '512x512', type: 'image/svg+xml', purpose: 'maskable' },
         ],
+        // Google Play Store TWA: shortcuts surface in launcher long-press
+        shortcuts: [
+          {
+            name: 'Log Expense',
+            short_name: 'Expense',
+            description: 'Quickly log a new expense',
+            url: '/?action=expense&source=shortcut',
+            icons: [{ src: '/icon-192.svg', sizes: '192x192' }],
+          },
+          {
+            name: 'Check Balance',
+            short_name: 'Balance',
+            description: 'View your current balance',
+            url: '/?tab=wallet&source=shortcut',
+            icons: [{ src: '/icon-192.svg', sizes: '192x192' }],
+          },
+        ],
+        // Shown in Play Store listing
+        screenshots: [
+          { src: '/icon-512.svg', sizes: '512x512', type: 'image/svg+xml', form_factor: 'narrow', label: 'Home screen' },
+        ],
+        // Privacy: no data sent to third-party analytics
+        related_applications: [],
+        prefer_related_applications: false,
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}'],
+        // Skip waiting so updates apply immediately
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
             handler: 'CacheFirst',
             options: { cacheName: 'google-fonts', expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 365 } },
+          },
+          {
+            // Supabase API: network first so data stays fresh, fall back to cache
+            urlPattern: /^https:\/\/.*\.supabase\.co\/.*/i,
+            handler: 'NetworkFirst',
+            options: { cacheName: 'supabase-api', expiration: { maxEntries: 50, maxAgeSeconds: 60 * 5 } },
           },
         ],
       },

@@ -385,17 +385,18 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
   const isRtl = lang === 'ar';
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }} dir={isRtl ? 'rtl' : 'ltr'}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '32px 24px 0' }} dir={isRtl ? 'rtl' : 'ltr'}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
         style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
         {copy.title}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
         {copy.subtitle}
       </motion.p>
 
-      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8, overflowY: 'auto', paddingBottom: 8 }}>
+      <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, paddingBottom: 24 }}>
+      <div style={{ maxWidth: 340, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 8 }}>
         {regions.map((code, i) => {
           const cfg = REGION_CONFIG[code];
           const isSelected = picked === code;
@@ -425,6 +426,7 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
             </motion.button>
           );
         })}
+      </div>
       </div>
     </div>
   );
@@ -647,6 +649,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
   const [customName, setCustomName] = useState('');
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
+  const [amountFocused, setAmountFocused] = useState(false);
   const cfg = REGION_CONFIG[region];
   const defaults = GOAL_DEFAULTS[region] ?? GOAL_DEFAULTS.TZ;
   const selectedGoal = GOAL_OPTIONS.find(g => g.id === goalId);
@@ -671,6 +674,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
   };
 
   const fmt = (n: number) => `${cfg.symbol} ${n.toLocaleString()}`;
+  const isReady = !!(goalId && amount && !isNaN(parseInt(amount)) && parseInt(amount) >= 100);
 
   const isRtl = lang === 'ar';
   return (
@@ -738,7 +742,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                 />
               )}
 
-              <div style={{ borderRadius: 14, padding: 16, background: '#F6F6F4', border: '1px solid #F4F4F2' }}>
+              <div style={{ borderRadius: 14, padding: 16, background: '#F6F6F4', border: `1.5px solid ${amountFocused ? '#FD8240' : '#F4F4F2'}`, transition: 'border-color 0.15s' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                   <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
                     {ml(lang, { en: 'Target amount', sw: 'Kiasi cha lengo', fr: 'Montant cible', ar: 'المبلغ المستهدف', pt: 'Valor alvo' })}
@@ -753,6 +757,8 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                   <span style={{ color: '#928F8B', fontSize: 16, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
                   <input type="number" inputMode="numeric" value={amount}
                     onChange={e => { setAmount(e.target.value); setError(''); }}
+                    onFocus={() => setAmountFocused(true)}
+                    onBlur={() => setAmountFocused(false)}
                     placeholder="0"
                     style={{ flex: 1, background: 'transparent', color: '#4D4845', fontSize: 24, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
                   />
@@ -770,23 +776,23 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
         </AnimatePresence>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <motion.button onClick={handleSubmit} whileTap={{ scale: 0.97 }} disabled={!goalId}
+          <motion.button onClick={handleSubmit} whileTap={{ scale: 0.97 }} disabled={!isReady}
             style={{
               width: '100%',
-              background: goalId ? '#FD8240' : '#F4F4F2',
-              color: goalId ? '#fff' : '#928F8B',
+              background: isReady ? '#FD8240' : '#F4F4F2',
+              color: isReady ? '#fff' : '#928F8B',
               borderRadius: 999,
               padding: '16px 0',
               fontWeight: 600,
               fontSize: 16,
               border: 'none',
-              cursor: goalId ? 'pointer' : 'not-allowed',
+              cursor: isReady ? 'pointer' : 'not-allowed',
               fontFamily: 'Geist, sans-serif',
               transition: 'all 0.2s',
             }}>
             {ml(lang, { en: 'Start Saving', sw: 'Anza Kuokoa', fr: 'Commencer à épargner', ar: 'ابدأ الادخار', pt: 'Começar a poupar' })}
           </motion.button>
-          <button onClick={() => onDone(ml(lang, { en: 'My Goal', sw: 'Lengo Langu', fr: 'Mon Objectif', ar: 'هدفي', pt: 'Meu Objetivo' }), 10000)}
+          <button onClick={() => onDone(ml(lang, { en: 'My Goal', sw: 'Lengo Langu', fr: 'Mon Objectif', ar: 'هدفي', pt: 'Meu Objetivo' }), defaults['emergencyFund'] ?? 50000)}
             style={{ background: 'none', border: 'none', color: '#928F8B', fontSize: 14, padding: '8px 0', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
             {ml(lang, { en: 'Skip for now', sw: 'Ruka kwa sasa', fr: 'Passer pour l\'instant', ar: 'تخطى الآن', pt: 'Pular por agora' })}
           </button>

@@ -191,8 +191,9 @@ function TopNav({
           height: 56,
         }}
       >
-        <button
+        <motion.button
           onClick={onAvatar}
+          whileTap={{ scale: 0.88 }}
           style={{
             width: 32,
             height: 32,
@@ -211,7 +212,7 @@ function TopNav({
           }}
         >
           {initials}
-        </button>
+        </motion.button>
         <p
           style={{
             fontSize: 16,
@@ -222,8 +223,9 @@ function TopNav({
         >
           {title}
         </p>
-        <button
+        <motion.button
           onClick={onBell}
+          whileTap={{ scale: 0.85 }}
           style={{
             position: 'relative',
             padding: 4,
@@ -233,20 +235,29 @@ function TopNav({
           }}
         >
           <Bell size={22} color="#4D4845" strokeWidth={1.8} />
-          {bellDot && (
-            <span
-              style={{
-                position: 'absolute',
-                top: 2,
-                right: 2,
-                width: 8,
-                height: 8,
-                background: '#F55D3E',
-                borderRadius: '50%',
-              }}
-            />
-          )}
-        </button>
+          <AnimatePresence>
+            {bellDot && (
+              <motion.span
+                key="bell-dot"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                className="mk-ring-pulse"
+                style={{
+                  position: 'absolute',
+                  top: 2,
+                  right: 2,
+                  width: 8,
+                  height: 8,
+                  background: '#F55D3E',
+                  borderRadius: '50%',
+                  display: 'block',
+                }}
+              />
+            )}
+          </AnimatePresence>
+        </motion.button>
       </div>
     </div>
   );
@@ -291,39 +302,70 @@ function BottomNav({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-around',
-          padding: '8px 8px',
+          padding: '8px 4px',
         }}
       >
         {NAV_ITEMS.map(({ id, Icon, labels }) => {
           const isActive = active === id;
-          const color = isActive ? '#4D4845' : '#A6A4A0';
+          const color = isActive ? '#FD8240' : '#A6A4A0';
           return (
-            <button
+            <motion.button
               key={id}
               onClick={() => onChange(id)}
+              whileTap={{ scale: 0.88 }}
               style={{
+                position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: 2,
-                padding: '4px 12px',
+                gap: 3,
+                padding: '4px 14px',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
+                WebkitTapHighlightColor: 'transparent',
               }}
             >
-              <Icon size={22} strokeWidth={1.8} color={color} />
+              {/* Sliding orange pill indicator above active tab */}
+              {isActive && (
+                <motion.span
+                  layoutId="nav-indicator"
+                  style={{
+                    position: 'absolute',
+                    top: -1,
+                    left: '50%',
+                    x: '-50%',
+                    width: 24,
+                    height: 3,
+                    borderRadius: 999,
+                    background: '#FD8240',
+                  }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+                />
+              )}
+              <motion.span
+                animate={{
+                  scale: isActive ? 1.12 : 1,
+                  y: isActive ? -1 : 0,
+                }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                style={{ display: 'flex' }}
+              >
+                <Icon size={22} strokeWidth={isActive ? 2.2 : 1.8} color={color} />
+              </motion.span>
               <span
                 style={{
                   fontSize: 10,
-                  fontWeight: 500,
+                  fontWeight: isActive ? 600 : 500,
                   color,
                   fontFamily: 'Geist, sans-serif',
+                  letterSpacing: isActive ? '-0.01em' : 0,
+                  transition: 'color 0.15s, font-weight 0.15s',
                 }}
               >
                 {labels[lang] ?? labels.en}
               </span>
-            </button>
+            </motion.button>
           );
         })}
       </div>
@@ -338,12 +380,14 @@ function HomeTab({
   onSettings,
   onInsights,
   onHistory,
+  onTxSelect,
 }: {
   onAddIncome: () => void;
   onAddExpense: () => void;
   onSettings: () => void;
   onInsights: () => void;
   onHistory: () => void;
+  onTxSelect: (tx: Transaction) => void;
 }) {
   const { state, deleteTransaction, updateGoal } = useApp();
   const { language: lang, transactions, goals, streak } = state;
@@ -394,7 +438,11 @@ function HomeTab({
           </p>
         </div>
         {streak > 0 && (
-          <div
+          <motion.div
+            className="mk-streak-pulse"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 20 }}
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -405,10 +453,10 @@ function HomeTab({
             }}
           >
             <Flame size={14} color="#FD8240" />
-            <span style={{ fontSize: 12, fontWeight: 500, color: '#FD8240', fontFamily: 'Geist, sans-serif' }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#FD8240', fontFamily: 'Geist, sans-serif' }}>
               {streak} {lang === 'sw' ? 'siku' : 'day streak'}
             </span>
-          </div>
+          </motion.div>
         )}
       </div>
 
@@ -479,10 +527,16 @@ function HomeTab({
             sub={lang === 'sw' ? 'Maendeleo ya sasa' : 'Current progress'}
           />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 12 }}>
-            {goals.filter(g => !g.completed).slice(0, 2).map(goal => {
+            {goals.filter(g => !g.completed).slice(0, 2).map((goal, idx) => {
               const pct = Math.min((goal.current / goal.target) * 100, 100);
               return (
-                <MkCard key={goal.id}>
+                <motion.div
+                  key={goal.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.07, duration: 0.22, ease: 'easeOut' }}
+                >
+                <MkCard>
                   <div style={{ padding: 16 }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
                       <div
@@ -518,6 +572,7 @@ function HomeTab({
                     </p>
                   </div>
                 </MkCard>
+                </motion.div>
               );
             })}
           </div>
@@ -541,8 +596,18 @@ function HomeTab({
               </div>
             </MkCard>
           ) : (
-            recent.map(tx => (
-              <div key={tx.id} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            recent.map((tx, idx) => (
+              <motion.div
+                key={tx.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.05, duration: 0.2, ease: 'easeOut' }}
+                style={{ display: 'flex', alignItems: 'center', gap: 12 }}
+              >
+                <button
+                  onClick={() => onTxSelect(tx)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', minWidth: 0 }}
+                >
                 <div
                   style={{
                     width: 40,
@@ -573,6 +638,7 @@ function HomeTab({
                     {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                   </p>
                 </div>
+                </button>
                 <button
                   onClick={() => handleDeleteTap(tx.id)}
                   style={{
@@ -587,7 +653,7 @@ function HomeTab({
                 >
                   <Trash2 size={14} />
                 </button>
-              </div>
+              </motion.div>
             ))
           )}
         </div>
@@ -975,7 +1041,7 @@ function BudgetTab({
           />
           <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column' }}>
             {[
-              { en: 'Overspending', sw: 'Kutumia Kupita Kiasi', subEn: 'Guide to avoiding the habit of overspending', subSw: 'Mwongozo wa kuzuia tabia ya kutumia kupita kiasi', lessonId: 'debt-management' },
+              { en: 'Overspending', sw: 'Kutumia Kupita Kiasi', subEn: 'Guide to avoiding the habit of overspending', subSw: 'Mwongozo wa kuzuia tabia ya kutumia kupita kiasi', lessonId: 'debt-awareness' },
               { en: 'Budgeting', sw: 'Bajeti', subEn: 'How to successfully manage your financial budget', subSw: 'Jinsi ya kusimamia bajeti yako ya kifedha', lessonId: 'rule-50-30-20' },
             ].map((a, i) => (
               <button
@@ -1191,7 +1257,7 @@ function NewGoalSheet({
 }
 
 // ─── SAVINGS TAB ──────────────────────────────────────────────────────────────
-function SavingsTab({ onAddGoal, onGoalSelect }: { onAddGoal: () => void; onGoalSelect: (goalId: string) => void }) {
+function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () => void; onGoalSelect: (goalId: string) => void; onAddIncome: () => void }) {
   const { state, updateGoal, deleteGoal, addGoal } = useApp();
   const { language: lang, goals, roundUpEnabled, roundUpSavings } = state;
   const fmt = (n: number) => formatCurrency(n, state.region);
@@ -1219,7 +1285,7 @@ function SavingsTab({ onAddGoal, onGoalSelect }: { onAddGoal: () => void; onGoal
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <Pill label={lang === 'sw' ? 'Ongeza' : lang === 'fr' ? 'Ajouter' : lang === 'ar' ? 'إضافة' : lang === 'pt' ? 'Adicionar' : 'Add Goal'} onClick={() => setShowNewGoal(true)} />
-            <Pill label={lang === 'sw' ? 'Toa' : 'Withdraw'} />
+            <Pill label={lang === 'sw' ? 'Toa' : 'Withdraw'} onClick={onAddIncome} />
             {roundUpEnabled && <Pill label="Round-Up" />}
           </div>
         </div>
@@ -1789,11 +1855,13 @@ function WalletTab({
   onAddExpense,
   onSettings,
   onHistory,
+  onTxSelect,
 }: {
   onAddIncome: () => void;
   onAddExpense: () => void;
   onSettings: () => void;
   onHistory: () => void;
+  onTxSelect: (tx: Transaction) => void;
 }) {
   const { state } = useApp();
   const { language: lang } = state;
@@ -1841,7 +1909,7 @@ function WalletTab({
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               <Pill label={fundLabel} onClick={onAddIncome} />
               <Pill label={sendLabel} onClick={() => setShowSend(true)} />
-              <Pill label={receiveLabel} />
+              <Pill label={receiveLabel} onClick={onAddIncome} />
             </div>
           </div>
         </MkCard>
@@ -1944,9 +2012,11 @@ function WalletTab({
           ) : (
             <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', overflow: 'hidden' }}>
               {state.transactions.slice(0, 6).map((tx, i, arr) => (
-                <div
+                <button
                   key={tx.id}
-                  style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderBottom: i < arr.length - 1 ? '1px solid #F4F4F2' : 'none' }}
+                  type="button"
+                  onClick={() => onTxSelect(tx)}
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderBottom: i < arr.length - 1 ? '1px solid #F4F4F2' : 'none', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
                 >
                   <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#F6F6F4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
                     {getCategoryIcon(tx.category)}
@@ -1960,7 +2030,7 @@ function WalletTab({
                   <p style={{ fontSize: 14, fontWeight: 500, color: tx.type === 'income' ? '#215B44' : '#C9362B', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
                     {tx.type === 'income' ? '+' : '-'}{fmt(tx.amount)}
                   </p>
-                </div>
+                </button>
               ))}
             </div>
           )}
@@ -2101,6 +2171,7 @@ export function Dashboard() {
   const lang = state.language;
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
+  const tabDirectionRef = useRef<1 | -1>(1);
   const [showNewTypeSheet, setShowNewTypeSheet] = useState(false);
   const [showAddTx, setShowAddTx] = useState(false);
   const [txType, setTxType] = useState<'expense' | 'income'>('expense');
@@ -2128,10 +2199,10 @@ export function Dashboard() {
     if (Math.abs(dx) > 80 && Math.abs(dx) > Math.abs(dy) * 2.5) {
       const idx = TAB_ORDER.indexOf(activeTab);
       if (dx < 0 && idx < TAB_ORDER.length - 1) {
-        setActiveTab(TAB_ORDER[idx + 1]);
+        switchTab(TAB_ORDER[idx + 1]);
         if (navigator.vibrate) navigator.vibrate(8);
       } else if (dx > 0 && idx > 0) {
-        setActiveTab(TAB_ORDER[idx - 1]);
+        switchTab(TAB_ORDER[idx - 1]);
         if (navigator.vibrate) navigator.vibrate(8);
       }
     }
@@ -2153,67 +2224,47 @@ export function Dashboard() {
     wallet:  { en: 'Wallet',       sw: 'Mkoba',     fr: 'Portefeuille',  ar: 'محفظة',     pt: 'Carteira'    },
   };
 
+  function switchTab(next: ActiveTab) {
+    const cur = TAB_ORDER.indexOf(activeTab);
+    const nxt = TAB_ORDER.indexOf(next);
+    tabDirectionRef.current = nxt >= cur ? 1 : -1;
+    setActiveTab(next);
+  }
+
   function openAddExpense(category?: string) { setTxType('expense'); setPrefilledCategory(category); setShowAddTx(true); }
   function openAddIncome()  { setTxType('income'); setPrefilledCategory(undefined); setShowAddTx(true); }
   function openFAB() { setShowNewTypeSheet(true); }
 
-  // Full-screen overlays
-  if (showSettings) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
-        <SettingsView onBack={() => setShowSettings(false)} />
-      </div>
-    );
-  }
-  if (showInsights) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
-        <InsightsView onBack={() => setShowInsights(false)} />
-      </div>
-    );
-  }
-  if (showHistory) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
-        <HistoryView onBack={() => setShowHistory(false)} />
-      </div>
-    );
-  }
-  if (showGoalsView) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
-        <GoalsView onBack={() => setShowGoalsView(false)} />
-      </div>
-    );
-  }
-  if (selectedCategory) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
-        <BudgetCategoryView category={selectedCategory} onBack={() => setSelectedCategory(null)} />
-      </div>
-    );
-  }
+  // Bell dot: true when there are non-dismissed budget/streak/goal alerts
+  const hasBudgetAlert = Object.entries(state.categoryBudgets).some(([cat, limit]) => {
+    const spent = state.transactions.filter(t => t.type === 'expense' && t.category === cat).reduce((s, t) => s + t.amount, 0);
+    return spent > limit * 0.85;
+  });
+  const hasStreakAlert = state.streak > 0 && !state.transactions.some(t => t.date.toDateString() === new Date().toDateString());
+  const bellDot = (hasBudgetAlert || hasStreakAlert) && !state.dismissedNotifications.includes('streak-reminder');
+
+  // Full-screen overlays — slide in from right (iOS push navigation feel)
+  const slideOverlay = (bg: string, children: React.ReactNode) => (
+    <motion.div
+      initial={{ x: '100%' }}
+      animate={{ x: 0 }}
+      transition={{ type: 'spring', stiffness: 340, damping: 34 }}
+      style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: bg, position: 'absolute', top: 0, left: 0, zIndex: 40 }}
+    >
+      {children}
+    </motion.div>
+  );
+
+  if (showSettings)    return slideOverlay('#fff', <SettingsView onBack={() => setShowSettings(false)} />);
+  if (showInsights)    return slideOverlay('#fff', <InsightsView onBack={() => setShowInsights(false)} />);
+  if (showHistory)     return slideOverlay('#fff', <HistoryView onBack={() => setShowHistory(false)} />);
+  if (showGoalsView)   return slideOverlay('#fff', <GoalsView onBack={() => setShowGoalsView(false)} />);
+  if (selectedCategory) return slideOverlay('#F6F6F4', <BudgetCategoryView category={selectedCategory} onBack={() => setSelectedCategory(null)} />);
   if (selectedGoalId) {
     const goal = state.goals.find(g => g.id === selectedGoalId);
-    if (goal) {
-      return (
-        <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
-          <GoalDetailView goal={goal} onBack={() => setSelectedGoalId(null)} />
-        </div>
-      );
-    }
+    if (goal) return slideOverlay('#F6F6F4', <GoalDetailView goal={goal} onBack={() => setSelectedGoalId(null)} />);
   }
-  if (investView) {
-    return (
-      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
-        <InvestDetailView
-          initialView={investView.view}
-          portfolioName={investView.name}
-          onBack={() => setInvestView(null)}
-        />
-      </div>
-    );
-  }
+  if (investView) return slideOverlay('#F6F6F4', <InvestDetailView initialView={investView.view} portfolioName={investView.name} onBack={() => setInvestView(null)} />);
 
   return (
     <div
@@ -2239,7 +2290,7 @@ export function Dashboard() {
         title={tabTitles[activeTab][lang] ?? tabTitles[activeTab].en}
         onBell={() => window.dispatchEvent(new Event('maokoto:open-notifications'))}
         onAvatar={() => setShowSettings(true)}
-        bellDot={true}
+        bellDot={bellDot}
         userName={state.userName}
       />
 
@@ -2271,13 +2322,14 @@ export function Dashboard() {
 
       {/* Tab content */}
       <div style={{ flex: 1, overflowY: 'auto', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}>
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" custom={tabDirectionRef.current}>
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, x: 16 }}
+            custom={tabDirectionRef.current}
+            initial={(dir: number) => ({ opacity: 0, x: dir * 28 })}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.16, ease: 'easeOut' }}
+            exit={(dir: number) => ({ opacity: 0, x: -dir * 28 })}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
           >
             {activeTab === 'home' && (
               <HomeTab
@@ -2286,6 +2338,7 @@ export function Dashboard() {
                 onSettings={() => setShowSettings(true)}
                 onInsights={() => setShowInsights(true)}
                 onHistory={() => setShowHistory(true)}
+                onTxSelect={tx => setSelectedTxDetail(tx)}
               />
             )}
             {activeTab === 'budget' && (
@@ -2301,6 +2354,7 @@ export function Dashboard() {
               <SavingsTab
                 onAddGoal={() => setShowGoalsView(true)}
                 onGoalSelect={id => setSelectedGoalId(id)}
+                onAddIncome={openAddIncome}
               />
             )}
             {activeTab === 'invest' && (
@@ -2316,6 +2370,7 @@ export function Dashboard() {
                 onAddExpense={openAddExpense}
                 onSettings={() => setShowSettings(true)}
                 onHistory={() => setShowHistory(true)}
+                onTxSelect={tx => setSelectedTxDetail(tx)}
               />
             )}
           </motion.div>
@@ -2323,8 +2378,17 @@ export function Dashboard() {
       </div>
 
       {/* FAB */}
-      <button
+      <motion.button
         onClick={openFAB}
+        whileTap={{ scale: 0.88 }}
+        animate={{
+          rotate: showNewTypeSheet ? 45 : 0,
+          background: showNewTypeSheet ? '#F55D3E' : '#4E886F',
+          boxShadow: showNewTypeSheet
+            ? '0 4px 20px rgba(245,93,62,0.45)'
+            : '0 4px 16px rgba(78,136,111,0.4)',
+        }}
+        transition={{ type: 'spring', stiffness: 320, damping: 22 }}
         style={{
           position: 'fixed',
           bottom: 88,
@@ -2343,10 +2407,10 @@ export function Dashboard() {
         }}
       >
         <Plus size={24} color="#fff" strokeWidth={2.5} />
-      </button>
+      </motion.button>
 
       {/* Bottom Nav */}
-      <BottomNav active={activeTab} onChange={setActiveTab} lang={lang} />
+      <BottomNav active={activeTab} onChange={switchTab} lang={lang} />
 
       {/* Create New type pre-selector */}
       <AnimatePresence>
@@ -2375,8 +2439,21 @@ export function Dashboard() {
                 </button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '0 20px' }}>
+                {/* Income entry */}
+                <button
+                  onClick={() => { setShowNewTypeSheet(false); openAddIncome(); }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', borderRadius: 16, background: 'rgba(33,91,68,0.08)', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+                >
+                  <span style={{ fontSize: 24 }}>💵</span>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: '#215B44', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{lang === 'sw' ? 'Mapato' : 'Income'}</p>
+                    <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Ingiza mshahara, biashara au mapato yoyote' : 'Log salary, business earnings or any income'}</p>
+                  </div>
+                  <ChevronRight size={16} color="#215B44" />
+                </button>
+                {/* Expense entries */}
                 {[
-                  { icon: '💰', label: lang === 'sw' ? 'Bajeti' : 'Budget', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: '#1A3D2E', bg: 'rgba(26,61,46,0.08)', category: undefined as string | undefined },
+                  { icon: '💰', label: lang === 'sw' ? 'Matumizi' : 'Expense', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: '#1A3D2E', bg: 'rgba(26,61,46,0.08)', category: undefined as string | undefined },
                   { icon: '🧾', label: lang === 'sw' ? 'Bili' : 'Bills', sub: lang === 'sw' ? 'Matumizi ya mara kwa mara kama kodi, stima' : 'Recurring expenses like rent, utility, etc.', color: '#FD8240', bg: 'rgba(253,130,64,0.08)', category: lang === 'sw' ? 'Malipo' : 'Bills' },
                   { icon: '📱', label: lang === 'sw' ? 'Usajili' : 'Subscription', sub: lang === 'sw' ? 'Matumizi ya kila mwezi kama Netflix, Spotify' : 'Recurring expenses like streaming, memberships', color: '#E05C7A', bg: 'rgba(224,92,122,0.08)', category: lang === 'sw' ? 'Burudani' : 'Entertainment' },
                 ].map(opt => (

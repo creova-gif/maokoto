@@ -62,3 +62,83 @@ body {
 * {
   scroll-behavior: smooth;
 }
+
+/* ── Maokoto Animation Library ─────────────────────────────────────────────── */
+
+/* Streak badge breathe */
+@keyframes mk-streak-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+
+/* Bell dot urgent ring */
+@keyframes mk-ring-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(245,93,62,0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(245,93,62,0);     }
+  100% { box-shadow: 0 0 0 0   rgba(245,93,62,0);     }
+}
+
+/* Full-screen view push-in from right */
+@keyframes mk-slide-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0);    }
+}
+
+/* Sheet/card pop up from bottom */
+@keyframes mk-slide-up {
+  from { transform: translateY(24px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Stagger-safe fade + lift */
+@keyframes mk-fade-up {
+  from { transform: translateY(10px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Success bounce */
+@keyframes mk-bounce-in {
+  0%   { transform: scale(0.6); opacity: 0; }
+  55%  { transform: scale(1.08); }
+  80%  { transform: scale(0.96); }
+  100% { transform: scale(1);    opacity: 1; }
+}
+
+/* Shimmer for skeleton loading */
+@keyframes mk-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Utility classes ──────────────────────────────────────────────────────── */
+.mk-streak-pulse  { animation: mk-streak-pulse 2.4s ease-in-out infinite; }
+
+.mk-ring-pulse    { animation: mk-ring-pulse   1.8s ease-in-out infinite; }
+
+.mk-slide-right {
+  animation: mk-slide-right 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.mk-slide-up {
+  animation: mk-slide-up 0.22s ease-out forwards;
+}
+
+/* Staggered list items — set --i as an inline CSS var for delay */
+.mk-fade-up {
+  opacity: 0;
+  animation: mk-fade-up 0.22s ease-out forwards;
+  animation-delay: calc(var(--i, 0) * 45ms);
+}
+
+.mk-bounce-in { animation: mk-bounce-in 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+.mk-shimmer {
+  background: linear-gradient(90deg, #F6F6F4 25%, #ECECEA 50%, #F6F6F4 75%);
+  background-size: 200% 100%;
+  animation: mk-shimmer 1.5s infinite;
+}
+
+/* Native-feel button press (supplements Framer whileTap) */
+@media (hover: none) {
+  button:active { opacity: 0.75; }
+}
