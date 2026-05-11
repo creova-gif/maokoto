@@ -2160,35 +2160,35 @@ export function Dashboard() {
   // Full-screen overlays
   if (showSettings) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
         <SettingsView onBack={() => setShowSettings(false)} />
       </div>
     );
   }
   if (showInsights) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
         <InsightsView onBack={() => setShowInsights(false)} />
       </div>
     );
   }
   if (showHistory) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
         <HistoryView onBack={() => setShowHistory(false)} />
       </div>
     );
   }
   if (showGoalsView) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#fff' }}>
         <GoalsView onBack={() => setShowGoalsView(false)} />
       </div>
     );
   }
   if (selectedCategory) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#F6F6F4' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
         <BudgetCategoryView category={selectedCategory} onBack={() => setSelectedCategory(null)} />
       </div>
     );
@@ -2197,7 +2197,7 @@ export function Dashboard() {
     const goal = state.goals.find(g => g.id === selectedGoalId);
     if (goal) {
       return (
-        <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#F6F6F4' }}>
+        <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
           <GoalDetailView goal={goal} onBack={() => setSelectedGoalId(null)} />
         </div>
       );
@@ -2205,7 +2205,7 @@ export function Dashboard() {
   }
   if (investView) {
     return (
-      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#F6F6F4' }}>
+      <div style={{ width: '100%', maxWidth: 448, height: '100%', overflowY: 'auto', background: '#F6F6F4' }}>
         <InvestDetailView
           initialView={investView.view}
           portfolioName={investView.name}
