@@ -172,7 +172,7 @@ export function AppLock({ mode, storedPin = '', onUnlocked, onPinSet, onCancel }
         </motion.div>
 
         {/* Brand */}
-        <p className="text-white/40 text-xs tracking-[0.25em] uppercase mb-1">PesaPlan</p>
+        <p className="text-white/40 text-xs tracking-[0.25em] uppercase mb-1">Maokoto</p>
 
         {/* Title */}
         <motion.h1

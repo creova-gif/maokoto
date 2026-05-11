@@ -1,5 +1,5 @@
 /**
- * PesaPlan Translation Bridge
+ * Maokoto Translation Bridge
  *
  * i18n.ts is the single source of truth for all translation strings.
  * This module re-exports the `t(key, lang)` function so components

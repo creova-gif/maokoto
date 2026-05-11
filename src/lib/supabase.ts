@@ -20,7 +20,7 @@ export const isSupabaseEnabled = !!supabase;
  * Falls back to a locally-generated UUID when Supabase is disabled.
  */
 export async function getOrCreateUserId(): Promise<string> {
-  const LOCAL_KEY = 'pesaplan_anon_id';
+  const LOCAL_KEY = 'maokoto_anon_id';
 
   if (!supabase) {
     let id = localStorage.getItem(LOCAL_KEY);

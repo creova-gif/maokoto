@@ -8,28 +8,15 @@ interface OnboardingFlowProps {
   onComplete: () => void;
 }
 
-// ── Subtle dot-grid background ─────────────────────────────────────────────
-function BackgroundPattern() {
-  return (
-    <div
-      className="absolute inset-0 pointer-events-none"
-      style={{
-        backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px)',
-        backgroundSize: '28px 28px',
-      }}
-    />
-  );
-}
-
-// ── Thin progress bar ──────────────────────────────────────────────────────
+// ── Progress bar ───────────────────────────────────────────────────────────
 function ProgressBar({ total, current }: { total: number; current: number }) {
   return (
     <div className="flex gap-1.5 items-center flex-1">
       {Array.from({ length: total }).map((_, i) => (
         <motion.div
           key={i}
-          className="h-[2px] rounded-full flex-1"
-          animate={{ backgroundColor: i <= current ? '#16a34a' : 'rgba(255,255,255,0.15)' }}
+          className="h-[3px] rounded-full flex-1"
+          animate={{ backgroundColor: i <= current ? '#FD8240' : '#F4F4F2' }}
           transition={{ duration: 0.25 }}
         />
       ))}
@@ -44,23 +31,31 @@ const SLIDE_VARIANTS = {
   exit: (dir: number) => ({ x: dir > 0 ? -60 : 60, opacity: 0 }),
 };
 
-// ── Unified card style helpers ─────────────────────────────────────────────
-const cardBase = 'relative overflow-hidden rounded-2xl text-left transition-colors duration-200';
-const cardIdle = 'bg-white/[0.06] border border-white/[0.10]';
-const cardOn   = 'bg-green-600/[0.14] border border-green-500/[0.55]';
+// ── Card style helpers ─────────────────────────────────────────────────────
+const cardBase = 'relative overflow-hidden rounded-2xl text-left transition-all duration-200 cursor-pointer';
+const cardIdle = 'bg-white border border-[#F4F4F2]';
+const cardOn   = 'bg-white border-2 border-[#FD8240]';
 
 // ── App icon ───────────────────────────────────────────────────────────────
 function AppIcon() {
   return (
     <div
-      className="w-[76px] h-[76px] rounded-[22px] flex items-center justify-center"
-      style={{ background: '#16a34a', boxShadow: '0 20px 50px rgba(22,163,74,0.35)' }}
+      style={{
+        width: 80,
+        height: 80,
+        borderRadius: 24,
+        background: '#4E886F',
+        boxShadow: '0 20px 50px rgba(78,136,111,0.35)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-        <circle cx="19" cy="16" r="9" stroke="white" strokeWidth="2.5" />
-        <path d="M16 16h6M19 13v6" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-        <path d="M19 25v8M15 30l4 3 4-3"
-          stroke="rgba(255,255,255,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <path d="M20 8C13.373 8 8 13.373 8 20s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8z" stroke="white" strokeWidth="2.2" />
+        <path d="M20 14v6l4 2" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M15 28h10" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
+        <path d="M20 28v4" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
       </svg>
     </div>
   );
@@ -87,13 +82,13 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
   ];
 
   return (
-    <div className="flex flex-col h-full px-6 pt-16 pb-10">
-      <div className="flex-1 flex flex-col items-center justify-center">
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '64px 24px 40px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 200, damping: 18, delay: 0.05 }}
-          className="mb-7"
+          style={{ marginBottom: 24 }}
         >
           <AppIcon />
         </motion.div>
@@ -102,61 +97,108 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-5xl font-black text-white tracking-tight text-center mb-2"
+          style={{
+            fontSize: 40,
+            fontWeight: 700,
+            color: '#4D4845',
+            fontFamily: 'Geist, sans-serif',
+            textAlign: 'center',
+            marginBottom: 8,
+            letterSpacing: '-0.02em',
+          }}
         >
-          PesaPlan
+          Maokoto
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
-          className="text-white text-sm text-center mb-10 leading-relaxed"
-          style={{ maxWidth: 230 }}
+          style={{
+            color: '#928F8B',
+            fontSize: 15,
+            textAlign: 'center',
+            marginBottom: 36,
+            fontFamily: 'Geist, sans-serif',
+            maxWidth: 240,
+            lineHeight: 1.5,
+          }}
         >
-          {lang === 'sw' ? 'Dhibiti pesa zako, usiogope' : 'Control your money, not fear it'}
+          {lang === 'sw' ? 'Dhibiti pesa zako, usiogope' : 'Control your money, without fear'}
         </motion.p>
 
-        <div className="w-full max-w-sm space-y-2.5">
+        <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 10 }}>
           {features.map((f, i) => (
             <motion.div
               key={f.en}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.35 + i * 0.1, type: 'spring', stiffness: 300, damping: 26 }}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl"
-              style={{ background: 'rgba(255,255,255,0.06)' }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '12px 16px',
+                borderRadius: 14,
+                background: '#F6F6F4',
+                border: '1px solid #F4F4F2',
+              }}
             >
-              <span className="text-xl shrink-0">{f.icon}</span>
-              <div className="flex-1">
-                <p className="text-white text-sm font-semibold leading-tight">{lang === 'sw' ? f.sw : f.en}</p>
-                <p className="text-white/40 text-xs mt-0.5">{lang === 'sw' ? f.subSw : f.subEn}</p>
+              <span style={{ fontSize: 20, flexShrink: 0 }}>{f.icon}</span>
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                  {lang === 'sw' ? f.sw : f.en}
+                </p>
+                <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>
+                  {lang === 'sw' ? f.subSw : f.subEn}
+                </p>
               </div>
-              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(22,163,74,0.25)' }}>
-                <Check className="w-3 h-3 text-green-400" strokeWidth={2.5} />
+              <div
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: '50%',
+                  background: 'rgba(78,136,111,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                <Check style={{ width: 12, height: 12, color: '#4E886F' }} strokeWidth={2.5} />
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
-      <div className="w-full max-w-sm mx-auto mt-8">
+      <div style={{ width: '100%', maxWidth: 340, margin: '32px auto 0' }}>
         <motion.button
           onClick={onNext}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7 }}
           whileTap={{ scale: 0.97 }}
-          className="w-full text-white rounded-2xl py-4 font-bold text-base transition-colors"
-          style={{ background: '#16a34a' }}
+          style={{
+            width: '100%',
+            background: '#FD8240',
+            color: '#fff',
+            borderRadius: 999,
+            padding: '16px 0',
+            fontWeight: 600,
+            fontSize: 16,
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: 'Geist, sans-serif',
+          }}
         >
           {lang === 'sw' ? 'Anza Sasa' : 'Get Started'}
         </motion.button>
         <motion.p
           initial={{ opacity: 0 }}
-          animate={{ opacity: 0.28 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
-          className="text-white text-center text-xs mt-3"
+          style={{ color: '#928F8B', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
         >
           {lang === 'sw' ? 'Bila malipo · Bila matangazo · Bila mtandao' : 'Free · No ads · Works offline'}
         </motion.p>
@@ -177,20 +219,21 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
   const options = [
     { code: 'sw' as Language, name: 'Kiswahili', flag: '🇹🇿', sub: 'Lugha ya kwanza ya Afrika Mashariki' },
     { code: 'en' as Language, name: 'English',   flag: '🇬🇧', sub: 'International language' },
+    { code: 'fr' as Language, name: 'Français',  flag: '🇫🇷', sub: 'Pour les francophones' },
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center h-full px-6">
-      <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 0.45, y: 0 }}
-        className="text-white text-sm text-center mb-2">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '0 24px' }}>
+      <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
         Choose your language
       </motion.p>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-        className="text-3xl font-black text-white text-center mb-8">
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 28, fontFamily: 'Geist, sans-serif' }}>
         Habari? / Hello!
       </motion.h2>
 
-      <div className="w-full max-w-sm space-y-3">
+      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 10 }}>
         {options.map((l, i) => {
           const isSelected = picked === l.code;
           return (
@@ -201,21 +244,20 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.08 }}
               whileTap={{ scale: 0.98 }}
-              className={`${cardBase} w-full ${isSelected ? cardOn : cardIdle}`}
-              style={{ minHeight: 88 }}
+              className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
+              style={{ width: '100%', minHeight: 80 }}
             >
-              <div className="flex items-center gap-4 px-5 py-5">
-                <span className="text-4xl shrink-0">{l.flag}</span>
-                <div className="flex-1">
-                  <p className="text-white font-bold text-lg leading-tight">{l.name}</p>
-                  <p className="text-white/40 text-xs mt-0.5">{l.sub}</p>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 20px' }}>
+                <span style={{ fontSize: 32, flexShrink: 0 }}>{l.flag}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 17, fontWeight: 600, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{l.name}</p>
+                  <p style={{ fontSize: 12, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>{l.sub}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      className="w-6 h-6 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: '#16a34a' }}>
-                      <Check className="w-3.5 h-3.5 text-white" strokeWidth={2.5} />
+                      style={{ width: 24, height: 24, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Check style={{ width: 13, height: 13, color: '#fff' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -236,22 +278,22 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
   const displayName = name.trim() || (lang === 'sw' ? 'Rafiki' : 'Friend');
 
   return (
-    <div className="flex flex-col items-center h-full px-6 pt-10 pb-6">
-      <div className="flex-1 flex flex-col items-center justify-center w-full max-w-sm">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '40px 24px 24px' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', maxWidth: 340 }}>
         <motion.div
           animate={{ rotate: [0, 15, -10, 15, 0] }}
           transition={{ delay: 0.2, duration: 1.2 }}
-          className="text-5xl mb-6"
+          style={{ fontSize: 48, marginBottom: 24 }}
         >
           👋
         </motion.div>
 
         <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          className="text-3xl font-black text-white text-center mb-1">
+          style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Jina lako ni nani?' : "What's your name?"}
         </motion.h2>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 0.1 }}
-          className="text-white text-sm text-center mb-7">
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+          style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 28, fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Tunataka kukusalimu vizuri' : "We'd love to greet you personally"}
         </motion.p>
 
@@ -259,7 +301,7 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           <motion.p key={displayName}
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
-            className="text-xl font-bold mb-6 text-center" style={{ color: '#4ade80' }}>
+            style={{ fontSize: 20, fontWeight: 600, color: '#4E886F', marginBottom: 24, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? `Karibu, ${displayName}!` : `Hi, ${displayName}!`}
           </motion.p>
         </AnimatePresence>
@@ -272,12 +314,24 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           onKeyDown={e => { if (e.key === 'Enter' && name.trim()) onNext(name.trim()); }}
           maxLength={30}
           placeholder={lang === 'sw' ? 'Andika jina lako...' : 'Type your name...'}
-          className="w-full text-center text-xl font-semibold bg-white/[0.07] border border-white/[0.14] text-white rounded-2xl px-5 py-4 outline-none placeholder:text-white/40 transition-colors"
-          style={{ '--tw-ring-color': '#16a34a' } as React.CSSProperties}
-          onFocus={e => (e.target.style.borderColor = 'rgba(22,163,74,0.7)')}
-          onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.14)')}
+          style={{
+            width: '100%',
+            textAlign: 'center',
+            fontSize: 20,
+            fontWeight: 600,
+            background: '#F6F6F4',
+            border: '1.5px solid #F4F4F2',
+            color: '#4D4845',
+            borderRadius: 16,
+            padding: '14px 20px',
+            outline: 'none',
+            fontFamily: 'Geist, sans-serif',
+            boxSizing: 'border-box',
+          }}
+          onFocus={e => (e.target.style.borderColor = '#FD8240')}
+          onBlur={e => (e.target.style.borderColor = '#F4F4F2')}
         />
-        <p className="text-white/55 text-xs mt-2 text-center">
+        <p style={{ color: '#928F8B', fontSize: 12, marginTop: 8, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Au bonyeza Endelea bila jina' : 'Or continue without a name'}
         </p>
       </div>
@@ -286,8 +340,19 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
         onClick={() => onNext(name.trim())}
         initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
         whileTap={{ scale: 0.97 }}
-        className="w-full max-w-sm text-white rounded-2xl py-4 font-bold text-base transition-colors"
-        style={{ background: '#16a34a' }}>
+        style={{
+          width: '100%',
+          maxWidth: 340,
+          background: '#FD8240',
+          color: '#fff',
+          borderRadius: 999,
+          padding: '16px 0',
+          fontWeight: 600,
+          fontSize: 16,
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: 'Geist, sans-serif',
+        }}>
         {lang === 'sw' ? 'Endelea' : 'Continue'}
       </motion.button>
     </div>
@@ -308,17 +373,17 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
   };
 
   return (
-    <div className="flex flex-col items-center h-full px-6 pt-8 pb-6">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-black text-white text-center mb-1">
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Uko wapi?' : 'Where are you?'}
       </motion.h2>
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 0.1 }}
-        className="text-white text-sm text-center mb-6">
+      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Tutapanga sarafu sahihi kwa nchi yako' : "We'll set the right currency for your country"}
       </motion.p>
 
-      <div className="w-full max-w-sm flex flex-col gap-2.5">
+      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8 }}>
         {REGIONS.map(({ code }, i) => {
           const cfg = REGION_CONFIG[code];
           const isSelected = picked === code;
@@ -326,20 +391,19 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
             <motion.button key={code} onClick={() => handle(code)}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.06 }} whileTap={{ scale: 0.98 }}
-              className={`${cardBase} w-full ${isSelected ? cardOn : cardIdle}`}
-              style={{ minHeight: 68 }}>
-              <div className="flex items-center gap-4 px-4 py-4">
-                <span className="text-3xl shrink-0">{cfg.flag}</span>
-                <div className="flex-1">
-                  <p className="text-white font-semibold text-base leading-tight">{lang === 'sw' ? cfg.nameSw : cfg.nameEn}</p>
-                  <p className="text-white/60 text-xs">{cfg.currency} · {cfg.symbol}</p>
+              className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
+              style={{ width: '100%', minHeight: 64 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 16px' }}>
+                <span style={{ fontSize: 28, flexShrink: 0 }}>{cfg.flag}</span>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 15, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? cfg.nameSw : cfg.nameEn}</p>
+                  <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{cfg.currency} · {cfg.symbol}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                      style={{ background: '#16a34a' }}>
-                      <Check className="w-3 h-3 text-white" strokeWidth={2.5} />
+                      style={{ width: 20, height: 20, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Check style={{ width: 11, height: 11, color: '#fff' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -374,17 +438,17 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
   };
 
   return (
-    <div className="flex flex-col items-center h-full px-6 pt-8 pb-6">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-black text-white text-center mb-1">
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Nani wewe?' : 'Who are you?'}
       </motion.h2>
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 0.1 }}
-        className="text-white text-sm text-center mb-6">
+      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Tunaboresha uzoefu wako' : 'We personalise your experience'}
       </motion.p>
 
-      <div className="w-full max-w-sm grid grid-cols-2 gap-2.5">
+      <div style={{ width: '100%', maxWidth: 340, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
         {USER_TYPES.map(({ type, emoji, en, sw: sw_, subEn, subSw }, i) => {
           const isLast = i === USER_TYPES.length - 1;
           const isSelected = picked === type;
@@ -393,19 +457,30 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
               initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.1 + i * 0.06 }} whileTap={{ scale: 0.96 }}
               className={`${cardBase} ${isLast ? 'col-span-2' : ''} ${isSelected ? cardOn : cardIdle}`}
-              style={{ minHeight: isLast ? 72 : 110 }}>
-              <div className={`flex ${isLast ? 'flex-row items-center gap-3 px-4 py-4' : 'flex-col justify-between p-4'} h-full relative`}>
-                <span className={`text-2xl ${isLast ? '' : 'mb-auto'}`}>{emoji}</span>
-                <div className={isLast ? 'flex-1' : 'mt-2'}>
-                  <p className="text-white font-semibold text-sm leading-tight">{lang === 'sw' ? sw_ : en}</p>
-                  <p className="text-white/60 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
+              style={{ minHeight: isLast ? 64 : 100 }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: isLast ? 'row' : 'column',
+                alignItems: isLast ? 'center' : 'flex-start',
+                gap: isLast ? 12 : 8,
+                padding: 16,
+                height: '100%',
+                position: 'relative',
+              }}>
+                <span style={{ fontSize: isLast ? 22 : 24 }}>{emoji}</span>
+                <div style={{ flex: isLast ? 1 : undefined, marginTop: isLast ? 0 : 'auto' }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                    {lang === 'sw' ? sw_ : en}
+                  </p>
+                  <p style={{ fontSize: 11, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
+                    {lang === 'sw' ? subSw : subEn}
+                  </p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full flex items-center justify-center"
-                      style={{ background: '#16a34a' }}>
-                      <Check className="w-3 h-3 text-white" strokeWidth={2.5} />
+                      style={{ position: 'absolute', top: 10, right: 10, width: 18, height: 18, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Check style={{ width: 10, height: 10, color: '#fff' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -439,35 +514,45 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
   };
 
   return (
-    <div className="flex flex-col items-center h-full px-6 pt-8 pb-6">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-black text-white text-center mb-1">
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Unapata pesa vipi?' : 'How do you earn?'}
       </motion.h2>
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 0.1 }}
-        className="text-white text-sm text-center mb-6">
+      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Hii inasaidia kutabiri mwenendo wa pesa' : 'Helps us forecast your cash flow'}
       </motion.p>
 
-      <div className="w-full max-w-sm flex flex-col gap-2.5">
+      <div style={{ width: '100%', maxWidth: 340, display: 'flex', flexDirection: 'column', gap: 8 }}>
         {FREQS.map(({ freq, emoji, en, sw: sw_, subEn, subSw, tagEn, tagSw }, i) => {
           const isSelected = picked === freq;
           return (
             <motion.button key={freq} onClick={() => handle(freq)}
               initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.07 }} whileTap={{ scale: 0.98 }}
-              className={`${cardBase} w-full ${isSelected ? cardOn : cardIdle}`}
-              style={{ minHeight: 76 }}>
-              <div className="flex items-center gap-3 px-4 py-4">
-                <span className="text-2xl shrink-0">{emoji}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-white font-semibold text-sm leading-tight">{lang === 'sw' ? sw_ : en}</p>
-                  <p className="text-white/60 text-xs mt-0.5">{lang === 'sw' ? subSw : subEn}</p>
+              className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
+              style={{ width: '100%', minHeight: 72 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px' }}>
+                <span style={{ fontSize: 22, flexShrink: 0 }}>{emoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                    {lang === 'sw' ? sw_ : en}
+                  </p>
+                  <p style={{ fontSize: 12, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
+                    {lang === 'sw' ? subSw : subEn}
+                  </p>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-xs font-medium shrink-0 transition-colors ${
-                  isSelected ? 'text-green-300' : 'bg-white/[0.07] text-white/60'
-                }`}
-                  style={isSelected ? { background: 'rgba(22,163,74,0.25)' } : {}}>
+                <span style={{
+                  padding: '4px 10px',
+                  borderRadius: 999,
+                  fontSize: 11,
+                  fontWeight: 500,
+                  flexShrink: 0,
+                  background: isSelected ? 'rgba(253,130,64,0.12)' : '#F6F6F4',
+                  color: isSelected ? '#FD8240' : '#928F8B',
+                  fontFamily: 'Geist, sans-serif',
+                }}>
                   {lang === 'sw' ? tagSw : tagEn}
                 </span>
               </div>
@@ -528,35 +613,34 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
   const fmt = (n: number) => `${cfg.symbol} ${n.toLocaleString()}`;
 
   return (
-    <div className="flex flex-col items-center h-full px-6 pt-8 pb-6">
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-black text-white text-center mb-1">
+        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Lengo lako la kwanza' : 'Your first goal'}
       </motion.h2>
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 0.45 }} transition={{ delay: 0.1 }}
-        className="text-white text-sm text-center mb-5">
+      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
+        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Tuanze safari ya kuokoa!' : "Let's start your savings journey!"}
       </motion.p>
 
-      <div className="w-full max-w-sm grid grid-cols-3 gap-2 mb-4">
+      <div style={{ width: '100%', maxWidth: 340, display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 16 }}>
         {GOAL_OPTIONS.map(({ id, emoji, en, sw: sw_ }, i) => {
           const isSelected = goalId === id;
           return (
             <motion.button key={id} onClick={() => handlePick(id)}
               initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.08 + i * 0.05 }} whileTap={{ scale: 0.94 }}
-              className={`${cardBase} flex flex-col items-center py-4 px-2 gap-2 ${isSelected ? cardOn : cardIdle}`}
-              style={{ minHeight: 82 }}>
-              <span className="text-2xl">{emoji}</span>
-              <p className={`text-[10px] font-semibold text-center leading-tight ${isSelected ? 'text-white' : 'text-white/40'}`}>
+              className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '14px 8px', gap: 6, minHeight: 80, position: 'relative' }}>
+              <span style={{ fontSize: 22 }}>{emoji}</span>
+              <p style={{ fontSize: 10, fontWeight: 500, color: isSelected ? '#FD8240' : '#928F8B', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
                 {lang === 'sw' ? sw_ : en}
               </p>
               <AnimatePresence>
                 {isSelected && (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                    className="absolute top-1.5 right-1.5 w-4 h-4 rounded-full flex items-center justify-center"
-                    style={{ background: '#16a34a' }}>
-                    <Check className="w-2.5 h-2.5 text-white" strokeWidth={2.5} />
+                    style={{ position: 'absolute', top: 6, right: 6, width: 14, height: 14, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Check style={{ width: 8, height: 8, color: '#fff' }} strokeWidth={2.5} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -565,62 +649,86 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
         })}
       </div>
 
-      <AnimatePresence>
-        {goalId && (
-          <motion.div
-            initial={{ opacity: 0, y: 16, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }} transition={{ type: 'spring', stiffness: 280, damping: 30 }}
-            className="w-full max-w-sm overflow-hidden space-y-2.5">
-            {goalId === 'custom' && (
-              <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
-                placeholder={lang === 'sw' ? 'Jina la lengo lako...' : 'Name your goal...'}
-                className="w-full bg-white/[0.07] border border-white/[0.12] text-white rounded-2xl px-4 py-3.5 text-sm outline-none placeholder:text-white/45 transition-colors"
-                onFocus={e => (e.target.style.borderColor = 'rgba(22,163,74,0.6)')}
-                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.12)')}
-              />
-            )}
-
-            <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.10)' }}>
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-white/40 text-xs font-medium uppercase tracking-wider">
-                  {lang === 'sw' ? 'Kiasi cha lengo' : 'Target amount'}
-                </p>
-                {goalId !== 'custom' && defaults[goalId] && (
-                  <span className="text-xs" style={{ color: '#4ade80' }}>
-                    {lang === 'sw' ? 'Pendekezo:' : 'Suggested:'} {fmt(defaults[goalId])}
-                  </span>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-white/60 text-base font-semibold">{cfg.symbol}</span>
-                <input type="number" inputMode="numeric" value={amount}
-                  onChange={e => { setAmount(e.target.value); setError(''); }}
-                  placeholder="0"
-                  className="flex-1 bg-transparent text-white text-2xl font-bold outline-none placeholder:text-white/40"
+      <div style={{ width: '100%', maxWidth: 340 }}>
+        <AnimatePresence>
+          {goalId && (
+            <motion.div
+              initial={{ opacity: 0, y: 16, height: 0 }} animate={{ opacity: 1, y: 0, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }} transition={{ type: 'spring', stiffness: 280, damping: 30 }}
+              style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 12 }}>
+              {goalId === 'custom' && (
+                <input type="text" value={customName} onChange={e => setCustomName(e.target.value)}
+                  placeholder={lang === 'sw' ? 'Jina la lengo lako...' : 'Name your goal...'}
+                  style={{
+                    width: '100%',
+                    background: '#F6F6F4',
+                    border: '1.5px solid #F4F4F2',
+                    color: '#4D4845',
+                    borderRadius: 14,
+                    padding: '12px 16px',
+                    fontSize: 14,
+                    outline: 'none',
+                    fontFamily: 'Geist, sans-serif',
+                    boxSizing: 'border-box',
+                  }}
+                  onFocus={e => (e.target.style.borderColor = '#FD8240')}
+                  onBlur={e => (e.target.style.borderColor = '#F4F4F2')}
                 />
+              )}
+
+              <div style={{ borderRadius: 14, padding: 16, background: '#F6F6F4', border: '1px solid #F4F4F2' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
+                  <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
+                    {lang === 'sw' ? 'Kiasi cha lengo' : 'Target amount'}
+                  </p>
+                  {goalId !== 'custom' && defaults[goalId] && (
+                    <span style={{ fontSize: 11, color: '#4E886F', fontFamily: 'Geist, sans-serif' }}>
+                      {lang === 'sw' ? 'Pendekezo:' : 'Suggested:'} {fmt(defaults[goalId])}
+                    </span>
+                  )}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ color: '#928F8B', fontSize: 16, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
+                  <input type="number" inputMode="numeric" value={amount}
+                    onChange={e => { setAmount(e.target.value); setError(''); }}
+                    placeholder="0"
+                    style={{ flex: 1, background: 'transparent', color: '#4D4845', fontSize: 24, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
+                  />
+                </div>
               </div>
-            </div>
 
-            {error && (
-              <motion.p initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-                className="text-red-400 text-xs px-1">
-                {error}
-              </motion.p>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+              {error && (
+                <motion.p initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                  style={{ color: '#C9362B', fontSize: 12, paddingLeft: 4, fontFamily: 'Geist, sans-serif' }}>
+                  {error}
+                </motion.p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-      <div className="w-full max-w-sm mt-4 space-y-2">
-        <motion.button onClick={handleSubmit} whileTap={{ scale: 0.97 }} disabled={!goalId}
-          className="w-full text-white rounded-2xl py-4 font-bold text-base disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
-          style={{ background: '#16a34a' }}>
-          {lang === 'sw' ? 'Anza Kuokoa' : 'Start Saving'}
-        </motion.button>
-        <button onClick={() => onDone(lang === 'sw' ? 'Lengo Langu' : 'My Goal', 10000)}
-          className="w-full text-white/60 text-sm py-2">
-          {lang === 'sw' ? 'Ruka kwa sasa' : 'Skip for now'}
-        </button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <motion.button onClick={handleSubmit} whileTap={{ scale: 0.97 }} disabled={!goalId}
+            style={{
+              width: '100%',
+              background: goalId ? '#FD8240' : '#F4F4F2',
+              color: goalId ? '#fff' : '#928F8B',
+              borderRadius: 999,
+              padding: '16px 0',
+              fontWeight: 600,
+              fontSize: 16,
+              border: 'none',
+              cursor: goalId ? 'pointer' : 'not-allowed',
+              fontFamily: 'Geist, sans-serif',
+              transition: 'all 0.2s',
+            }}>
+            {lang === 'sw' ? 'Anza Kuokoa' : 'Start Saving'}
+          </motion.button>
+          <button onClick={() => onDone(lang === 'sw' ? 'Lengo Langu' : 'My Goal', 10000)}
+            style={{ background: 'none', border: 'none', color: '#928F8B', fontSize: 14, padding: '8px 0', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
+            {lang === 'sw' ? 'Ruka kwa sasa' : 'Skip for now'}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -657,38 +765,52 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
   return (
     <div
-      className="relative h-screen overflow-hidden flex flex-col select-none"
-      style={{ background: '#030b05' }}
+      style={{
+        position: 'relative',
+        height: '100vh',
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+        background: '#fff',
+        userSelect: 'none',
+      }}
     >
-      <BackgroundPattern />
-
       {/* Top bar: back + progress */}
-      <div className="relative z-10 flex items-center gap-3 px-5 pt-safe-top" style={{ minHeight: 56 }}>
-        <div className="w-10 shrink-0">
+      <div style={{ position: 'relative', zIndex: 10, display: 'flex', alignItems: 'center', gap: 12, padding: '0 20px', minHeight: 56 }}>
+        <div style={{ width: 40, flexShrink: 0 }}>
           {showBack && (
             <motion.button
               key="back"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               onClick={() => go(step - 1)}
-              className="p-2 hover:bg-white/10 rounded-full transition"
+              style={{
+                padding: 8,
+                background: '#F6F6F4',
+                border: 'none',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <ChevronLeft className="w-5 h-5 text-white/60" />
+              <ChevronLeft style={{ width: 18, height: 18, color: '#4D4845' }} />
             </motion.button>
           )}
         </div>
 
         {showProgress && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ flex: 1 }}>
             <ProgressBar total={TOTAL_STEPS} current={progressStep} />
           </motion.div>
         )}
 
-        <div className="w-10 shrink-0" />
+        <div style={{ width: 40, flexShrink: 0 }} />
       </div>
 
       {/* Sliding content */}
-      <div className="relative z-10 flex-1 overflow-hidden">
+      <div style={{ position: 'relative', zIndex: 10, flex: 1, overflow: 'hidden' }}>
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={step}
@@ -698,7 +820,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             animate="center"
             exit="exit"
             transition={{ type: 'spring', stiffness: 340, damping: 34 }}
-            className="absolute inset-0 overflow-y-auto"
+            style={{ position: 'absolute', inset: 0, overflowY: 'auto' }}
           >
             {step === 0 && <WelcomeStep onNext={() => go(1)} lang={lang} />}
             {step === 1 && <LanguageStep onPick={handleLang} />}

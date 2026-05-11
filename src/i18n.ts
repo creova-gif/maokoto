@@ -1,5 +1,5 @@
 /**
- * PesaPlan i18n Engine — single source of truth for all translations.
+ * Maokoto i18n Engine — single source of truth for all translations.
  * Languages: English (en) · Kiswahili (sw) · Français (fr) · العربية (ar) · Português (pt).
  * Components call t(key, lang) from translations.ts (thin bridge to this file).
  */
@@ -225,7 +225,7 @@ const en = {
   restoredDone: 'Restored!',
   restoreBackupTitle: 'Restore Backup?',
   yesRestore: 'Yes, Restore',
-  invalidBackupFile: 'Invalid file — not a PesaPlan backup',
+  invalidBackupFile: 'Invalid file — not a Maokoto backup',
   invalidJSONFile: 'Invalid file — could not parse JSON',
   dataStoredDevice: 'All data saved on this device',
   connected: 'Connected!',
@@ -321,7 +321,7 @@ const en = {
   pinDisabled: 'PIN Disabled',
   disablePinLock: 'Disable PIN Lock?',
   pinRecoveryWarning: 'If you forget your PIN, you will need to clear all app data.',
-  appProtected: 'PesaPlan is protected',
+  appProtected: 'Maokoto is protected',
 
   // Challenges & Learning
   challenge30Day: '30-Day Savings Sprint',
@@ -577,7 +577,7 @@ const sw: typeof en = {
   restoredDone: 'Imerejesha!',
   restoreBackupTitle: 'Rejesha Nakala?',
   yesRestore: 'Ndio, Rejesha',
-  invalidBackupFile: 'Faili batili — si faili la PesaPlan',
+  invalidBackupFile: 'Faili batili — si faili la Maokoto',
   invalidJSONFile: 'Faili batili — JSON isiyo sahihi',
   dataStoredDevice: 'Data zote zimehifadhiwa kwenye kifaa',
   connected: 'Umeunganishwa!',
@@ -665,7 +665,7 @@ const sw: typeof en = {
   pinDisabled: 'PIN Imezimwa',
   disablePinLock: 'Zima Kufunga?',
   pinRecoveryWarning: 'Ukisahau PIN yako, itabidi ufute data yote ya programu.',
-  appProtected: 'PesaPlan imelindwa',
+  appProtected: 'Maokoto imelindwa',
 
   challenge30Day: 'Changamoto ya Siku 30',
   challengeEmergency: 'Sprint ya Mfuko wa Dharura',
@@ -916,7 +916,7 @@ const fr: typeof en = {
   restoredDone: 'Restauré !',
   restoreBackupTitle: 'Restaurer la sauvegarde ?',
   yesRestore: 'Oui, restaurer',
-  invalidBackupFile: 'Fichier invalide — pas une sauvegarde PesaPlan',
+  invalidBackupFile: 'Fichier invalide — pas une sauvegarde Maokoto',
   invalidJSONFile: 'Fichier invalide — JSON incorrect',
   dataStoredDevice: 'Données sauvegardées sur cet appareil',
   connected: 'Connecté !',
@@ -1004,7 +1004,7 @@ const fr: typeof en = {
   pinDisabled: 'PIN désactivé',
   disablePinLock: 'Désactiver le verrouillage PIN ?',
   pinRecoveryWarning: 'Si vous oubliez votre PIN, vous devrez effacer toutes les données.',
-  appProtected: 'PesaPlan est protégé',
+  appProtected: 'Maokoto est protégé',
 
   challenge30Day: "Sprint d'épargne 30 jours",
   challengeEmergency: "Sprint fonds d'urgence",
@@ -1255,7 +1255,7 @@ const ar: typeof en = {
   restoredDone: 'تمت الاستعادة!',
   restoreBackupTitle: 'استعادة النسخة الاحتياطية؟',
   yesRestore: 'نعم، استعد',
-  invalidBackupFile: 'ملف غير صالح — ليس نسخة PesaPlan',
+  invalidBackupFile: 'ملف غير صالح — ليس نسخة Maokoto',
   invalidJSONFile: 'ملف غير صالح — تعذر تحليل JSON',
   dataStoredDevice: 'جميع البيانات محفوظة على هذا الجهاز',
   connected: 'متصل!',
@@ -1343,7 +1343,7 @@ const ar: typeof en = {
   pinDisabled: 'PIN معطّل',
   disablePinLock: 'تعطيل قفل PIN؟',
   pinRecoveryWarning: 'إذا نسيت رمز PIN، ستحتاج إلى مسح جميع بيانات التطبيق.',
-  appProtected: 'PesaPlan محمي',
+  appProtected: 'Maokoto محمي',
 
   challenge30Day: 'تحدي ادخار 30 يوماً',
   challengeEmergency: 'تحدي صندوق الطوارئ',
@@ -1594,7 +1594,7 @@ const pt: typeof en = {
   restoredDone: 'Restaurado!',
   restoreBackupTitle: 'Restaurar backup?',
   yesRestore: 'Sim, restaurar',
-  invalidBackupFile: 'Arquivo inválido — não é um backup do PesaPlan',
+  invalidBackupFile: 'Arquivo inválido — não é um backup do Maokoto',
   invalidJSONFile: 'Arquivo inválido — não foi possível ler o JSON',
   dataStoredDevice: 'Todos os dados salvos neste dispositivo',
   connected: 'Conectado!',
@@ -1682,7 +1682,7 @@ const pt: typeof en = {
   pinDisabled: 'PIN desativado',
   disablePinLock: 'Desativar bloqueio PIN?',
   pinRecoveryWarning: 'Se esquecer o PIN, precisará apagar todos os dados do app.',
-  appProtected: 'PesaPlan está protegido',
+  appProtected: 'Maokoto está protegido',
 
   challenge30Day: 'Sprint de poupança 30 dias',
   challengeEmergency: 'Sprint fundo de emergência',

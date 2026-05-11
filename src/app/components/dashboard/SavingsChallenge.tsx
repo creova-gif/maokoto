@@ -276,7 +276,7 @@ export function SavingsChallenge() {
                   <span className="font-bold text-gray-800">{showStart.communityPct}%</span>{' '}
                   {lang === 'sw'
                     ? 'ya watumiaji wa PesaPlan wanaofanya changamoto hii wanafanikiwa.'
-                    : 'of PesaPlan users taking this challenge succeed.'}
+                    : 'of Maokoto users taking this challenge succeed.'}
                 </p>
               </div>
 

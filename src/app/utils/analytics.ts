@@ -1,5 +1,5 @@
 /**
- * PesaPlan Analytics & Crash Monitoring Service — Production-Ready
+ * Maokoto Analytics & Crash Monitoring Service — Production-Ready
  *
  * Mirrors Firebase Analytics + Crashlytics + Sentry API surface exactly.
  * Drop-in swap: replace console.debug bodies with real SDK calls.
@@ -69,7 +69,7 @@ interface CrashEntry {
 const SESSION_ID = Math.random().toString(36).slice(2, 10).toUpperCase();
 const SESSION_START = Date.now();
 const APP_VERSION = '1.0.0';
-const CRASH_STORAGE_KEY = 'pesaplan_crash_log_v1';
+const CRASH_STORAGE_KEY = 'maokoto_crash_log_v1';
 const eventLog: EventEntry[] = [];
 const crashLog: CrashEntry[] = [];
 
@@ -143,7 +143,7 @@ export const Analytics = {
     // crashlytics().log(`${event}: ${JSON.stringify(params)}`);
 
     if (import.meta.env.DEV) {
-      console.debug(`[PesaPlan Analytics] ${event}`, params);
+      console.debug(`[Maokoto Analytics] ${event}`, params);
     }
   },
 
@@ -170,7 +170,7 @@ export const Analytics = {
     this._recordCrash(error, context);
     // Production: Sentry.captureException(error, { extra: context });
     // Production: crashlytics().recordError(error);
-    console.error('[PesaPlan Crash]', error.message, context);
+    console.error('[Maokoto Crash]', error.message, context);
   },
 
   /** Internal crash recorder — also used by global error handler */
@@ -206,7 +206,7 @@ export const Analytics = {
     // Production: analytics().setUserProperty(key, value);
     // Production: crashlytics().setAttribute(key, value);
     if (import.meta.env.DEV) {
-      console.debug(`[PesaPlan Analytics] setUserProperty ${key}=${value}`);
+      console.debug(`[Maokoto Analytics] setUserProperty ${key}=${value}`);
     }
   },
 
@@ -221,7 +221,7 @@ export const Analytics = {
     // Production: crashlytics().setUserId(userId);
     // Production: analytics().setUserId(userId);
     if (import.meta.env.DEV) {
-      console.debug(`[PesaPlan Analytics] setUserId ${userId}`);
+      console.debug(`[Maokoto Analytics] setUserId ${userId}`);
     }
   },
 

@@ -221,7 +221,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.setAttribute('href', url);
-    link.setAttribute('download', `pesaplan_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', `maokoto_${new Date().toISOString().split('T')[0]}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -237,13 +237,13 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   };
 
   const handleExportJSON = () => {
-    const raw = localStorage.getItem('pesaplan_v1');
+    const raw = localStorage.getItem('maokoto_v1');
     if (!raw) return;
     const blob = new Blob([raw], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `pesaplan-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `maokoto-backup-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(a); a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
@@ -274,7 +274,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
   const confirmImport = () => {
     if (!pendingImport) return;
-    localStorage.setItem('pesaplan_v1', pendingImport);
+    localStorage.setItem('maokoto_v1', pendingImport);
     Analytics.logEvent('data_imported_json');
     window.location.reload();
   };
@@ -635,7 +635,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
           <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${avatarColor} flex items-center justify-center text-2xl mx-auto mb-2`}>
             💰
           </div>
-          <p className="font-bold text-gray-900">PesaPlan v1.0.0</p>
+          <p className="font-bold text-gray-900">Maokoto v1.0.0</p>
           <p className="text-xs text-gray-400 mt-0.5">{lang === 'sw' ? 'Imetengenezwa kwa East Africa 🌍' : 'Made for East Africa 🌍'}</p>
           <button
             onClick={() => setShowLegal(true)}

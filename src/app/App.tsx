@@ -10,7 +10,7 @@ import { schedulePush, pullIfNewer, deleteCloudData } from '@/lib/cloudSync';
 export type { Region };
 
 // Types
-export type Language = 'sw' | 'en';
+export type Language = 'en' | 'sw' | 'fr' | 'ar' | 'pt';
 export type UserType = 'student' | 'biashara' | 'informal' | 'family' | 'other';
 export type IncomeFrequency = 'daily' | 'weekly' | 'monthly' | 'irregular';
 export type PaymentSource = 'cash' | 'mpesa' | 'airtel' | 'tigo' | 'bank' | 'loan';
@@ -147,7 +147,13 @@ const defaultState: AppState = {
 
 function loadPersistedState(): AppState {
   try {
-    const saved = localStorage.getItem('pesaplan_v1');
+    // Migrate from old key if needed
+    const legacy = localStorage.getItem('pesaplan_v1');
+    if (legacy && !localStorage.getItem('maokoto_v1')) {
+      localStorage.setItem('maokoto_v1', legacy);
+      localStorage.removeItem('pesaplan_v1');
+    }
+    const saved = localStorage.getItem('maokoto_v1');
     if (saved) {
       const parsed = JSON.parse(saved);
       return {
@@ -167,12 +173,18 @@ function loadPersistedState(): AppState {
 
 // ── PIN Security: per-install salt + 10k-round stretch ───────────────────────
 function getInstallSalt(): string {
-  let salt = localStorage.getItem('pesaplan_salt_v2');
+  // Migrate salt key if needed
+  const legacySalt = localStorage.getItem('pesaplan_salt_v2');
+  if (legacySalt && !localStorage.getItem('maokoto_salt_v2')) {
+    localStorage.setItem('maokoto_salt_v2', legacySalt);
+    localStorage.removeItem('pesaplan_salt_v2');
+  }
+  let salt = localStorage.getItem('maokoto_salt_v2');
   if (!salt) {
     const arr = new Uint8Array(16);
     crypto.getRandomValues(arr);
     salt = Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
-    localStorage.setItem('pesaplan_salt_v2', salt);
+    localStorage.setItem('maokoto_salt_v2', salt);
   }
   return salt;
 }
@@ -228,7 +240,7 @@ function AppProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const json = JSON.stringify(state);
-      localStorage.setItem('pesaplan_v1', json);
+      localStorage.setItem('maokoto_v1', json);
       schedulePush(json);
     } catch (e) {
       console.error('Failed to persist state', e);
@@ -395,7 +407,8 @@ function AppProvider({ children }: { children: ReactNode }) {
 
   const clearAllData = () => {
     try {
-      localStorage.removeItem('pesaplan_v1');
+      localStorage.removeItem('maokoto_v1');
+      localStorage.removeItem('pesaplan_v1'); // legacy key cleanup
     } catch (e) {}
     deleteCloudData(); // fire-and-forget
     Analytics.clearCrashLog();

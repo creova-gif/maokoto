@@ -68,7 +68,7 @@ export class ErrorBoundary extends Component<Props, State> {
             Anza Upya / Hard Reset
           </button>
 
-          <p className="text-xs text-gray-300 mt-4">PesaPlan v1.0.0 · support@pesaplan.tz</p>
+          <p className="text-xs text-gray-300 mt-4">Maokoto v1.0.0 · hello@maokoto.app</p>
         </motion.div>
       </div>
     );

@@ -195,8 +195,8 @@ export function AIAssistant() {
       setOpen(true);
       setMessages(prev => prev.length === 0 ? initMessages() : prev);
     };
-    window.addEventListener('pesaplan:open-ai', handler);
-    return () => window.removeEventListener('pesaplan:open-ai', handler);
+    window.addEventListener('maokoto:open-ai', handler);
+    return () => window.removeEventListener('maokoto:open-ai', handler);
   }, [lang]);
 
   const sendMessage = (text: string) => {

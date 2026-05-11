@@ -14,8 +14,8 @@
 
 import { supabase, isSupabaseEnabled, getOrCreateUserId } from './supabase';
 
-const LOCAL_KEY = 'pesaplan_v1';
-const SYNC_META_KEY = 'pesaplan_sync_meta';
+const LOCAL_KEY = 'maokoto_v1';
+const SYNC_META_KEY = 'maokoto_sync_meta';
 
 interface SyncMeta {
   lastSyncedAt: string; // ISO timestamp of last successful push
