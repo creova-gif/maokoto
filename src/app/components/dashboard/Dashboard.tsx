@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, ResponsiveContainer, Tooltip,
+  LineChart, Line, YAxis, CartesianGrid,
 } from 'recharts';
 import { useApp } from '@/app/App';
 import { t } from '@/app/utils/translations';
@@ -31,6 +32,11 @@ import { FinancialEducation } from './FinancialEducation';
 import { FinancialHealthScore } from './FinancialHealthScore';
 import { SpendingHeatmap } from './SpendingHeatmap';
 import { CashflowForecast } from './CashflowForecast';
+import { InsightOfDay } from './InsightOfDay';
+import { SmartBudgetBuilder } from './SmartBudgetBuilder';
+import { BudgetHealthBars } from './BudgetHealthBars';
+import { LocalBenchmarks } from './LocalBenchmarks';
+import { GrowthShareCard } from './GrowthShareCard';
 import type { Transaction } from '@/app/App';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -243,17 +249,17 @@ function TopNav({
 }
 
 // ─── Bottom Navigation ────────────────────────────────────────────────────────
+type NavLabel = Record<import('@/app/App').Language, string>;
 const NAV_ITEMS: {
   id: ActiveTab;
   Icon: React.ComponentType<{ size?: number; strokeWidth?: number; color?: string }>;
-  en: string;
-  sw: string;
+  labels: NavLabel;
 }[] = [
-  { id: 'home',    Icon: Home,     en: 'Home',    sw: 'Nyumbani' },
-  { id: 'budget',  Icon: PieChart, en: 'Budget',  sw: 'Bajeti'   },
-  { id: 'savings', Icon: Layers,   en: 'Savings', sw: 'Akiba'    },
-  { id: 'invest',  Icon: Sprout,   en: 'Invest',  sw: 'Wekeza'   },
-  { id: 'wallet',  Icon: Wallet,   en: 'Wallet',  sw: 'Mkoba'    },
+  { id: 'home',    Icon: Home,     labels: { en: 'Home',      sw: 'Nyumbani', fr: 'Accueil',   ar: 'الرئيسية', pt: 'Início'   } },
+  { id: 'budget',  Icon: PieChart, labels: { en: 'Budget',    sw: 'Bajeti',   fr: 'Budget',    ar: 'الميزانية', pt: 'Orçamento' } },
+  { id: 'savings', Icon: Layers,   labels: { en: 'Savings',   sw: 'Akiba',    fr: 'Épargne',   ar: 'المدخرات',  pt: 'Poupança' } },
+  { id: 'invest',  Icon: Sprout,   labels: { en: 'Invest',    sw: 'Wekeza',   fr: 'Investir',  ar: 'استثمار',   pt: 'Investir' } },
+  { id: 'wallet',  Icon: Wallet,   labels: { en: 'Wallet',    sw: 'Mkoba',    fr: 'Portefeuille', ar: 'محفظة',  pt: 'Carteira' } },
 ];
 
 function BottomNav({
@@ -263,7 +269,7 @@ function BottomNav({
 }: {
   active: ActiveTab;
   onChange: (t: ActiveTab) => void;
-  lang: 'en' | 'sw';
+  lang: import('@/app/App').Language;
 }) {
   return (
     <div
@@ -284,7 +290,7 @@ function BottomNav({
           padding: '8px 8px',
         }}
       >
-        {NAV_ITEMS.map(({ id, Icon, en, sw }) => {
+        {NAV_ITEMS.map(({ id, Icon, labels }) => {
           const isActive = active === id;
           const color = isActive ? '#4D4845' : '#A6A4A0';
           return (
@@ -311,7 +317,7 @@ function BottomNav({
                   fontFamily: 'Geist, sans-serif',
                 }}
               >
-                {lang === 'sw' ? sw : en}
+                {labels[lang] ?? labels.en}
               </span>
             </button>
           );
@@ -326,10 +332,14 @@ function HomeTab({
   onAddIncome,
   onAddExpense,
   onSettings,
+  onInsights,
+  onHistory,
 }: {
   onAddIncome: () => void;
   onAddExpense: () => void;
   onSettings: () => void;
+  onInsights: () => void;
+  onHistory: () => void;
 }) {
   const { state, deleteTransaction, updateGoal } = useApp();
   const { language: lang, transactions, goals, streak } = state;
@@ -398,6 +408,9 @@ function HomeTab({
         )}
       </div>
 
+      {/* Insight of the day */}
+      <InsightOfDay />
+
       {/* Balance card */}
       <MkCard>
         <div style={{ padding: 20 }}>
@@ -410,10 +423,13 @@ function HomeTab({
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <Pill label={lang === 'sw' ? 'Ingiza' : 'Fund'} onClick={onAddIncome} />
             <Pill label={lang === 'sw' ? 'Tuma' : 'Send'} onClick={onAddExpense} />
-            <Pill label={lang === 'sw' ? 'Ripoti' : 'Report'} onClick={onSettings} />
+            <Pill label={lang === 'sw' ? 'Maarifa' : lang === 'fr' ? 'Insights' : lang === 'ar' ? 'رؤى' : lang === 'pt' ? 'Insights' : 'Insights'} onClick={onInsights} />
           </div>
         </div>
       </MkCard>
+
+      {/* Net worth breakdown */}
+      <NetWorthCard />
 
       {/* Today stats */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -444,6 +460,12 @@ function HomeTab({
           </div>
         </MkCard>
       </div>
+
+      {/* Cashflow forecast */}
+      <CashflowForecast />
+
+      {/* Spending heatmap */}
+      <SpendingHeatmap />
 
       {/* Active goals preview */}
       {goals.filter(g => !g.completed).length > 0 && (
@@ -567,7 +589,8 @@ function HomeTab({
         </div>
         {transactions.length > 5 && (
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
-            <span
+            <button
+              onClick={onHistory}
               style={{
                 background: '#F6F6F4',
                 color: '#4D4845',
@@ -575,14 +598,19 @@ function HomeTab({
                 fontWeight: 500,
                 padding: '8px 16px',
                 borderRadius: 999,
+                border: 'none',
+                cursor: 'pointer',
                 fontFamily: 'Geist, sans-serif',
               }}
             >
               {lang === 'sw' ? 'Angalia zote' : 'See all'}
-            </span>
+            </button>
           </div>
         )}
       </div>
+
+      {/* Growth / share card */}
+      <GrowthShareCard />
 
       {/* Emergency mode info */}
       {state.emergencyMode && (
@@ -687,6 +715,9 @@ function BudgetTab({ onOpenBudgetLimits }: { onOpenBudgetLimits: () => void }) {
           <Settings size={14} color="#4D4845" />
         </button>
       </div>
+
+      {/* Smart budget builder */}
+      <SmartBudgetBuilder />
 
       {/* Budget remaining */}
       <MkCard>
@@ -825,6 +856,9 @@ function BudgetTab({ onOpenBudgetLimits }: { onOpenBudgetLimits: () => void }) {
         )}
       </div>
 
+      {/* Budget health bars per category */}
+      <BudgetHealthBars />
+
       {/* Cash Flow */}
       <MkCard>
         <div style={{ padding: 16 }}>
@@ -897,6 +931,9 @@ function BudgetTab({ onOpenBudgetLimits }: { onOpenBudgetLimits: () => void }) {
         </div>
       )}
 
+      {/* Local benchmarks — how user compares to region peers */}
+      <LocalBenchmarks />
+
       {/* Articles */}
       <MkCard>
         <div style={{ padding: 16 }}>
@@ -952,11 +989,182 @@ function BudgetTab({ onOpenBudgetLimits }: { onOpenBudgetLimits: () => void }) {
   );
 }
 
+// ─── NEW GOAL BOTTOM SHEET ────────────────────────────────────────────────────
+const GOAL_CATEGORIES = [
+  { id: 'regular',    emoji: '💰', en: 'Regular Savings',  sw: 'Akiba ya Kawaida', fr: 'Épargne régulière',   ar: 'ادخار منتظم',   pt: 'Poupança regular',   color: '#4E886F', bg: '#4E886F1A' },
+  { id: 'emergency',  emoji: '🛡️', en: 'Emergencies',       sw: 'Dharura',          fr: 'Urgences',           ar: 'طوارئ',          pt: 'Emergências',        color: '#FD8240', bg: '#FD82401A' },
+  { id: 'life',       emoji: '🌟', en: 'Life Goals',        sw: 'Malengo ya Maisha', fr: 'Objectifs de vie',  ar: 'أهداف حياتية',  pt: 'Objetivos de vida',  color: '#215B44', bg: '#215B441A' },
+  { id: 'holiday',    emoji: '✈️', en: 'Holidays',          sw: 'Likizo',           fr: 'Vacances',           ar: 'إجازات',          pt: 'Férias',             color: '#F55D3E', bg: '#F55D3E1A' },
+];
+
+type GoalCat = typeof GOAL_CATEGORIES[number];
+
+function NewGoalSheet({
+  onClose,
+  onConfirm,
+  lang,
+  region,
+}: {
+  onClose: () => void;
+  onConfirm: (title: string, amount: number, emoji: string) => void;
+  lang: import('@/app/App').Language;
+  region: import('@/app/utils/currency').Region;
+}) {
+  const [phase, setPhase] = useState<'pick' | 'detail'>('pick');
+  const [cat, setCat] = useState<GoalCat | null>(null);
+  const [customName, setCustomName] = useState('');
+  const [amount, setAmount] = useState('');
+  const cfg = REGION_CONFIG[region];
+
+  const catLabel = (c: GoalCat) =>
+    lang === 'sw' ? c.sw : lang === 'fr' ? c.fr : lang === 'ar' ? c.ar : lang === 'pt' ? c.pt : c.en;
+
+  const handlePick = (c: GoalCat) => { setCat(c); setPhase('detail'); };
+
+  const handleSave = () => {
+    const num = parseInt(amount);
+    if (!num || num < 1) return;
+    const title = customName.trim() || catLabel(cat!);
+    onConfirm(title, num, cat!.emoji);
+  };
+
+  const titleMap: Record<import('@/app/App').Language, string> = {
+    en: 'New Goal', sw: 'Lengo Jipya', fr: 'Nouvel objectif', ar: 'هدف جديد', pt: 'Novo objetivo',
+  };
+  const chooseMap: Record<import('@/app/App').Language, string> = {
+    en: 'Choose a category', sw: 'Chagua aina', fr: 'Choisissez une catégorie', ar: 'اختر فئة', pt: 'Escolha uma categoria',
+  };
+  const saveMap: Record<import('@/app/App').Language, string> = {
+    en: 'Create Goal', sw: 'Unda Lengo', fr: 'Créer l\'objectif', ar: 'إنشاء الهدف', pt: 'Criar objetivo',
+  };
+
+  return (
+    <motion.div
+      initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 34 }}
+      style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'rgba(0,0,0,0.4)', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+      onClick={e => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <motion.div
+        initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+        transition={{ type: 'spring', stiffness: 300, damping: 34 }}
+        style={{ background: '#fff', borderRadius: '24px 24px 0 0', padding: '20px 20px 40px', maxHeight: '85vh', overflowY: 'auto' }}
+      >
+        {/* Handle */}
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: '#F4F4F2', margin: '0 auto 20px' }} />
+
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+          {phase === 'detail' ? (
+            <button onClick={() => setPhase('pick')} style={{ padding: 8, background: '#F6F6F4', border: 'none', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ChevronRight size={18} color="#4D4845" style={{ transform: 'rotate(180deg)' }} />
+            </button>
+          ) : <div style={{ width: 36 }} />}
+          <p style={{ fontSize: 17, fontWeight: 600, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+            {titleMap[lang]}
+          </p>
+          <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: '#F6F6F4', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#4D4845' }}>
+            ✕
+          </button>
+        </div>
+
+        <AnimatePresence mode="wait">
+          {phase === 'pick' ? (
+            <motion.div key="pick" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+              <p style={{ fontSize: 14, color: '#928F8B', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+                {chooseMap[lang]}
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                {GOAL_CATEGORIES.map(c => (
+                  <motion.button
+                    key={c.id}
+                    onClick={() => handlePick(c)}
+                    whileTap={{ scale: 0.97 }}
+                    style={{
+                      background: c.bg, border: `1.5px solid ${c.color}30`,
+                      borderRadius: 16, padding: '20px 16px', cursor: 'pointer',
+                      textAlign: 'left', display: 'flex', flexDirection: 'column', gap: 8,
+                    }}
+                  >
+                    <span style={{ fontSize: 28 }}>{c.emoji}</span>
+                    <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
+                      {catLabel(c)}
+                    </p>
+                  </motion.button>
+                ))}
+              </div>
+            </motion.div>
+          ) : (
+            <motion.div key="detail" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}
+              style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              {/* Category pill */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', background: cat!.bg, borderRadius: 12 }}>
+                <span style={{ fontSize: 22 }}>{cat!.emoji}</span>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{catLabel(cat!)}</p>
+              </div>
+
+              {/* Name */}
+              <div>
+                <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                  {lang === 'sw' ? 'Jina (hiari)' : lang === 'fr' ? 'Nom (optionnel)' : lang === 'ar' ? 'الاسم (اختياري)' : lang === 'pt' ? 'Nome (opcional)' : 'Name (optional)'}
+                </p>
+                <input
+                  type="text" value={customName} onChange={e => setCustomName(e.target.value)}
+                  placeholder={catLabel(cat!)}
+                  style={{ width: '100%', background: '#F6F6F4', border: '1.5px solid #F4F4F2', color: '#4D4845', borderRadius: 12, padding: '12px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+                  onFocus={e => (e.target.style.borderColor = cat!.color)}
+                  onBlur={e => (e.target.style.borderColor = '#F4F4F2')}
+                />
+              </div>
+
+              {/* Target amount */}
+              <div>
+                <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                  {lang === 'sw' ? 'Kiasi cha lengo' : lang === 'fr' ? 'Montant cible' : lang === 'ar' ? 'المبلغ المستهدف' : lang === 'pt' ? 'Valor alvo' : 'Target amount'}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#F6F6F4', border: '1.5px solid #F4F4F2', borderRadius: 12, padding: '12px 16px' }}>
+                  <span style={{ color: '#928F8B', fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
+                  <input
+                    type="number" inputMode="numeric" value={amount} onChange={e => setAmount(e.target.value)}
+                    placeholder="0"
+                    style={{ flex: 1, background: 'transparent', color: '#4D4845', fontSize: 22, fontWeight: 600, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
+                  />
+                </div>
+              </div>
+
+              <button
+                onClick={handleSave}
+                disabled={!amount || parseInt(amount) < 1}
+                style={{
+                  width: '100%', padding: '16px 0', borderRadius: 999,
+                  background: amount && parseInt(amount) >= 1 ? cat!.color : '#F4F4F2',
+                  color: amount && parseInt(amount) >= 1 ? '#fff' : '#928F8B',
+                  fontSize: 16, fontWeight: 600, border: 'none',
+                  cursor: amount && parseInt(amount) >= 1 ? 'pointer' : 'not-allowed',
+                  fontFamily: 'Geist, sans-serif', transition: 'all 0.2s',
+                }}
+              >
+                {saveMap[lang]}
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── SAVINGS TAB ──────────────────────────────────────────────────────────────
 function SavingsTab({ onAddGoal }: { onAddGoal: () => void }) {
-  const { state, updateGoal, deleteGoal } = useApp();
+  const { state, updateGoal, deleteGoal, addGoal } = useApp();
   const { language: lang, goals, roundUpEnabled, roundUpSavings } = state;
   const fmt = (n: number) => formatCurrency(n, state.region);
+  const [showNewGoal, setShowNewGoal] = useState(false);
+
+  const handleNewGoal = (title: string, amount: number, emoji: string) => {
+    addGoal({ title, emoji, target: amount, current: 0 });
+    setShowNewGoal(false);
+  };
 
   const totalSaved = goals.reduce((s, g) => s + g.current, 0);
   const activeGoals = goals.filter(g => !g.completed);
@@ -974,7 +1182,7 @@ function SavingsTab({ onAddGoal }: { onAddGoal: () => void }) {
             {fmt(totalSaved)}
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <Pill label={lang === 'sw' ? 'Ongeza' : 'Fund'} onClick={onAddGoal} />
+            <Pill label={lang === 'sw' ? 'Ongeza' : lang === 'fr' ? 'Ajouter' : lang === 'ar' ? 'إضافة' : lang === 'pt' ? 'Adicionar' : 'Add Goal'} onClick={() => setShowNewGoal(true)} />
             <Pill label={lang === 'sw' ? 'Toa' : 'Withdraw'} />
             {roundUpEnabled && <Pill label="Round-Up" />}
           </div>
@@ -1018,7 +1226,7 @@ function SavingsTab({ onAddGoal }: { onAddGoal: () => void }) {
                   {lang === 'sw' ? 'Hakuna malengo bado. Ongeza lengo lako la kwanza!' : "No goals yet. Add your first goal!"}
                 </p>
                 <button
-                  onClick={onAddGoal}
+                  onClick={() => setShowNewGoal(true)}
                   style={{
                     background: '#4E886F',
                     color: '#fff',
@@ -1117,113 +1325,423 @@ function SavingsTab({ onAddGoal }: { onAddGoal: () => void }) {
       {/* Savings challenges */}
       <div>
         <SectionHeader
-          label={lang === 'sw' ? 'Changamoto za Akiba' : 'Savings Challenges'}
+          label={lang === 'sw' ? 'Changamoto za Akiba' : lang === 'fr' ? 'Défis d\'épargne' : lang === 'ar' ? 'تحديات الادخار' : lang === 'pt' ? 'Desafios de poupança' : 'Savings Challenges'}
           sub={lang === 'sw' ? 'Ongeza akiba kwa changamoto za kila siku' : 'Boost savings with daily challenges'}
         />
         <div style={{ marginTop: 12 }}>
           <SavingsChallenge />
         </div>
       </div>
+
+      {/* New Goal bottom sheet */}
+      <AnimatePresence>
+        {showNewGoal && (
+          <NewGoalSheet
+            lang={lang}
+            region={state.region}
+            onClose={() => setShowNewGoal(false)}
+            onConfirm={handleNewGoal}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 // ─── INVEST TAB ───────────────────────────────────────────────────────────────
+type Timeframe = '1d' | '1m' | '3m' | '6m' | '1y' | 'All';
+
+function generatePerformanceData(tf: Timeframe, base: number) {
+  const points = tf === '1d' ? 24 : tf === '1m' ? 30 : tf === '3m' ? 90 : tf === '6m' ? 26 : tf === '1y' ? 52 : 60;
+  const labels = tf === '1d'
+    ? Array.from({ length: points }, (_, i) => `${i}h`)
+    : tf === '1m' || tf === '3m'
+    ? Array.from({ length: points }, (_, i) => `D${i + 1}`)
+    : Array.from({ length: points }, (_, i) => `W${i + 1}`);
+  let v = base;
+  return labels.map(name => {
+    v = Math.max(v * (0.97 + Math.random() * 0.06), base * 0.7);
+    return { name, value: Math.round(v) };
+  });
+}
+
 function InvestTab() {
   const { state } = useApp();
   const { language: lang } = state;
   const fmt = (n: number) => formatCurrency(n, state.region);
+  const [tf, setTf] = useState<Timeframe>('1m');
+  const [showSetup, setShowSetup] = useState(false);
 
-  const totalBalance = state.cashBalance + state.mobileMoneyBalance + state.bankBalance;
+  const portfolioBase = state.cashBalance + state.mobileMoneyBalance + state.bankBalance;
+  const chartData = useMemo(() => generatePerformanceData(tf, portfolioBase || 100000), [tf, portfolioBase]);
+  const chartStart = chartData[0]?.value ?? portfolioBase;
+  const chartEnd = chartData[chartData.length - 1]?.value ?? portfolioBase;
+  const gain = chartEnd - chartStart;
+  const gainPct = chartStart > 0 ? ((gain / chartStart) * 100).toFixed(2) : '0.00';
+  const positive = gain >= 0;
+
+  const portfolios = [
+    { name: lang === 'sw' ? 'Akiba ya Hisa' : lang === 'fr' ? 'Actions Locales' : 'Local Equities', pct: '+12.4%', amount: portfolioBase * 0.45, color: '#4E886F' },
+    { name: lang === 'sw' ? 'Dhamana za Serikali' : lang === 'fr' ? 'Obligations d\'État' : 'Gov. Bonds', pct: '+5.1%', amount: portfolioBase * 0.3, color: '#215B44' },
+    { name: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : 'Real Estate', pct: '+8.7%', amount: portfolioBase * 0.25, color: '#FD8240' },
+  ];
+
+  const assetClasses = [
+    { label: lang === 'sw' ? 'Hisa' : lang === 'fr' ? 'Actions' : lang === 'ar' ? 'أسهم' : lang === 'pt' ? 'Ações' : 'Stocks',         emoji: '📈', sub: lang === 'sw' ? 'Hatari ya kati' : 'Medium risk' },
+    { label: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : lang === 'ar' ? 'عقارات' : lang === 'pt' ? 'Imóveis' : 'Real Estate', emoji: '🏠', sub: lang === 'sw' ? 'Hatari ndogo' : 'Lower risk' },
+    { label: lang === 'sw' ? 'Dhamana' : lang === 'fr' ? 'Obligations' : lang === 'ar' ? 'سندات' : lang === 'pt' ? 'Renda Fixa' : 'Fixed Income', emoji: '🏛️', sub: lang === 'sw' ? 'Hatari ndogo sana' : 'Lowest risk' },
+  ];
+
+  const L = (sw: string, en: string, fr?: string, ar?: string, pt?: string) =>
+    lang === 'sw' ? sw : lang === 'fr' && fr ? fr : lang === 'ar' && ar ? ar : lang === 'pt' && pt ? pt : en;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px' }}>
-      {/* Portfolio value */}
+
+      {/* Portfolio value card */}
       <MkCard>
         <div style={{ padding: 20 }}>
           <p style={{ fontSize: 14, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
-            {lang === 'sw' ? 'Thamani ya Mali' : 'Portfolio Value'}
+            {L('Thamani ya Mali', 'Portfolio Value', 'Valeur du portefeuille', 'قيمة المحفظة', 'Valor do portfólio')}
           </p>
-          <p style={{ fontSize: 32, fontWeight: 400, color: '#4D4845', margin: '4px 0 4px', fontFamily: 'Geist, sans-serif' }}>
-            {fmt(totalBalance)}
+          <p style={{ fontSize: 32, fontWeight: 400, color: '#4D4845', margin: '4px 0 2px', fontFamily: 'Geist, sans-serif' }}>
+            {fmt(chartEnd)}
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 16 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#4E886F', display: 'inline-block' }} />
-            <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
-              {lang === 'sw' ? 'Akaunti zote' : 'All accounts combined'}
-            </p>
-          </div>
+          <p style={{ fontSize: 14, color: positive ? '#215B44' : '#C9362B', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+            {positive ? '▲' : '▼'} {fmt(Math.abs(gain))} ({gainPct}%)
+          </p>
           <div style={{ display: 'flex', gap: 8 }}>
-            <Pill label={lang === 'sw' ? 'Wekeza' : 'Invest'} />
-            <Pill label={lang === 'sw' ? 'Toa' : 'Withdraw'} />
+            <Pill label={L('Wekeza', 'Invest', 'Investir', 'استثمر', 'Investir')} />
+            <Pill label={L('Toa', 'Withdraw', 'Retirer', 'سحب', 'Sacar')} />
           </div>
         </div>
       </MkCard>
 
-      {/* Net worth */}
+      {/* Performance chart */}
+      <MkCard>
+        <div style={{ padding: 16 }}>
+          <SectionHeader
+            label={L('Mwenendo wa Thamani', 'Performance Insight', 'Performance', 'الأداء', 'Desempenho')}
+            sub={`${positive ? '+' : ''}${gainPct}% ${L('kipindi hiki', 'this period', 'cette période', 'هذه الفترة', 'neste período')}`}
+          />
+          {/* Timeframe pills */}
+          <div style={{ display: 'flex', gap: 6, margin: '12px 0 8px', overflowX: 'auto' }}>
+            {(['1d','1m','3m','6m','1y','All'] as Timeframe[]).map(t => (
+              <button
+                key={t}
+                onClick={() => setTf(t)}
+                style={{
+                  padding: '4px 12px', borderRadius: 999, border: 'none', cursor: 'pointer',
+                  background: tf === t ? '#4D4845' : '#F6F6F4',
+                  color: tf === t ? '#fff' : '#928F8B',
+                  fontSize: 12, fontWeight: 500, fontFamily: 'Geist, sans-serif', flexShrink: 0,
+                  transition: 'all 0.15s',
+                }}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+          <div style={{ height: 140 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F4F4F2" vertical={false} />
+                <XAxis dataKey="name" tick={false} axisLine={false} tickLine={false} />
+                <YAxis hide domain={['auto', 'auto']} />
+                <Tooltip
+                  formatter={(v: number) => [fmt(v), '']}
+                  contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #F4F4F2' }}
+                  labelStyle={{ display: 'none' }}
+                />
+                <Line
+                  type="monotone" dataKey="value"
+                  stroke={positive ? '#4E886F' : '#C9362B'}
+                  strokeWidth={2} dot={false}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </MkCard>
+
+      {/* Portfolio breakdown */}
       <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Thamani Halisi' : 'Net Worth'}
-          sub={lang === 'sw' ? 'Jumla ya mali yako' : 'Total assets minus liabilities'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <NetWorthCard />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+          <SectionHeader label={L('Mikoba Yangu', 'My Portfolios', 'Mes portefeuilles', 'محافظي', 'Meus portfólios')} />
+          <button
+            onClick={() => setShowSetup(true)}
+            style={{ fontSize: 12, color: '#FD8240', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', fontWeight: 500 }}
+          >
+            + {L('Ongeza', 'Add', 'Ajouter', 'أضف', 'Adicionar')}
+          </button>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {portfolios.map(p => (
+            <MkCard key={p.name}>
+              <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 12, background: `${p.color}1A`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <TrendingUp size={18} color={p.color} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{p.name}</p>
+                  <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{fmt(p.amount)}</p>
+                </div>
+                <span style={{ fontSize: 14, fontWeight: 600, color: '#215B44', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>{p.pct}</span>
+              </div>
+            </MkCard>
+          ))}
         </div>
       </div>
 
-      {/* Financial health score */}
+      {/* Set up new investment plan CTA */}
+      <button
+        onClick={() => setShowSetup(true)}
+        style={{
+          width: '100%', padding: '18px 20px', borderRadius: 16,
+          background: 'linear-gradient(135deg, #215B44, #4E886F)',
+          border: 'none', cursor: 'pointer', textAlign: 'left',
+        }}
+      >
+        <p style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+          🌱 {L('Unda Mpango wa Uwekezaji', 'Set Up New Investment Plan', 'Créer un plan d\'investissement', 'إنشاء خطة استثمار', 'Criar plano de investimento')}
+        </p>
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'Geist, sans-serif' }}>
+          {L('Anza kuwekeza leo', 'Start investing with as little as 1,000', 'Commencez à investir dès aujourd\'hui', 'ابدأ الاستثمار اليوم', 'Comece a investir hoje')}
+        </p>
+      </button>
+
+      {/* Asset classes */}
       <div>
         <SectionHeader
-          label={lang === 'sw' ? 'Alama ya Afya ya Kifedha' : 'Financial Health Score'}
+          label={L('Aina za Mali', 'Asset Classes', 'Classes d\'actifs', 'فئات الأصول', 'Classes de ativos')}
+          sub={L('Gundua njia za kuwekeza', 'Explore ways to grow your money', 'Explorez les options', 'اكتشف خيارات الاستثمار', 'Explore opções')}
         />
-        <div style={{ marginTop: 12 }}>
-          <FinancialHealthScore />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12 }}>
+          {assetClasses.map(a => (
+            <MkCard key={a.label}>
+              <div style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 14 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 12, background: '#F6F6F4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                  {a.emoji}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{a.label}</p>
+                  <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{a.sub}</p>
+                </div>
+                <ChevronRight size={16} color="#A6A4A0" />
+              </div>
+            </MkCard>
+          ))}
         </div>
       </div>
 
-      {/* Spending heatmap */}
-      <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Ramani ya Matumizi' : 'Spending Heatmap'}
-          sub={lang === 'sw' ? 'Mwenendo wako wa matumizi' : 'Your spending pattern'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <SpendingHeatmap />
+      {/* Risk appetite card */}
+      <MkCard>
+        <div style={{ padding: 16 }}>
+          <SectionHeader
+            label={L('Uvumilivu wa Hatari', 'Risk Appetite', 'Tolérance au risque', 'تحمل المخاطر', 'Apetite por risco')}
+            sub={L('Jinsi unavyopenda hatari', 'How much risk you\'re comfortable with', 'Votre niveau de risque', 'مستوى المخاطرة المقبول لديك', 'Seu nível de risco')}
+          />
+          <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+            {[
+              { id: 'low',    label: L('Chini', 'Low', 'Faible', 'منخفض', 'Baixo'),    color: '#4E886F' },
+              { id: 'medium', label: L('Kati',  'Medium', 'Moyen', 'متوسط', 'Médio'),  color: '#FD8240' },
+              { id: 'high',   label: L('Juu',   'High', 'Élevé', 'مرتفع', 'Alto'),     color: '#C9362B' },
+            ].map(r => (
+              <button
+                key={r.id}
+                style={{
+                  flex: 1, padding: '10px 0', borderRadius: 12,
+                  background: r.id === 'medium' ? `${r.color}1A` : '#F6F6F4',
+                  border: r.id === 'medium' ? `1.5px solid ${r.color}` : '1.5px solid transparent',
+                  color: r.id === 'medium' ? r.color : '#928F8B',
+                  fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+                }}
+              >
+                {r.label}
+              </button>
+            ))}
+          </div>
         </div>
+      </MkCard>
+
+      {/* Financial health + education */}
+      <div>
+        <SectionHeader label={L('Alama ya Afya ya Kifedha', 'Financial Health Score')} />
+        <div style={{ marginTop: 12 }}><FinancialHealthScore /></div>
+      </div>
+      <div>
+        <SectionHeader label={L('Elimu ya Kifedha', 'Financial Education', 'Éducation financière', 'التعليم المالي', 'Educação financeira')} />
+        <div style={{ marginTop: 12 }}><FinancialEducation /></div>
       </div>
 
-      {/* Cashflow forecast */}
-      <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Utabiri wa Pesa' : 'Cashflow Forecast'}
-          sub={lang === 'sw' ? 'Matarajio ya pesa yako' : 'Your money outlook'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <CashflowForecast />
-        </div>
-      </div>
-
-      {/* Spending insights */}
-      <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Maarifa ya Matumizi' : 'Spending Insights'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <InsightsView onBack={() => {}} />
-        </div>
-      </div>
-
-      {/* Financial education */}
-      <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Elimu ya Kifedha' : 'Financial Education'}
-          sub={lang === 'sw' ? 'Jifunze zaidi kuhusu fedha' : 'Learn more about finance'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <FinancialEducation />
-        </div>
-      </div>
+      {/* Setup modal placeholder */}
+      <AnimatePresence>
+        {showSetup && (
+          <motion.div
+            initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 34 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#fff', display: 'flex', flexDirection: 'column' }}
+          >
+            <div style={{ padding: '20px 20px 0', display: 'flex', alignItems: 'center', gap: 12 }}>
+              <button onClick={() => setShowSetup(false)} style={{ padding: 8, background: '#F6F6F4', border: 'none', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronRight size={18} color="#4D4845" style={{ transform: 'rotate(180deg)' }} />
+              </button>
+              <p style={{ fontSize: 16, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                {L('Mpango wa Uwekezaji', 'New Investment Plan', 'Nouveau plan d\'investissement', 'خطة استثمار جديدة', 'Novo plano de investimento')}
+              </p>
+            </div>
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px', gap: 16 }}>
+              <div style={{ fontSize: 64 }}>🌱</div>
+              <p style={{ fontSize: 22, fontWeight: 600, color: '#4D4845', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+                {L('Karibu kwenye Uwekezaji', 'Welcome to Investing', 'Bienvenue dans l\'investissement', 'مرحباً بك في الاستثمار', 'Bem-vindo ao investimento')}
+              </p>
+              <p style={{ fontSize: 14, color: '#928F8B', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.6 }}>
+                {L('Weka pesa yako ifanye kazi. Anza na kiasi kidogo na ukue polepole.', 'Put your money to work. Start small and grow steadily over time.', 'Faites travailler votre argent. Commencez petit et grandissez régulièrement.', 'اجعل أموالك تعمل. ابدأ صغيراً وانمُ باطراد.', 'Faça seu dinheiro trabalhar. Comece pequeno e cresça continuamente.')}
+              </p>
+              <button
+                onClick={() => setShowSetup(false)}
+                style={{ width: '100%', maxWidth: 340, background: '#4E886F', color: '#fff', borderRadius: 999, padding: '16px 0', fontWeight: 600, fontSize: 16, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
+              >
+                {L('Anza Sasa', 'Get Started', 'Commencer', 'ابدأ الآن', 'Começar')}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
+  );
+}
+
+// ─── SEND MONEY MODAL (dark green numpad) ────────────────────────────────────
+function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('@/app/App').Language }) {
+  const [amount, setAmount] = useState('');
+  const [contact, setContact] = useState('');
+  const [sent, setSent] = useState(false);
+
+  const contacts = [
+    { name: 'Alice',   initials: 'A', color: '#4E886F' },
+    { name: 'Brian',   initials: 'B', color: '#FD8240' },
+    { name: 'Cynthia', initials: 'C', color: '#215B44' },
+    { name: 'David',   initials: 'D', color: '#F55D3E' },
+  ];
+
+  const pad = (v: string) => {
+    if (v === '⌫') { setAmount(a => a.slice(0, -1)); return; }
+    if (v === '.' && amount.includes('.')) return;
+    if (amount.length >= 12) return;
+    setAmount(a => a === '0' ? v : a + v);
+  };
+
+  const sendLabel: Record<import('@/app/App').Language, string> = {
+    en: 'Send', sw: 'Tuma', fr: 'Envoyer', ar: 'إرسال', pt: 'Enviar',
+  };
+  const toLabel: Record<import('@/app/App').Language, string> = {
+    en: 'To', sw: 'Kwa', fr: 'À', ar: 'إلى', pt: 'Para',
+  };
+
+  if (sent) {
+    return (
+      <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#215B44', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 18 }}
+          style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+          ✓
+        </motion.div>
+        <p style={{ color: '#fff', fontSize: 22, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>
+          {sendLabel[lang]}!
+        </p>
+        <motion.button onClick={onClose} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+          style={{ color: 'rgba(255,255,255,0.7)', background: 'none', border: 'none', fontSize: 14, cursor: 'pointer', fontFamily: 'Geist, sans-serif', marginTop: 8 }}>
+          Done
+        </motion.button>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
+      transition={{ type: 'spring', stiffness: 300, damping: 34 }}
+      style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#1A3D2E', display: 'flex', flexDirection: 'column' }}
+    >
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
+        <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+        <p style={{ color: '#fff', fontSize: 16, fontWeight: 500, fontFamily: 'Geist, sans-serif' }}>{sendLabel[lang]} Money</p>
+        <div style={{ width: 32 }} />
+      </div>
+
+      {/* Contact picker */}
+      <div style={{ padding: '20px 20px 0' }}>
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
+          {toLabel[lang]}
+        </p>
+        <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 4 }}>
+          {contacts.map(c => (
+            <button
+              key={c.name}
+              onClick={() => setContact(c.name)}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
+            >
+              <div style={{
+                width: 48, height: 48, borderRadius: '50%', background: contact === c.name ? '#FD8240' : c.color,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif',
+                border: contact === c.name ? '2px solid #FD8240' : '2px solid transparent',
+                boxShadow: contact === c.name ? '0 0 0 3px rgba(253,130,64,0.3)' : 'none',
+                transition: 'all 0.2s',
+              }}>
+                {c.initials}
+              </div>
+              <span style={{ color: contact === c.name ? '#FD8240' : 'rgba(255,255,255,0.6)', fontSize: 11, fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Amount display */}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
+        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
+          {contact ? `${toLabel[lang]} ${contact}` : ''}
+        </p>
+        <p style={{ color: '#fff', fontSize: 52, fontWeight: 300, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em', minHeight: 64 }}>
+          {amount || '0'}
+        </p>
+      </div>
+
+      {/* Numpad */}
+      <div style={{ padding: '0 24px 16px' }}>
+        {[['1','2','3'],['4','5','6'],['7','8','9'],['.',  '0','⌫']].map((row, ri) => (
+          <div key={ri} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12, marginBottom: 12 }}>
+            {row.map(key => (
+              <button
+                key={key}
+                onClick={() => pad(key)}
+                style={{
+                  height: 56, borderRadius: 16,
+                  background: key === '⌫' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.1)',
+                  border: 'none', color: '#fff', fontSize: key === '⌫' ? 20 : 22, fontWeight: 400,
+                  cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+                  transition: 'background 0.1s',
+                }}
+              >
+                {key}
+              </button>
+            ))}
+          </div>
+        ))}
+        <button
+          onClick={() => { if (amount && parseFloat(amount) > 0) setSent(true); }}
+          style={{
+            width: '100%', height: 56, borderRadius: 16,
+            background: amount && parseFloat(amount) > 0 ? '#FD8240' : 'rgba(253,130,64,0.3)',
+            border: 'none', color: '#fff', fontSize: 18, fontWeight: 600,
+            cursor: amount && parseFloat(amount) > 0 ? 'pointer' : 'not-allowed',
+            fontFamily: 'Geist, sans-serif', transition: 'background 0.2s',
+          }}
+        >
+          {sendLabel[lang]}
+        </button>
+      </div>
+    </motion.div>
   );
 }
 
@@ -1242,103 +1760,141 @@ function WalletTab({
   const { state } = useApp();
   const { language: lang } = state;
   const fmt = (n: number) => formatCurrency(n, state.region);
+  const [showSend, setShowSend] = useState(false);
 
   const walletTotal = state.cashBalance + state.mobileMoneyBalance + state.bankBalance;
 
   const balances = [
-    { label: lang === 'sw' ? 'Pesa Taslimu' : 'Cash',        amount: state.cashBalance,        emoji: '💵', color: '#215B44' },
-    { label: lang === 'sw' ? 'Simu ya Mkononi' : 'M-Pesa',   amount: state.mobileMoneyBalance,  emoji: '📱', color: '#4E886F' },
-    { label: lang === 'sw' ? 'Benki' : 'Bank',                amount: state.bankBalance,          emoji: '🏦', color: '#FD8240' },
-    { label: lang === 'sw' ? 'Mkopo' : 'Loan',                amount: state.loanBalance,          emoji: '💳', color: '#C9362B' },
+    { label: lang === 'sw' ? 'Pesa Taslimu' : lang === 'fr' ? 'Espèces' : lang === 'ar' ? 'نقداً' : lang === 'pt' ? 'Dinheiro' : 'Cash',
+      amount: state.cashBalance, emoji: '💵', color: '#215B44' },
+    { label: 'M-Pesa / Mobile',
+      amount: state.mobileMoneyBalance, emoji: '📱', color: '#4E886F' },
+    { label: lang === 'sw' ? 'Benki' : lang === 'fr' ? 'Banque' : lang === 'ar' ? 'بنك' : lang === 'pt' ? 'Banco' : 'Bank',
+      amount: state.bankBalance, emoji: '🏦', color: '#FD8240' },
+    { label: lang === 'sw' ? 'Mkopo' : lang === 'fr' ? 'Prêt' : lang === 'ar' ? 'قرض' : lang === 'pt' ? 'Empréstimo' : 'Loan',
+      amount: state.loanBalance, emoji: '💳', color: '#C9362B' },
   ];
 
+  const quickSend = [
+    { name: 'Alice',   initials: 'A', color: '#4E886F' },
+    { name: 'Brian',   initials: 'B', color: '#FD8240' },
+    { name: 'Cynthia', initials: 'C', color: '#215B44' },
+    { name: 'David',   initials: 'D', color: '#F55D3E' },
+    { name: 'Eva',     initials: 'E', color: '#4D4845' },
+  ];
+
+  const sendLabel = lang === 'sw' ? 'Tuma' : lang === 'fr' ? 'Envoyer' : lang === 'ar' ? 'إرسال' : lang === 'pt' ? 'Enviar' : 'Send';
+  const fundLabel = lang === 'sw' ? 'Ingiza' : lang === 'fr' ? 'Recharger' : lang === 'ar' ? 'تعبئة' : lang === 'pt' ? 'Carregar' : 'Fund';
+  const receiveLabel = lang === 'sw' ? 'Pokea' : lang === 'fr' ? 'Recevoir' : lang === 'ar' ? 'استقبال' : lang === 'pt' ? 'Receber' : 'Receive';
+  const historyLabel = lang === 'sw' ? 'Historia ya Miamala' : lang === 'fr' ? 'Historique' : lang === 'ar' ? 'السجل' : lang === 'pt' ? 'Histórico' : 'Transaction History';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px' }}>
-      {/* Wallet balance */}
-      <MkCard>
-        <div style={{ padding: 20 }}>
-          <p style={{ fontSize: 14, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
-            {lang === 'sw' ? 'Salio la Mkoba' : 'Wallet Balance'}
-          </p>
-          <p style={{ fontSize: 32, fontWeight: 400, color: '#4D4845', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif' }}>
-            {fmt(walletTotal)}
-          </p>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <Pill label={lang === 'sw' ? 'Ingiza' : 'Fund'} onClick={onAddIncome} />
-            <Pill label={lang === 'sw' ? 'Tuma' : 'Send'} onClick={onAddExpense} />
-            <Pill label={lang === 'sw' ? 'Pokea' : 'Receive'} />
+    <>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px' }}>
+        {/* Wallet balance */}
+        <MkCard>
+          <div style={{ padding: 20 }}>
+            <p style={{ fontSize: 14, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+              {lang === 'sw' ? 'Salio la Mkoba' : lang === 'fr' ? 'Solde du portefeuille' : lang === 'ar' ? 'رصيد المحفظة' : lang === 'pt' ? 'Saldo da carteira' : 'Wallet Balance'}
+            </p>
+            <p style={{ fontSize: 32, fontWeight: 400, color: '#4D4845', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif' }}>
+              {fmt(walletTotal)}
+            </p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <Pill label={fundLabel} onClick={onAddIncome} />
+              <Pill label={sendLabel} onClick={() => setShowSend(true)} />
+              <Pill label={receiveLabel} />
+            </div>
+          </div>
+        </MkCard>
+
+        {/* Quick Send */}
+        <div>
+          <SectionHeader label={lang === 'sw' ? 'Tuma Haraka' : lang === 'fr' ? 'Envoi rapide' : lang === 'ar' ? 'إرسال سريع' : lang === 'pt' ? 'Envio rápido' : 'Quick Send'} />
+          <div style={{ display: 'flex', gap: 16, marginTop: 12, overflowX: 'auto', paddingBottom: 4 }}>
+            {quickSend.map(c => (
+              <button
+                key={c.name}
+                onClick={() => setShowSend(true)}
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
+              >
+                <div style={{
+                  width: 52, height: 52, borderRadius: '50%', background: c.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif',
+                }}>
+                  {c.initials}
+                </div>
+                <span style={{ fontSize: 11, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
+              </button>
+            ))}
+            <button
+              onClick={() => setShowSend(true)}
+              style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
+            >
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#F6F6F4', border: '1.5px dashed #D0CEC9', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 22 }}>
+                +
+              </div>
+              <span style={{ fontSize: 11, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+                {lang === 'sw' ? 'Zaidi' : 'More'}
+              </span>
+            </button>
           </div>
         </div>
-      </MkCard>
 
-      {/* Balance breakdown */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        {balances.map(({ label, amount, emoji, color }) => (
-          <MkCard key={label}>
-            <div style={{ padding: 16 }}>
-              <p style={{ fontSize: 18, marginBottom: 4 }}>{emoji}</p>
-              <p style={{ fontSize: 12, color: '#928F8B', marginBottom: 2, fontFamily: 'Geist, sans-serif' }}>{label}</p>
-              <p style={{ fontSize: 16, fontWeight: 500, color, fontFamily: 'Geist, sans-serif' }}>{fmt(amount)}</p>
-            </div>
-          </MkCard>
-        ))}
-      </div>
+        {/* Balance breakdown */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          {balances.map(({ label, amount, emoji, color }) => (
+            <MkCard key={label}>
+              <div style={{ padding: 16 }}>
+                <p style={{ fontSize: 18, marginBottom: 4 }}>{emoji}</p>
+                <p style={{ fontSize: 12, color: '#928F8B', marginBottom: 2, fontFamily: 'Geist, sans-serif' }}>{label}</p>
+                <p style={{ fontSize: 16, fontWeight: 500, color, fontFamily: 'Geist, sans-serif' }}>{fmt(amount)}</p>
+              </div>
+            </MkCard>
+          ))}
+        </div>
 
-      {/* Quick actions */}
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-        <button
-          onClick={onAI}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            background: '#F6F6F4',
-            color: '#4D4845',
-            fontSize: 14,
-            fontWeight: 500,
-            padding: '10px 16px',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'Geist, sans-serif',
-          }}
-        >
-          <Sparkles size={14} color="#FD8240" />
-          {lang === 'sw' ? 'Msaidizi wa AI' : 'AI Assistant'}
-        </button>
-        <button
-          onClick={onSettings}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 6,
-            background: '#F6F6F4',
-            color: '#4D4845',
-            fontSize: 14,
-            fontWeight: 500,
-            padding: '10px 16px',
-            borderRadius: 999,
-            border: 'none',
-            cursor: 'pointer',
-            fontFamily: 'Geist, sans-serif',
-          }}
-        >
-          <Settings size={14} />
-          {lang === 'sw' ? 'Mipangilio' : 'Settings'}
-        </button>
-      </div>
+        {/* Quick actions */}
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          <button
+            onClick={onAI}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: '#F6F6F4', color: '#4D4845', fontSize: 14, fontWeight: 500,
+              padding: '10px 16px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+            }}
+          >
+            <Sparkles size={14} color="#FD8240" />
+            {lang === 'sw' ? 'Msaidizi wa AI' : 'AI Assistant'}
+          </button>
+          <button
+            onClick={onSettings}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              background: '#F6F6F4', color: '#4D4845', fontSize: 14, fontWeight: 500,
+              padding: '10px 16px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif',
+            }}
+          >
+            <Settings size={14} />
+            {lang === 'sw' ? 'Mipangilio' : 'Settings'}
+          </button>
+        </div>
 
-      {/* Transaction history */}
-      <div>
-        <SectionHeader
-          label={lang === 'sw' ? 'Historia ya Miamala' : 'Transaction History'}
-          sub={lang === 'sw' ? 'Miamala yote' : 'All transactions'}
-        />
-        <div style={{ marginTop: 12 }}>
-          <HistoryView onBack={() => {}} />
+        {/* Transaction history */}
+        <div>
+          <SectionHeader label={historyLabel} sub={lang === 'sw' ? 'Miamala yote' : 'All transactions'} />
+          <div style={{ marginTop: 12 }}>
+            <HistoryView onBack={() => {}} />
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Send Money modal */}
+      <AnimatePresence>
+        {showSend && <SendMoneyModal lang={lang} onClose={() => setShowSend(false)} />}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -1353,6 +1909,8 @@ export function Dashboard() {
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [showDailySummary, setShowDailySummary] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showInsights, setShowInsights] = useState(false);
+  const [showHistory, setShowHistory] = useState(false);
   const [showGoalsView, setShowGoalsView] = useState(false);
   const [showAI, setShowAI] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -1386,12 +1944,12 @@ export function Dashboard() {
     }
   }, []);
 
-  const tabTitles: Record<ActiveTab, { en: string; sw: string }> = {
-    home:    { en: 'Home',    sw: 'Nyumbani' },
-    budget:  { en: 'Budget',  sw: 'Bajeti'   },
-    savings: { en: 'Savings', sw: 'Akiba'    },
-    invest:  { en: 'Invest',  sw: 'Wekeza'   },
-    wallet:  { en: 'Wallet',  sw: 'Mkoba'    },
+  const tabTitles: Record<ActiveTab, Record<import('@/app/App').Language, string>> = {
+    home:    { en: 'Home',         sw: 'Nyumbani',  fr: 'Accueil',       ar: 'الرئيسية',  pt: 'Início'      },
+    budget:  { en: 'Budget',       sw: 'Bajeti',    fr: 'Budget',        ar: 'الميزانية', pt: 'Orçamento'   },
+    savings: { en: 'Savings',      sw: 'Akiba',     fr: 'Épargne',       ar: 'المدخرات',  pt: 'Poupança'    },
+    invest:  { en: 'Invest',       sw: 'Wekeza',    fr: 'Investir',      ar: 'استثمار',   pt: 'Investir'    },
+    wallet:  { en: 'Wallet',       sw: 'Mkoba',     fr: 'Portefeuille',  ar: 'محفظة',     pt: 'Carteira'    },
   };
 
   function openAddExpense() { setTxType('expense'); setShowAddTx(true); }
@@ -1402,6 +1960,20 @@ export function Dashboard() {
     return (
       <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
         <SettingsView onBack={() => setShowSettings(false)} />
+      </div>
+    );
+  }
+  if (showInsights) {
+    return (
+      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+        <InsightsView onBack={() => setShowInsights(false)} />
+      </div>
+    );
+  }
+  if (showHistory) {
+    return (
+      <div style={{ width: '100%', maxWidth: 448, minHeight: '100vh', background: '#fff' }}>
+        <HistoryView onBack={() => setShowHistory(false)} />
       </div>
     );
   }
@@ -1433,7 +2005,7 @@ export function Dashboard() {
 
       {/* Top Nav */}
       <TopNav
-        title={tabTitles[activeTab][lang]}
+        title={tabTitles[activeTab][lang] ?? tabTitles[activeTab].en}
         onBell={() => setShowNotifications(true)}
         onAvatar={() => setShowSettings(true)}
         bellDot={true}
@@ -1481,6 +2053,8 @@ export function Dashboard() {
                 onAddIncome={openAddIncome}
                 onAddExpense={openAddExpense}
                 onSettings={() => setShowSettings(true)}
+                onInsights={() => setShowInsights(true)}
+                onHistory={() => setShowHistory(true)}
               />
             )}
             {activeTab === 'budget' && (
