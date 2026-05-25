@@ -225,18 +225,19 @@ export function GoalsView({ onBack }: GoalsViewProps) {
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: 'linear-gradient(160deg, #1a0800 0%, #2d1200 100%)' }}>
+      <div className="px-6 pb-5 min-safe-top" style={{ background: 'var(--mk-card)', borderBottom: '1px solid var(--mk-border)' }}>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <button onClick={onBack} className="p-2 hover:bg-white/10 rounded-full">
-              <ArrowLeft className="w-6 h-6" />
+            <button onClick={onBack} className="p-2 hover:bg-[var(--mk-bg-alt)] rounded-full">
+              <ArrowLeft className="w-6 h-6 text-[var(--mk-text)]" />
             </button>
-            <h1 className="text-2xl font-bold">{t('goals', lang)}</h1>
+            <h1 className="text-2xl font-bold text-[var(--mk-text)]">{t('goals', lang)}</h1>
           </div>
           <motion.button
             whileTap={{ scale: 0.92 }}
             onClick={() => setShowAddGoal(true)}
-            className="flex items-center gap-1.5 bg-white/20 hover:bg-white/30 rounded-full px-3 py-1.5 text-sm font-semibold"
+            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-white"
+            style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
           >
             <Plus className="w-4 h-4" />
             {lang === 'sw' ? 'Ongeza' : 'Add'}
@@ -251,9 +252,9 @@ export function GoalsView({ onBack }: GoalsViewProps) {
               { label: t('done', lang), value: state.goals.filter(g => g.completed).length },
               { label: t('savedLabel', lang), value: fmt(totalSaved) },
             ].map(({ label, value }) => (
-              <div key={label} className="bg-white/15 rounded-xl px-3 py-2 text-center">
-                <p className="text-xs text-white/70">{label}</p>
-                <p className="text-sm font-bold">{value}</p>
+              <div key={label} className="bg-[var(--mk-bg-alt)] rounded-xl px-3 py-2 text-center">
+                <p className="text-xs text-[var(--mk-text-secondary)]">{label}</p>
+                <p className="text-sm font-bold text-[var(--mk-text)]">{value}</p>
               </div>
             ))}
           </div>

@@ -1099,9 +1099,9 @@ export function AIAssistant() {
           style={{
             width: '100%', display: 'flex', alignItems: 'center', gap: 12,
             padding: '11px 16px 11px 12px', borderRadius: 999, cursor: 'pointer',
-            background: 'linear-gradient(135deg, #1a0800 0%, #2d1200 70%, #3d1600 100%)',
-            border: '1px solid rgba(255,255,255,0.14)',
-            boxShadow: '0 6px 28px rgba(var(--mk-orange-rgb),0.2), 0 2px 8px rgba(0,0,0,0.3)',
+            background: 'var(--mk-card)',
+            border: '1.5px solid var(--mk-border)',
+            boxShadow: '0 4px 18px rgba(var(--mk-orange-rgb),0.12), 0 1px 4px rgba(0,0,0,0.06)',
             position: 'relative', overflow: 'hidden',
           }}
         >
@@ -1109,7 +1109,7 @@ export function AIAssistant() {
           <motion.div
             style={{
               position: 'absolute', top: 0, bottom: 0, width: '40%',
-              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(var(--mk-orange-rgb),0.06), transparent)',
               borderRadius: 999, pointerEvents: 'none',
             }}
             animate={{ left: ['-40%', '140%'] }}
@@ -1119,21 +1119,22 @@ export function AIAssistant() {
           {/* Icon badge */}
           <div style={{
             width: 36, height: 36, borderRadius: 14, flexShrink: 0,
-            background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.22)',
+            background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            boxShadow: '0 4px 12px rgba(var(--mk-orange-rgb),0.35)',
           }}>
             <svg width="18" height="18" viewBox="0 0 26 26" fill="none">
               <path d="M13 2 L14.6 10.4 L23 12 L14.6 13.6 L13 22 L11.4 13.6 L3 12 L11.4 10.4 Z" fill="white" fillOpacity="0.95" />
-              <path d="M20.5 3.5 L21.2 6.3 L24 7 L21.2 7.7 L20.5 10.5 L19.8 7.7 L17 7 L19.8 6.3 Z" fill="white" fillOpacity="0.5" />
+              <path d="M20.5 3.5 L21.2 6.3 L24 7 L21.2 7.7 L20.5 10.5 L19.8 7.7 L17 7 L19.8 6.3 Z" fill="white" fillOpacity="0.6" />
             </svg>
           </div>
 
           {/* Labels */}
           <div style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#fff', letterSpacing: '0.01em', lineHeight: 1.1 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--mk-text)', letterSpacing: '0.01em', lineHeight: 1.1 }}>
               {lang === 'sw' ? 'Mshauri wa Bajeti' : lang === 'fr' ? 'Coach Budget' : lang === 'ar' ? 'مدرب الميزانية' : lang === 'pt' ? 'Coach Financeiro' : 'Budget Coach'}
             </p>
-            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 2, lineHeight: 1 }}>
+            <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', marginTop: 2, lineHeight: 1 }}>
               {lang === 'sw' ? 'Niulize kuhusu bajeti yako...' : lang === 'fr' ? 'Posez une question...' : lang === 'ar' ? 'اسألني عن ميزانيتك...' : lang === 'pt' ? 'Pergunte sobre seu orçamento...' : 'Ask about your finances...'}
             </p>
           </div>
@@ -1142,15 +1143,15 @@ export function AIAssistant() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               <motion.span
-                style={{ width: 7, height: 7, borderRadius: '50%', background: '#4ade80', display: 'block' }}
+                style={{ width: 7, height: 7, borderRadius: '50%', background: '#22c55e', display: 'block' }}
                 animate={{ opacity: [1, 0.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>
+              <span style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontWeight: 600 }}>
                 {lang === 'sw' ? 'Mtandaoni' : lang === 'fr' ? 'En ligne' : lang === 'ar' ? 'متصل' : lang === 'pt' ? 'Online' : 'Online'}
               </span>
             </div>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--mk-text-secondary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M9 18l6-6-6-6" />
             </svg>
           </div>

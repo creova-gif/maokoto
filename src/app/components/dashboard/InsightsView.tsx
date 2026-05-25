@@ -95,14 +95,14 @@ export function InsightsView({ onBack }: InsightsViewProps) {
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div className="text-white px-6 pb-6 min-safe-top" style={{ background: 'linear-gradient(160deg, #1a0800 0%, #2d1200 100%)' }}>
+      <div className="px-6 pb-5 min-safe-top" style={{ background: 'var(--mk-card)', borderBottom: '1px solid var(--mk-border)' }}>
         <div className="flex items-center mb-2">
-          <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
-            <ArrowLeft className="w-6 h-6" />
+          <button onClick={onBack} className="mr-4 p-2 hover:bg-[var(--mk-bg-alt)] rounded-full">
+            <ArrowLeft className="w-6 h-6 text-[var(--mk-text)]" />
           </button>
-          <h1 className="text-2xl font-bold">{t('insights', lang)}</h1>
+          <h1 className="text-2xl font-bold text-[var(--mk-text)]">{t('insights', lang)}</h1>
         </div>
-        <p className="text-sm opacity-80 ml-14">
+        <p className="text-sm text-[var(--mk-text-secondary)] ml-14">
           {lang === 'sw'
             ? `${state.transactions.length} muamala umechambuliwa`
             : `${state.transactions.length} transactions analysed`}

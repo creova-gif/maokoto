@@ -329,12 +329,12 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: 'linear-gradient(160deg, #1a0800 0%, #2d1200 100%)' }}>
+      <div className="px-6 pb-6 min-safe-top" style={{ background: 'var(--mk-card)', borderBottom: '1px solid var(--mk-border)' }}>
         <div className="flex items-center mb-5">
-          <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
-            <ArrowLeft className="w-6 h-6" />
+          <button onClick={onBack} className="mr-4 p-2 hover:bg-[var(--mk-bg-alt)] rounded-full">
+            <ArrowLeft className="w-6 h-6 text-[var(--mk-text)]" />
           </button>
-          <h1 className="text-2xl font-bold">{t('settings', lang)}</h1>
+          <h1 className="text-2xl font-bold text-[var(--mk-text)]">{t('settings', lang)}</h1>
         </div>
 
         {/* Profile card */}
@@ -343,21 +343,21 @@ export function SettingsView({ onBack }: SettingsViewProps) {
             {initials}
           </div>
           <div className="flex-1">
-            <p className="font-bold text-lg text-white leading-tight">
+            <p className="font-bold text-lg text-[var(--mk-text)] leading-tight">
               {state.userName || (lang === 'sw' ? 'Mtumiaji' : 'User')}
             </p>
-            <p className="text-white/60 text-xs mt-0.5">
+            <p className="text-[var(--mk-text-secondary)] text-xs mt-0.5">
               {REGION_CONFIG[state.region].flag} {REGION_CONFIG[state.region].currency} ·{' '}
               {lang === 'sw' ? 'Kiswahili' : 'English'} ·{' '}
               🔥 {state.streak} {lang === 'sw' ? 'siku' : 'days'}
             </p>
           </div>
           <div className="text-right">
-            <div className="bg-white/10 rounded-xl px-3 py-2">
-              <p className="text-white/60 text-[10px] uppercase tracking-wide">
+            <div className="bg-[var(--mk-bg-alt)] border border-[var(--mk-border)] rounded-xl px-3 py-2">
+              <p className="text-[var(--mk-text-secondary)] text-[10px] uppercase tracking-wide">
                 {lang === 'sw' ? 'Afya' : 'Health'}
               </p>
-              <p className="text-white font-black text-lg leading-tight">{healthScore}</p>
+              <p className="text-[var(--mk-text)] font-black text-lg leading-tight">{healthScore}</p>
             </div>
           </div>
         </div>

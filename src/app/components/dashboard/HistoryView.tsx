@@ -160,18 +160,18 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
   return (
     <div className="min-h-screen pb-24" style={{ background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div className="text-white px-6 pb-5 min-safe-top" style={{ background: 'linear-gradient(160deg, #1a0800 0%, #2d1200 100%)' }}>
+      <div className="px-6 pb-5 min-safe-top" style={{ background: 'var(--mk-card)', borderBottom: '1px solid var(--mk-border)' }}>
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
-            <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
-              <ArrowLeft className="w-6 h-6" />
+            <button onClick={onBack} className="mr-4 p-2 hover:bg-[var(--mk-bg-alt)] rounded-full">
+              <ArrowLeft className="w-6 h-6 text-[var(--mk-text)]" />
             </button>
-            <h1 className="text-2xl font-bold">{t('history', lang)}</h1>
+            <h1 className="text-2xl font-bold text-[var(--mk-text)]">{t('history', lang)}</h1>
           </div>
           <button
             onClick={() => setShowFilter(true)}
             className={`flex items-center gap-2 px-3 py-2 rounded-xl transition ${
-              isFiltered ? 'bg-[var(--mk-card)] text-[var(--mk-orange)]' : 'bg-white/20 text-white hover:bg-white/30'
+              isFiltered ? 'bg-orange-50 text-[var(--mk-orange)]' : 'bg-[var(--mk-bg-alt)] text-[var(--mk-text-secondary)] hover:bg-[var(--mk-border)]'
             }`}
           >
             <Filter className="w-4 h-4" />
@@ -179,7 +179,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             {isFiltered && <span className="w-2 h-2 rounded-full" style={{ background: 'var(--mk-green)' }} />}
           </button>
         </div>
-        <p className="text-sm opacity-80 ml-14">
+        <p className="text-sm text-[var(--mk-text-secondary)] ml-14">
           {filteredTransactions.length} {lang === 'sw' ? 'miamala' : 'transactions'}
           {isFiltered && ` (${t('filtered', lang)})`}
         </p>

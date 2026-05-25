@@ -83,7 +83,7 @@ function CommunityRing({ pct, color }: { pct: number; color: string }) {
   return (
     <div style={{ position: 'relative', width: 50, height: 50, flexShrink: 0 }}>
       <svg width={50} height={50} viewBox="0 0 50 50" style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx={25} cy={25} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={4} />
+        <circle cx={25} cy={25} r={r} fill="none" stroke="var(--mk-border)" strokeWidth={4} />
         <motion.circle
           cx={25} cy={25} r={r} fill="none" stroke={color} strokeWidth={4}
           strokeLinecap="round"
@@ -238,44 +238,41 @@ export function SavingsChallenge() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               style={{
-                background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
-                border: `1px solid ${tpl.accent}30`,
+                background: 'var(--mk-card)',
+                border: `1.5px solid ${tpl.accent}40`,
                 borderRadius: 20,
                 overflow: 'hidden',
                 position: 'relative',
+                boxShadow: `0 4px 20px ${tpl.accent}14`,
               }}
             >
-              {/* glow */}
-              <div style={{
-                position: 'absolute', top: -20, right: -20, width: 120, height: 120,
-                background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
-                pointerEvents: 'none',
-              }} />
+              {/* Accent top bar */}
+              <div style={{ height: 3, background: `linear-gradient(90deg, ${tpl.accent}, ${tpl.accent}66)` }} />
 
-              <div style={{ padding: '16px 16px 0', position: 'relative' }}>
+              <div style={{ padding: '14px 16px 0', position: 'relative' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div style={{
                       width: 40, height: 40, borderRadius: 12, fontSize: 20,
-                      background: `${tpl.accent}20`, border: `1px solid ${tpl.accent}40`,
+                      background: `${tpl.accent}14`, border: `1px solid ${tpl.accent}30`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                     }}>
                       {c.emoji}
                     </div>
                     <div>
-                      <p style={{ fontSize: 14, fontWeight: 800, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em', marginBottom: 2 }}>
+                      <p style={{ fontSize: 14, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em', marginBottom: 2 }}>
                         {c.name}
                       </p>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                         <span style={{
                           fontSize: 10, fontWeight: 700, fontFamily: 'Geist, sans-serif',
                           color: onTrack ? '#00A875' : '#F97316',
-                          background: onTrack ? 'rgba(0,168,117,0.15)' : 'rgba(249,115,22,0.15)',
+                          background: onTrack ? 'rgba(0,168,117,0.1)' : 'rgba(249,115,22,0.1)',
                           padding: '2px 7px', borderRadius: 999,
                         }}>
                           {onTrack ? `✅ ${tx(UI.onTrack, lang)}` : `⚠️ ${tx(UI.behind, lang)}`}
                         </span>
-                        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                        <span style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                           {remaining} {tx(UI.daysLeft, lang)}
                         </span>
                       </div>
@@ -283,7 +280,7 @@ export function SavingsChallenge() {
                   </div>
                   <button
                     onClick={() => { if (confirm(tx(UI.abandon, lang))) abandonChallenge(c.id); }}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 6, color: 'rgba(255,255,255,0.2)' }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 6, color: 'var(--mk-text-secondary)' }}
                   >
                     <Trash2 style={{ width: 14, height: 14 }} />
                   </button>
@@ -292,28 +289,28 @@ export function SavingsChallenge() {
                 {/* Stats row */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, marginBottom: 10 }}>
                   <div>
-                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                    <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
                       {daysLogged}/{c.targetDays} {tx(UI.days, lang)}
                     </p>
                     <p style={{ fontSize: 18, fontWeight: 800, color: tpl.accent, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                       {fmt(totalSaved)}
                     </p>
-                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                       {tx(UI.saved, lang)}
                     </p>
                   </div>
                   <div style={{ textAlign: 'right' }}>
-                    <p style={{ fontSize: 28, fontWeight: 900, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                    <p style={{ fontSize: 28, fontWeight: 900, color: tpl.accent, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', lineHeight: 1 }}>
                       {pct}<span style={{ fontSize: 14 }}>%</span>
                     </p>
-                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                       {lang === 'sw' ? 'imekamilika' : lang === 'fr' ? 'terminé' : lang === 'ar' ? 'مكتمل' : lang === 'pt' ? 'concluído' : 'complete'}
                     </p>
                   </div>
                 </div>
 
                 {/* Progress bar */}
-                <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 999, overflow: 'hidden', marginBottom: 14 }}>
+                <div style={{ height: 6, background: 'var(--mk-border)', borderRadius: 999, overflow: 'hidden', marginBottom: 14 }}>
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${pct}%` }}
@@ -329,15 +326,15 @@ export function SavingsChallenge() {
                   <div style={{
                     flex: 1, display: 'flex', alignItems: 'center',
                     border: `2px solid ${tpl.accent}`, borderRadius: 12, overflow: 'hidden',
-                    background: 'rgba(255,255,255,0.04)',
+                    background: 'var(--mk-bg)',
                   }}>
-                    <span style={{ padding: '0 10px', fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif' }}>{symbol}</span>
+                    <span style={{ padding: '0 10px', fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{symbol}</span>
                     <input
                       type="number"
                       placeholder={c.dailyAmount.toString()}
                       value={logAmount}
                       onChange={e => setLogAmount(e.target.value)}
-                      style={{ flex: 1, padding: '10px 0', fontSize: 14, fontWeight: 700, background: 'none', border: 'none', outline: 'none', color: '#fff', fontFamily: 'Geist, sans-serif' }}
+                      style={{ flex: 1, padding: '10px 0', fontSize: 14, fontWeight: 700, background: 'none', border: 'none', outline: 'none', color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}
                       autoFocus
                     />
                   </div>
@@ -347,7 +344,7 @@ export function SavingsChallenge() {
                   >
                     ✅
                   </button>
-                  <button onClick={() => setLogTarget(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', padding: '0 6px' }}>
+                  <button onClick={() => setLogTarget(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--mk-text-secondary)', padding: '0 6px' }}>
                     <X style={{ width: 16, height: 16 }} />
                   </button>
                 </div>
@@ -357,8 +354,8 @@ export function SavingsChallenge() {
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setLogTarget(c.id); setLogAmount(c.dailyAmount.toString()); }}
                     style={{
-                      width: '100%', padding: '11px 0', border: `1.5px solid ${tpl.accent}55`,
-                      borderRadius: 12, background: `${tpl.accent}18`,
+                      width: '100%', padding: '11px 0', border: `1.5px solid ${tpl.accent}40`,
+                      borderRadius: 12, background: `${tpl.accent}10`,
                       color: tpl.accent, fontSize: 13, fontWeight: 700,
                       fontFamily: 'Geist, sans-serif', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
@@ -393,31 +390,26 @@ export function SavingsChallenge() {
                 onClick={() => setShowStart(tpl)}
                 style={{
                   minWidth: 220, maxWidth: 240, scrollSnapAlign: 'start', flexShrink: 0,
-                  background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
-                  border: `1px solid ${tpl.accent}28`,
+                  background: 'var(--mk-card)',
+                  border: `1.5px solid ${tpl.accent}35`,
                   borderRadius: 20, padding: 18, textAlign: 'left', cursor: 'pointer',
                   position: 'relative', overflow: 'hidden',
-                  boxShadow: `0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${tpl.accent}10`,
+                  boxShadow: `0 4px 20px ${tpl.accent}14, 0 1px 4px rgba(0,0,0,0.06)`,
                 }}
               >
-                {/* Corner glow */}
+                {/* Accent top strip */}
                 <div style={{
-                  position: 'absolute', top: -30, right: -30, width: 120, height: 120,
-                  background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                  background: `linear-gradient(90deg, ${tpl.accent}, ${tpl.accent}66)`,
                   pointerEvents: 'none',
-                }} />
-                <div style={{
-                  position: 'absolute', bottom: -20, left: -10, width: 80, height: 80,
-                  background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
-                  pointerEvents: 'none', opacity: 0.5,
                 }} />
 
                 {/* Emoji badge */}
                 <div style={{
                   width: 48, height: 48, borderRadius: 14, fontSize: 24,
-                  background: `${tpl.accent}18`, border: `1.5px solid ${tpl.accent}35`,
+                  background: `${tpl.accent}12`, border: `1.5px solid ${tpl.accent}28`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: 14, position: 'relative',
+                  marginBottom: 14, marginTop: 8, position: 'relative',
                 }}>
                   {tpl.emoji}
                 </div>
@@ -425,7 +417,7 @@ export function SavingsChallenge() {
                 {/* Days badge */}
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', gap: 4,
-                  background: `${tpl.accent}18`, border: `1px solid ${tpl.accent}30`,
+                  background: `${tpl.accent}12`, border: `1px solid ${tpl.accent}25`,
                   borderRadius: 999, padding: '3px 8px', marginBottom: 8,
                 }}>
                   <Flame style={{ width: 10, height: 10, color: tpl.accent }} />
@@ -436,7 +428,7 @@ export function SavingsChallenge() {
 
                 {/* Name */}
                 <p style={{
-                  fontSize: 14, fontWeight: 800, color: '#fff',
+                  fontSize: 14, fontWeight: 800, color: 'var(--mk-text)',
                   fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em',
                   lineHeight: 1.2, marginBottom: 6,
                 }}>
@@ -445,7 +437,7 @@ export function SavingsChallenge() {
 
                 {/* Desc */}
                 <p style={{
-                  fontSize: 11, color: 'rgba(255,255,255,0.45)',
+                  fontSize: 11, color: 'var(--mk-text-secondary)',
                   fontFamily: 'Geist, sans-serif', lineHeight: 1.5, marginBottom: 16,
                 }}>
                   {tx(tpl.desc, lang)}
@@ -454,7 +446,7 @@ export function SavingsChallenge() {
                 {/* Community ring row */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
                   <CommunityRing pct={tpl.communityPct} color={tpl.accent} />
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                  <span style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
                     {tx(UI.succeed, lang)}
                   </span>
                 </div>
@@ -465,7 +457,7 @@ export function SavingsChallenge() {
                   borderRadius: 12, padding: '10px 0', textAlign: 'center',
                   color: '#fff', fontWeight: 700, fontSize: 13,
                   fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em',
-                  boxShadow: `0 4px 16px rgba(var(--mk-orange-rgb),0.3)`,
+                  boxShadow: `0 4px 16px rgba(var(--mk-orange-rgb),0.25)`,
                 }}>
                   {tx(UI.start, lang)} →
                 </div>
@@ -497,49 +489,50 @@ export function SavingsChallenge() {
               {/* Handle */}
               <div style={{ width: 36, height: 4, background: 'var(--mk-border)', borderRadius: 999, margin: '0 auto 20px' }} />
 
-              {/* Dark hero header */}
+              {/* Light hero header */}
               <div style={{
-                background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
-                border: `1px solid ${showStart.accent}30`,
+                background: 'var(--mk-bg)',
+                border: `1.5px solid ${showStart.accent}35`,
                 borderRadius: 20, padding: 20, marginBottom: 16, position: 'relative', overflow: 'hidden',
+                boxShadow: `0 2px 16px ${showStart.accent}12`,
               }}>
+                {/* Accent top bar */}
                 <div style={{
-                  position: 'absolute', top: -20, right: -20, width: 100, height: 100,
-                  background: `radial-gradient(circle, ${showStart.glow} 0%, transparent 70%)`,
-                  pointerEvents: 'none',
+                  position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                  background: `linear-gradient(90deg, ${showStart.accent}, ${showStart.accent}66)`,
                 }} />
-                <div style={{ fontSize: 36, marginBottom: 10 }}>{showStart.emoji}</div>
+                <div style={{ fontSize: 36, marginBottom: 10, marginTop: 8 }}>{showStart.emoji}</div>
                 <h2 style={{
-                  fontSize: 20, fontWeight: 900, color: '#fff',
+                  fontSize: 20, fontWeight: 900, color: 'var(--mk-text)',
                   fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', marginBottom: 4,
                 }}>
                   {tx(showStart.name, lang)}
                 </h2>
-                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', fontFamily: 'Geist, sans-serif', marginBottom: 14 }}>
+                <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 14 }}>
                   {tx(showStart.desc, lang)}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   <div>
-                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                    <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
                       {tx(UI.days, lang)}
                     </p>
                     <p style={{ fontSize: 20, fontWeight: 900, color: showStart.accent, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                       {showStart.targetDays}
                     </p>
                   </div>
-                  <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.1)' }} />
+                  <div style={{ width: 1, height: 32, background: 'var(--mk-border)' }} />
                   <div>
-                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                    <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
                       {tx(UI.goal, lang)}
                     </p>
-                    <p style={{ fontSize: 20, fontWeight: 900, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                    <p style={{ fontSize: 20, fontWeight: 900, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                       {fmt(showStart.targetDays * showStart.dailyAmount)}
                     </p>
                   </div>
-                  <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.1)' }} />
+                  <div style={{ width: 1, height: 32, background: 'var(--mk-border)' }} />
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <CommunityRing pct={showStart.communityPct} color={showStart.accent} />
-                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', maxWidth: 60, lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', maxWidth: 60, lineHeight: 1.4 }}>
                       {tx(UI.succeed, lang)}
                     </p>
                   </div>

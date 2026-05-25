@@ -237,10 +237,10 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
 
   return (
     <div ref={confettiRef} style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative', overflow: 'hidden' }}>
-      {/* ── Hero (top 55%) — dark green ── */}
+      {/* ── Hero (top 55%) — light ── */}
       <div style={{
         position: 'relative',
-        background: 'linear-gradient(160deg, #0f0600 0%, #1a0800 55%, #2d1200 100%)',
+        background: 'linear-gradient(160deg, #fff8f4 0%, #fff3eb 55%, #ffeedd 100%)',
         padding: '48px 28px 32px',
         flexShrink: 0,
         overflow: 'hidden',
