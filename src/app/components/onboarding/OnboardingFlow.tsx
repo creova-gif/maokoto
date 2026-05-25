@@ -288,17 +288,19 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
         <HeroChart />
       </div>
 
-      {/* ── Bottom white panel ── */}
+      {/* ── Bottom dark panel ── */}
       <div style={{
         flex: 1,
-        background: '#fff',
+        background: '#0D0D0D',
         padding: '28px 28px 32px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         borderRadius: '28px 28px 0 0',
         marginTop: -20,
-        boxShadow: '0 -4px 24px rgba(0,0,0,0.08)',
+        boxShadow: '0 -4px 32px rgba(0,0,0,0.6)',
+        border: '1px solid #1C1C1E',
+        borderBottom: 'none',
       }}>
         <div>
           <motion.h1
@@ -308,7 +310,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             style={{
               fontSize: 30,
               fontWeight: 800,
-              color: '#1A1F1C',
+              color: '#FFFFFF',
               fontFamily: 'Geist, sans-serif',
               letterSpacing: '-0.03em',
               lineHeight: 1.15,
@@ -328,9 +330,9 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
                 transition={{ delay: 0.35 + i * 0.08, type: 'spring', stiffness: 400 }}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 5,
-                  background: '#EAF6F1', border: '1px solid rgba(78,136,111,0.2)',
+                  background: 'rgba(255,107,0,0.1)', border: '1px solid rgba(255,107,0,0.25)',
                   borderRadius: 999, padding: '5px 12px',
-                  fontSize: 12, fontWeight: 600, color: '#2D6A4F',
+                  fontSize: 12, fontWeight: 700, color: '#FF6B00',
                   fontFamily: 'Geist, sans-serif',
                 }}
               >
@@ -350,16 +352,16 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             whileTap={{ scale: 0.96 }}
             style={{
               width: '100%',
-              background: 'linear-gradient(135deg, #FD8240 0%, #F55D3E 100%)',
+              background: 'linear-gradient(135deg, #FF6B00 0%, #FF3D3D 100%)',
               color: '#fff',
               borderRadius: 999,
               padding: '17px 0',
-              fontWeight: 700,
+              fontWeight: 800,
               fontSize: 16,
               border: 'none',
               cursor: 'pointer',
               fontFamily: 'Geist, sans-serif',
-              boxShadow: '0 8px 28px rgba(253,130,64,0.42)',
+              boxShadow: '0 8px 32px rgba(255,107,0,0.55)',
               letterSpacing: '-0.01em',
             }}
           >
@@ -369,7 +371,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            style={{ color: '#B0ADA9', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
+            style={{ color: '#4B5563', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
           >
             {footer[lang] || footer.en}
           </motion.p>

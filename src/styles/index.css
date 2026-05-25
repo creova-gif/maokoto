@@ -110,6 +110,18 @@ body {
   100% { background-position:  200% 0; }
 }
 
+/* Vibrant glow pulse for active nav */
+@keyframes mk-glow-pulse {
+  0%, 100% { box-shadow: 0 0 6px 1px rgba(255,107,0,0.5); }
+  50%       { box-shadow: 0 0 16px 4px rgba(255,107,0,0.8); }
+}
+
+/* Neon text shimmer */
+@keyframes mk-neon-slide {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
 /* ── Utility classes ──────────────────────────────────────────────────────── */
 .mk-streak-pulse  { animation: mk-streak-pulse 2.4s ease-in-out infinite; }
 

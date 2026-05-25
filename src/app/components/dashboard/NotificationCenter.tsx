@@ -182,10 +182,10 @@ export function NotificationCenter() {
   const unreadCount = alerts.length;
 
   const typeConfig = {
-    urgent: { bg: 'bg-red-50 border-red-200', icon: 'text-red-500', dot: 'bg-red-500' },
-    warning: { bg: 'bg-orange-50 border-orange-200', icon: 'text-orange-500', dot: 'bg-orange-500' },
-    success: { bg: 'bg-emerald-50 border-emerald-200', icon: 'text-emerald-500', dot: 'bg-emerald-500' },
-    info: { bg: 'bg-blue-50 border-blue-200', icon: 'text-blue-500', dot: 'bg-blue-500' },
+    urgent:  { bg: 'rgba(255,61,61,0.08)',   border: 'rgba(255,61,61,0.2)',   iconColor: '#FF3D3D' },
+    warning: { bg: 'rgba(255,107,0,0.08)',   border: 'rgba(255,107,0,0.2)',   iconColor: '#FF6B00' },
+    success: { bg: 'rgba(0,229,160,0.08)',   border: 'rgba(0,229,160,0.2)',   iconColor: '#00E5A0' },
+    info:    { bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.2)', iconColor: '#A78BFA' },
   };
 
   return (
@@ -202,34 +202,38 @@ export function NotificationCenter() {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 max-h-[80vh] flex flex-col"
+              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}
               onClick={e => e.stopPropagation()}
             >
+              {/* Handle */}
+              <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 4, flexShrink: 0 }}>
+                <div style={{ width: 40, height: 4, borderRadius: 999, background: '#2A2A2E' }} />
+              </div>
               {/* Header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 shrink-0">
-                <div className="flex items-center gap-2">
-                  <Bell className="w-5 h-5 text-gray-700" />
-                  <h2 className="text-base font-bold text-gray-900">
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 20px 14px', borderBottom: '1px solid #2A2A2E', flexShrink: 0 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <Bell size={18} color="#FFFFFF" />
+                  <h2 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
                     {t('notifications', lang)}
                   </h2>
                   {unreadCount > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">{unreadCount}</span>
+                    <span style={{ background: '#FF3D3D', color: '#fff', fontSize: 11, padding: '2px 8px', borderRadius: 999, fontWeight: 700, fontFamily: 'Geist, sans-serif', boxShadow: '0 0 8px rgba(255,61,61,0.4)' }}>{unreadCount}</span>
                   )}
                 </div>
-                <button onClick={() => setOpen(false)} className="p-1.5 bg-gray-100 rounded-full">
-                  <X className="w-4 h-4 text-gray-500" />
+                <button onClick={() => setOpen(false)} style={{ width: 30, height: 30, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <X size={14} color="#FFFFFF" />
                 </button>
               </div>
 
               {/* Alerts list */}
-              <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2">
+              <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {alerts.length === 0 ? (
-                  <div className="py-12 text-center">
-                    <CheckCircle className="w-12 h-12 text-emerald-300 mx-auto mb-3" />
-                    <p className="text-sm font-semibold text-gray-500">
+                  <div style={{ padding: '48px 0', textAlign: 'center' }}>
+                    <CheckCircle size={48} color="#2A2A2E" style={{ margin: '0 auto 12px' }} />
+                    <p style={{ fontSize: 14, fontWeight: 600, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
                       {t('noNotifications', lang)}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p style={{ fontSize: 12, color: '#4B5563', marginTop: 4, fontFamily: 'Geist, sans-serif' }}>
                       {t('allCaughtUp', lang)}
                     </p>
                   </div>
@@ -242,25 +246,25 @@ export function NotificationCenter() {
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: i * 0.04 }}
-                        className={`relative flex items-start gap-3 p-3 rounded-2xl border ${cfg.bg}`}
+                        style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 12, padding: 12, borderRadius: 16, border: `1px solid ${cfg.border}`, background: cfg.bg }}
                       >
-                        <div className={`p-1.5 rounded-full bg-white shrink-0`}>
-                          <alert.icon className={`w-4 h-4 ${cfg.icon}`} />
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <alert.icon size={16} color={cfg.iconColor} />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-gray-900">{alert.title[lang]}</p>
-                          <p className="text-xs text-gray-600 mt-0.5 leading-relaxed">{alert.body[lang]}</p>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{alert.title[lang]}</p>
+                          <p style={{ fontSize: 12, color: '#6B7280', marginTop: 2, lineHeight: 1.5, fontFamily: 'Geist, sans-serif' }}>{alert.body[lang]}</p>
                           {alert.action && (
-                            <button className={`mt-1.5 text-xs font-semibold ${cfg.icon}`}>
+                            <button style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: cfg.iconColor, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
                               {alert.action[lang]} →
                             </button>
                           )}
                         </div>
                         <button
                           onClick={() => dismissNotification(alert.id)}
-                          className="shrink-0 p-1 hover:bg-white/70 rounded-full"
+                          style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                         >
-                          <X className="w-3.5 h-3.5 text-gray-400" />
+                          <X size={12} color="#4B5563" />
                         </button>
                       </motion.div>
                     );
@@ -269,10 +273,10 @@ export function NotificationCenter() {
               </div>
 
               {alerts.length > 0 && (
-                <div className="px-4 pb-6 pt-2 shrink-0">
+                <div style={{ padding: '8px 16px 24px', flexShrink: 0 }}>
                   <button
                     onClick={() => { alerts.forEach(a => dismissNotification(a.id)); setOpen(false); }}
-                    className="w-full py-3 text-sm text-gray-500 border-2 border-gray-200 rounded-2xl font-medium"
+                    style={{ width: '100%', padding: '12px 0', fontSize: 13, color: '#6B7280', background: '#1C1C1E', border: '1.5px solid #2A2A2E', borderRadius: 16, fontWeight: 600, cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
                   >
                     {t('dismissAll', lang)}
                   </button>

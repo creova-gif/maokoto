@@ -40,20 +40,20 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* ── Maokoto Design Tokens ──────────────────────────────────────────────── */
-  --mk-text-primary:   #4D4845;
-  --mk-text-secondary: #928F8B;
-  --mk-text-expense:   #C9362B;
-  --mk-text-income:    #215B44;
-  --mk-fill-primary:   #FFFFFF;
-  --mk-fill-secondary: #F6F6F4;
-  --mk-fill-orange:    #FD8240;
-  --mk-fill-orange-alt:#F55D3E;
-  --mk-fill-green:     #4E886F;
-  --mk-fill-green-dark:#215B44;
-  --mk-border:         #F4F4F2;
-  --mk-icon-primary:   #4D4845;
-  --mk-icon-secondary: #A6A4A0;
+  /* ── Maokoto Design Tokens — Bold/Vibrant ───────────────────────────────── */
+  --mk-text-primary:   #FFFFFF;
+  --mk-text-secondary: #9CA3AF;
+  --mk-text-expense:   #FF3D3D;
+  --mk-text-income:    #00E5A0;
+  --mk-fill-primary:   #1C1C1E;
+  --mk-fill-secondary: #141414;
+  --mk-fill-orange:    #FF6B00;
+  --mk-fill-orange-alt:#FF3D3D;
+  --mk-fill-green:     #00E5A0;
+  --mk-fill-green-dark:#00B87A;
+  --mk-border:         #2A2A2E;
+  --mk-icon-primary:   #FFFFFF;
+  --mk-icon-secondary: #6B7280;
 }
 
 .dark {

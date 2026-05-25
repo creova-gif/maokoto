@@ -26,58 +26,59 @@ export function BudgetCategoryView({ category, onBack }: Props) {
   const icon = getCategoryIcon(category);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#F6F6F4' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
       {/* Top nav */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#fff', borderBottom: '1px solid #F4F4F2' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#141414', borderBottom: '1px solid #2A2A2E' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 20px', height: 56 }}>
           <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-            <ArrowLeft size={22} color="#4D4845" />
+            <ArrowLeft size={22} color="#FFFFFF" />
           </button>
           <span style={{ fontSize: 18, marginRight: 4 }}>{icon}</span>
-          <p style={{ fontSize: 16, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{category}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{category}</p>
         </div>
       </div>
 
       <div style={{ flex: 1, padding: '20px 20px 100px', display: 'flex', flexDirection: 'column', gap: 20 }}>
         {/* Budget progress card */}
-        <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', padding: 20 }}>
-          <p style={{ fontSize: 13, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 20 }}>
+          <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
             {lang === 'sw' ? 'Imetumika' : 'Spent'}
           </p>
-          <p style={{ fontSize: 36, fontWeight: 400, color: over ? '#C9362B' : '#4D4845', fontFamily: 'Geist, sans-serif', marginBottom: 16 }}>
+          <p style={{ fontSize: 36, fontWeight: 700, color: over ? '#FF3D3D' : '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 16 }}>
             {fmt(spent)}
           </p>
 
           {/* Progress bar */}
-          <div style={{ height: 8, borderRadius: 999, background: '#F4F4F2', overflow: 'hidden', marginBottom: 8 }}>
+          <div style={{ height: 8, borderRadius: 999, background: '#2A2A2E', overflow: 'hidden', marginBottom: 8 }}>
             <div style={{
               height: '100%',
               width: `${pct}%`,
               borderRadius: 999,
-              background: over ? '#C9362B' : 'linear-gradient(90deg, #FD8240, #4E886F)',
+              background: over ? '#FF3D3D' : 'linear-gradient(90deg, #FF6B00, #00E5A0)',
               transition: 'width 0.6s ease',
+              boxShadow: over ? '0 0 8px rgba(255,61,61,0.5)' : '0 0 8px rgba(255,107,0,0.4)',
             }} />
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
             <div>
-              <p style={{ fontSize: 11, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Iliyotumika' : 'Spent'}
               </p>
-              <p style={{ fontSize: 14, fontWeight: 500, color: '#C9362B', fontFamily: 'Geist, sans-serif' }}>{fmt(spent)}</p>
+              <p style={{ fontSize: 14, fontWeight: 600, color: '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>{fmt(spent)}</p>
             </div>
             {budget > 0 && (
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: 11, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Iliyobaki' : 'Remaining'}
                 </p>
-                <p style={{ fontSize: 14, fontWeight: 500, color: '#4E886F', fontFamily: 'Geist, sans-serif' }}>{fmt(remaining)}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>{fmt(remaining)}</p>
               </div>
             )}
           </div>
 
           {budget === 0 && (
-            <p style={{ fontSize: 12, color: '#928F8B', marginTop: 8, fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 12, color: '#6B7280', marginTop: 8, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Hakuna kikomo kilichowekwa' : 'No budget limit set for this category'}
             </p>
           )}
@@ -85,17 +86,17 @@ export function BudgetCategoryView({ category, onBack }: Props) {
 
         {/* Stats row */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', padding: 16 }}>
-            <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+          <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 16 }}>
+            <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
               {lang === 'sw' ? 'Miamala' : 'Transactions'}
             </p>
-            <p style={{ fontSize: 24, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>{categoryTxs.length}</p>
+            <p style={{ fontSize: 24, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{categoryTxs.length}</p>
           </div>
-          <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', padding: 16 }}>
-            <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+          <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 16 }}>
+            <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
               {lang === 'sw' ? 'Wastani' : 'Average'}
             </p>
-            <p style={{ fontSize: 24, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 24, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
               {fmt(categoryTxs.length > 0 ? spent / categoryTxs.length : 0)}
             </p>
           </div>
@@ -104,23 +105,23 @@ export function BudgetCategoryView({ category, onBack }: Props) {
         {/* Transaction list */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Miamala Yote' : 'All Transactions'}
             </p>
-            <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
               {categoryTxs.length} {lang === 'sw' ? 'jumla' : 'total'}
             </p>
           </div>
 
           {categoryTxs.length === 0 ? (
-            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', padding: 32, textAlign: 'center' }}>
+            <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 32, textAlign: 'center' }}>
               <p style={{ fontSize: 32, marginBottom: 8 }}>{icon}</p>
-              <p style={{ fontSize: 14, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Hakuna miamala bado' : 'No transactions yet'}
               </p>
             </div>
           ) : (
-            <div style={{ background: '#fff', borderRadius: 16, border: '1px solid #F4F4F2', overflow: 'hidden' }}>
+            <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
               {categoryTxs.map((tx, i) => (
                 <div
                   key={tx.id}
@@ -129,25 +130,26 @@ export function BudgetCategoryView({ category, onBack }: Props) {
                     alignItems: 'center',
                     gap: 12,
                     padding: '14px 16px',
-                    borderBottom: i < categoryTxs.length - 1 ? '1px solid #F4F4F2' : 'none',
+                    borderBottom: i < categoryTxs.length - 1 ? '1px solid #2A2A2E' : 'none',
                   }}
                 >
                   <div style={{
                     width: 40, height: 40, borderRadius: '50%',
-                    background: '#F6F6F4', display: 'flex', alignItems: 'center',
+                    background: 'rgba(255,61,61,0.1)', border: '1px solid rgba(255,61,61,0.2)',
+                    display: 'flex', alignItems: 'center',
                     justifyContent: 'center', fontSize: 18, flexShrink: 0,
                   }}>
-                    <TrendingDown size={16} color="#C9362B" />
+                    <TrendingDown size={16} color="#FF3D3D" />
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
                       {tx.notes || category}
                     </p>
-                    <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
                       {tx.source} · {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                     </p>
                   </div>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: '#C9362B', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FF3D3D', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>
                     -{fmt(tx.amount)}
                   </p>
                 </div>
