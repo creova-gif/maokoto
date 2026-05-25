@@ -301,7 +301,7 @@ function BottomNav({
         bottom: 0,
         zIndex: 20,
         background: 'var(--mk-bg)',
-        borderTop: '1px solid var(--mk-card)',
+        borderTop: '1px solid var(--mk-border)',
       }}
       className="safe-area-bottom-nav"
     >
@@ -364,7 +364,7 @@ function BottomNav({
               </motion.span>
               <span
                 style={{
-                  fontSize: 10,
+                  fontSize: 11,
                   fontWeight: isActive ? 600 : 500,
                   color,
                   fontFamily: 'Geist, sans-serif',
@@ -510,7 +510,7 @@ function HomeTab({
         <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.45)', fontFamily: 'Geist, sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
           {lang === 'sw' ? 'Jumla ya Akaunti' : lang === 'fr' ? 'Solde total' : lang === 'ar' ? 'الرصيد الإجمالي' : lang === 'pt' ? 'Saldo total' : 'Total Balance'}
         </p>
-        <p style={{ fontSize: 40, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 18, textShadow: '0 0 40px rgba(var(--mk-green-rgb),0.2)' }}>
+        <p style={{ fontSize: 40, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 18 }}>
           {fmt(animBalance)}
         </p>
 
@@ -521,7 +521,7 @@ function HomeTab({
               <TrendingUp size={12} color="var(--mk-green)" />
             </div>
             <div>
-              <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.45)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {lang === 'sw' ? 'Mapato leo' : "Today's in"}
               </p>
               <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>+{fmt(todayIncome)}</p>
@@ -533,7 +533,7 @@ function HomeTab({
               <TrendingDown size={12} color="var(--mk-red)" />
             </div>
             <div>
-              <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.45)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {lang === 'sw' ? 'Matumizi leo' : "Today's out"}
               </p>
               <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>-{fmt(todayExpense)}</p>
@@ -605,12 +605,12 @@ function HomeTab({
                         style={{
                           width: 44,
                           height: 44,
-                          borderRadius: '50%',
-                          background: 'var(--mk-green)',
+                          borderRadius: 14,
+                          background: 'var(--mk-bg-alt)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          fontSize: 20,
+                          fontSize: 22,
                           flexShrink: 0,
                         }}
                       >

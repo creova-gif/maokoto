@@ -97,10 +97,9 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
             }}
           >
             <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
-              <path d="M22 9C14.82 9 9 14.82 9 22s5.82 13 13 13 13-5.82 13-13S29.18 9 22 9z" stroke="white" strokeWidth="2.4" />
-              <path d="M22 16v6l5 2.5" stroke="white" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M16 33h12" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
-              <path d="M22 33v4" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" />
+              <path d="M22 4 L25 19 L40 22 L25 25 L22 40 L19 25 L4 22 L19 19 Z" fill="white" fillOpacity="0.95" />
+              <path d="M36 5 L37.5 11 L43 12.5 L37.5 14 L36 20 L34.5 14 L29 12.5 L34.5 11 Z" fill="white" fillOpacity="0.5" />
+              <circle cx="8" cy="34" r="2.5" fill="white" fillOpacity="0.3" />
             </svg>
           </div>
         </motion.div>

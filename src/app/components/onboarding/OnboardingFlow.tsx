@@ -297,7 +297,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
         justifyContent: 'space-between',
         borderRadius: '28px 28px 0 0',
         marginTop: -20,
-        boxShadow: '0 -4px 32px rgba(0,0,0,0.6)',
+        boxShadow: '0 -4px 32px rgba(0,0,0,0.15)',
         border: '1px solid var(--mk-card)',
         borderBottom: 'none',
       }}>
@@ -352,7 +352,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             style={{
               width: '100%',
               background: 'linear-gradient(135deg, var(--mk-orange) 0%, var(--mk-red) 100%)',
-              color: 'var(--mk-text)',
+              color: '#FFFFFF',
               borderRadius: 999,
               padding: '17px 0',
               fontWeight: 800,
@@ -434,7 +434,7 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check style={{ width: 12, height: 12, color: 'var(--mk-text)' }} strokeWidth={2.5} />
+                      <Check style={{ width: 12, height: 12, color: '#FFFFFF' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -478,7 +478,7 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           <motion.p key={displayName}
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
-            style={{ fontSize: 20, fontWeight: 600, color: 'var(--mk-green)', marginBottom: 24, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+            style={{ fontSize: 20, fontWeight: 600, color: 'var(--mk-orange)', marginBottom: 24, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? `Karibu, ${displayName}!` : `Hi, ${displayName}!`}
           </motion.p>
         </AnimatePresence>
@@ -520,15 +520,16 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
         style={{
           width: '100%',
           maxWidth: 340,
-          background: 'var(--mk-orange)',
-          color: 'var(--mk-text)',
+          background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+          color: '#FFFFFF',
           borderRadius: 999,
           padding: '16px 0',
-          fontWeight: 600,
+          fontWeight: 700,
           fontSize: 16,
           border: 'none',
           cursor: 'pointer',
           fontFamily: 'Geist, sans-serif',
+          boxShadow: '0 6px 20px rgba(var(--mk-orange-rgb),0.4)',
         }}>
         {lang === 'sw' ? 'Endelea' : 'Continue'}
       </motion.button>
@@ -591,7 +592,7 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check style={{ width: 11, height: 11, color: 'var(--mk-text)' }} strokeWidth={2.5} />
+                      <Check style={{ width: 11, height: 11, color: '#FFFFFF' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -669,7 +670,7 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ position: 'absolute', top: 10, right: 10, width: 18, height: 18, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Check style={{ width: 10, height: 10, color: 'var(--mk-text)' }} strokeWidth={2.5} />
+                      <Check style={{ width: 10, height: 10, color: '#FFFFFF' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -879,7 +880,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                 {isSelected && (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                     style={{ position: 'absolute', top: 6, right: 6, width: 14, height: 14, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Check style={{ width: 8, height: 8, color: 'var(--mk-text)' }} strokeWidth={2.5} />
+                    <Check style={{ width: 8, height: 8, color: '#FFFFFF' }} strokeWidth={2.5} />
                   </motion.div>
                 )}
               </AnimatePresence>
