@@ -203,7 +203,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                   ? 'text-white'
                   : 'text-[var(--mk-text-secondary)] hover:bg-[var(--mk-border)]'
               }`}
-            style={filterDateRange === opt.value ? { background: 'var(--mk-green)' } : { background: 'var(--mk-border)' }}
+            style={filterDateRange === opt.value ? { background: 'var(--mk-orange)' } : { background: 'var(--mk-border)' }}
             >
               {lang === 'sw' ? opt.sw : opt.en}
             </button>
@@ -214,7 +214,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
         <div className="px-4 py-2.5">
           <div className={`flex items-center gap-2 rounded-xl px-3 py-2 border-2 transition-colors ${
             searchFocused ? 'bg-[var(--mk-card)]' : 'bg-[var(--mk-border)]'
-          }`} style={{ borderColor: searchFocused ? 'var(--mk-green)' : 'transparent' }}>
+          }`} style={{ borderColor: searchFocused ? 'var(--mk-orange)' : 'transparent' }}>
             <Search className="w-4 h-4 text-[var(--mk-text-secondary)] shrink-0" />
             <input
               value={searchQuery}
@@ -243,11 +243,11 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
           <div className="grid grid-cols-3 divide-x divide-[var(--mk-border)]">
             <div className="px-3 py-3 text-center">
               <p className="text-[10px] text-[var(--mk-text-secondary)] mb-0.5">{t('income', lang)}</p>
-              <p className="text-sm font-bold text-emerald-600">+{formatCurrency(netSummary.income)}</p>
+              <p className="text-sm font-bold" style={{ color: 'var(--mk-green)' }}>+{formatCurrency(netSummary.income)}</p>
             </div>
             <div className="px-3 py-3 text-center">
               <p className="text-[10px] text-[var(--mk-text-secondary)] mb-0.5">{t('expense', lang)}</p>
-              <p className="text-sm font-bold text-red-500">-{formatCurrency(netSummary.expense)}</p>
+              <p className="text-sm font-bold" style={{ color: 'var(--mk-red)' }}>-{formatCurrency(netSummary.expense)}</p>
             </div>
             <div className="px-3 py-3 text-center">
               <p className="text-[10px] text-[var(--mk-text-secondary)] mb-0.5">{lang === 'sw' ? 'Jumla' : 'Net'}</p>
@@ -299,8 +299,8 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                   <div className="flex items-center justify-between mb-2 px-1">
                     <span className="text-sm font-bold text-[var(--mk-text-secondary)]">{getDateLabel(dateKey)}</span>
                     <div className="flex items-center gap-2 text-xs">
-                      {income > 0 && <span className="text-emerald-600 font-semibold">+{formatCurrency(income)}</span>}
-                      {expense > 0 && <span className="text-red-500 font-semibold">-{formatCurrency(expense)}</span>}
+                      {income > 0 && <span className="font-semibold" style={{ color: 'var(--mk-green)' }}>+{formatCurrency(income)}</span>}
+                      {expense > 0 && <span className="font-semibold" style={{ color: 'var(--mk-red)' }}>-{formatCurrency(expense)}</span>}
                     </div>
                   </div>
 
@@ -361,9 +361,8 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                                 );
                               }
                               return (
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0 ${
-                                  transaction.type === 'income' ? 'bg-emerald-50' : 'bg-red-50'
-                                }`}>
+                                <div className="w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0"
+                                style={{ background: transaction.type === 'income' ? 'rgba(0,168,117,0.1)' : 'rgba(229,53,53,0.1)' }}>
                                   <span>{getCategoryIcon(transaction.category)}</span>
                                 </div>
                               );
@@ -379,7 +378,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
 
                           <div className="flex items-center gap-2 shrink-0 ml-2">
                             <div className="text-right">
-                              <p className={`font-bold text-sm ${transaction.type === 'income' ? 'text-emerald-600' : 'text-red-600'}`}>
+                              <p className="font-bold text-sm" style={{ color: transaction.type === 'income' ? 'var(--mk-green)' : 'var(--mk-red)' }}>
                                 {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                               </p>
                               <p className="text-xs text-[var(--mk-text-secondary)]">{format(transaction.date, 'HH:mm')}</p>
@@ -487,7 +486,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 </button>
                 <button
                   onClick={() => setShowFilter(false)}
-                  className="flex-1 py-3.5 rounded-2xl text-white font-bold text-sm" style={{ background: 'var(--mk-green)' }}
+                  className="flex-1 py-3.5 rounded-2xl text-white font-bold text-sm" style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
                 >
                   {t('showResults', lang)}
                 </button>

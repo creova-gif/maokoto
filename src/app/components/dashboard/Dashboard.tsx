@@ -415,6 +415,21 @@ function HomeTab({
 
   const recent = transactions.slice(0, 5);
 
+  // ── Spending Stories data ──
+  const storiesNow = new Date();
+  const weekStart = (() => { const d = new Date(storiesNow); d.setDate(storiesNow.getDate() - storiesNow.getDay()); d.setHours(0,0,0,0); return d; })();
+  const monthStart = new Date(storiesNow.getFullYear(), storiesNow.getMonth(), 1);
+  const weekExpense = transactions.filter(t => t.type === 'expense' && t.date >= weekStart).reduce((s,t) => s+t.amount, 0);
+  const monthIncome = transactions.filter(t => t.type === 'income' && t.date >= monthStart).reduce((s,t) => s+t.amount, 0);
+  const monthExpense = transactions.filter(t => t.type === 'expense' && t.date >= monthStart).reduce((s,t) => s+t.amount, 0);
+  const savingsRate = monthIncome > 0 ? Math.round(((monthIncome - monthExpense) / monthIncome) * 100) : 0;
+  const weekCatSpend: Record<string, number> = {};
+  transactions.filter(t => t.type === 'expense' && t.date >= weekStart).forEach(t => { weekCatSpend[t.category] = (weekCatSpend[t.category] || 0) + t.amount; });
+  const topCatEntry = Object.entries(weekCatSpend).sort((a,b) => b[1]-a[1])[0] ?? null;
+  const dayBars = Array.from({ length: 7 }, (_, i) => { const d = new Date(weekStart); d.setDate(d.getDate()+i); const ds = d.toDateString(); return transactions.filter(t => t.type === 'expense' && t.date.toDateString() === ds).reduce((s,t) => s+t.amount, 0); });
+  const maxDayBar = Math.max(...dayBars, 1);
+  const todayDow = storiesNow.getDay();
+
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -472,6 +487,94 @@ function HomeTab({
 
       {/* Insight of the day */}
       <InsightOfDay />
+
+      {/* ── Spending Stories Row (Revolut-style swipeable insight cards) ── */}
+      <div style={{ margin: '0 -20px', padding: '2px 20px 2px', display: 'flex', gap: 10, overflowX: 'auto', scrollSnapType: 'x mandatory', scrollbarWidth: 'none' }}>
+        {/* Card 1: Week spending + sparkline */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03, type: 'spring', stiffness: 320, damping: 28 }}
+          style={{ minWidth: 152, scrollSnapAlign: 'start', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: 18, padding: '14px 14px 10px', flexShrink: 0 }}
+        >
+          <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 5 }}>
+            📊 {lang === 'sw' ? 'Wiki hii' : 'This week'}
+          </p>
+          <p style={{ fontSize: 20, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+            {fmt(weekExpense)}
+          </p>
+          <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
+            {lang === 'sw' ? 'imetumika' : 'spent'}
+          </p>
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 3, height: 30 }}>
+            {dayBars.map((v, i) => (
+              <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+                <motion.div
+                  initial={{ height: 0 }} animate={{ height: Math.max(3, (v / maxDayBar) * 22) }}
+                  transition={{ delay: 0.1 + i * 0.05, duration: 0.35, ease: 'easeOut' }}
+                  style={{ width: '100%', borderRadius: 2, background: i === todayDow ? 'var(--mk-orange)' : 'rgba(var(--mk-orange-rgb),0.22)' }}
+                />
+                <span style={{ fontSize: 7, color: 'rgba(var(--mk-text-rgb),0.35)', fontFamily: 'Geist, sans-serif' }}>
+                  {['S','M','T','W','T','F','S'][i]}
+                </span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Card 2: Top spending category */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.08, type: 'spring', stiffness: 320, damping: 28 }}
+          style={{ minWidth: 136, scrollSnapAlign: 'start', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: 18, padding: '14px 14px 12px', flexShrink: 0 }}
+        >
+          <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+            🏆 {lang === 'sw' ? 'Kikundi Kikuu' : 'Top Category'}
+          </p>
+          {topCatEntry ? (
+            <>
+              <p style={{ fontSize: 26, lineHeight: 1, marginBottom: 5 }}>{getCategoryIcon(topCatEntry[0])}</p>
+              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {topCatEntry[0]}
+              </p>
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
+                {fmt(topCatEntry[1])}
+              </p>
+            </>
+          ) : (
+            <>
+              <p style={{ fontSize: 26, lineHeight: 1, marginBottom: 5 }}>💡</p>
+              <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                {lang === 'sw' ? 'Hakuna bado' : 'No expenses yet'}
+              </p>
+            </>
+          )}
+        </motion.div>
+
+        {/* Card 3: Monthly savings rate */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.13, type: 'spring', stiffness: 320, damping: 28 }}
+          style={{ minWidth: 136, scrollSnapAlign: 'start', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: 18, padding: '14px 14px 12px', flexShrink: 0 }}
+        >
+          <p style={{ fontSize: 10, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 6 }}>
+            {savingsRate >= 20 ? '🌟' : '💪'} {lang === 'sw' ? 'Akiba Mwezi' : 'Monthly Saved'}
+          </p>
+          <p style={{ fontSize: 28, fontWeight: 800, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 2, color: savingsRate >= 0 ? 'var(--mk-green)' : 'var(--mk-red)' }}>
+            {Math.abs(savingsRate)}%
+          </p>
+          <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 10 }}>
+            {savingsRate >= 0 ? (lang === 'sw' ? 'imeokolewa' : 'saved') : (lang === 'sw' ? 'zaidi ya bajeti' : 'over budget')}
+          </p>
+          <div style={{ height: 4, borderRadius: 999, background: 'var(--mk-border)', overflow: 'hidden' }}>
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: `${Math.min(Math.max(savingsRate, 0), 100)}%` }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.25 }}
+              style={{ height: '100%', borderRadius: 999, background: savingsRate >= 0 ? 'var(--mk-green)' : 'var(--mk-red)' }}
+            />
+          </div>
+        </motion.div>
+
+        {/* Trailing spacer */}
+        <div style={{ minWidth: 8, flexShrink: 0 }} />
+      </div>
 
       {/* Balance card — premium dark hero */}
       <motion.div
@@ -649,14 +752,29 @@ function HomeTab({
         />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 12 }}>
           {recent.length === 0 ? (
-            <MkCard>
-              <div style={{ padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                <p style={{ fontSize: 24 }}>💸</p>
-                <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
-                  {lang === 'sw' ? 'Hakuna miamala bado' : 'No transactions yet'}
-                </p>
-              </div>
-            </MkCard>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
+              style={{ background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: 20, padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}
+            >
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 2.8, ease: 'easeInOut' }}
+                style={{ fontSize: 52, marginBottom: 12, lineHeight: 1 }}
+              >💸</motion.div>
+              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 6 }}>
+                {lang === 'sw' ? 'Anza kufuatilia' : 'Start tracking'}
+              </p>
+              <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.5, maxWidth: 220, marginBottom: 16 }}>
+                {lang === 'sw' ? 'Ongeza muamala wako wa kwanza — matumizi au mapato' : 'Add your first transaction — an expense or income'}
+              </p>
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={onAddExpense}
+                style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', color: '#FFFFFF', fontSize: 13, fontWeight: 700, padding: '10px 24px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', boxShadow: '0 4px 16px rgba(var(--mk-orange-rgb),0.35)' }}
+              >
+                + {lang === 'sw' ? 'Ongeza Muamala' : 'Add Transaction'}
+              </motion.button>
+            </motion.div>
           ) : (
             recent.map((tx, idx) => (
               <motion.div

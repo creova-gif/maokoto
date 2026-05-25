@@ -16,6 +16,31 @@ const QUICK_TARGETS = [50000, 100000, 200000, 500000, 1000000];
 
 const MILESTONE_STEPS = [25, 50, 75, 100];
 
+const CONFETTI_COLORS = ['#FF6B00', '#E53535', '#00A875', '#6D28D9', '#FBBF24', '#3B82F6', '#EC4899', '#F59E0B'];
+
+function ConfettiParticle({ i }: { i: number }) {
+  const angle = (i / 36) * 360;
+  const spread = (i % 5) * 8;
+  const distance = 80 + (i % 7) * 28;
+  const x = Math.cos(((angle + spread) * Math.PI) / 180) * distance;
+  const y = Math.sin(((angle + spread) * Math.PI) / 180) * distance;
+  const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+  const size = 6 + (i % 4) * 2;
+  const delay = (i % 8) * 0.035;
+  return (
+    <motion.div
+      style={{
+        position: 'absolute', width: size, height: Math.ceil(size * 0.5),
+        background: color, borderRadius: 2, left: '50%', top: '45%',
+        marginLeft: -(size / 2), pointerEvents: 'none',
+      }}
+      initial={{ x: 0, y: 0, opacity: 1, rotate: 0, scale: 1 }}
+      animate={{ x, y: y + 80, opacity: 0, rotate: angle * 3, scale: 0.15 }}
+      transition={{ duration: 1.1 + (i % 5) * 0.18, delay, ease: 'easeOut' }}
+    />
+  );
+}
+
 function CircularRing({
   progress,
   size = 80,
@@ -285,7 +310,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
               whileTap={{ scale: 0.96 }}
               onClick={() => setShowAddGoal(true)}
               className="text-white px-8 py-3.5 rounded-2xl font-bold text-sm"
-              style={{ background: 'var(--mk-green)' }}
+              style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
             >
               + {t('addGoal', lang)}
             </motion.button>
@@ -837,6 +862,10 @@ export function GoalsView({ onBack }: GoalsViewProps) {
             className="fixed inset-0 z-[60] bg-black/70 flex items-center justify-center p-8"
             onClick={() => setShowCelebration(false)}
           >
+            {/* Confetti burst */}
+            <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+              {Array.from({ length: 36 }).map((_, i) => <ConfettiParticle key={i} i={i} />)}
+            </div>
             <motion.div
               initial={{ scale: 0.5, y: 40 }}
               animate={{ scale: 1, y: 0 }}
