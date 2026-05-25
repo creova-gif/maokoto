@@ -41,8 +41,8 @@ const frequencies: FreqConfig[] = [
   {
     freq: 'monthly',
     emoji: '💼',
-    gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
-    glow: 'shadow-emerald-400/40',
+    gradient: 'from-orange-500 via-amber-500 to-orange-400',
+    glow: 'shadow-orange-400/40',
     descEn: 'Monthly income',
     descSw: 'Mapato ya kila mwezi',
     exampleEn: 'Employed · salaried',

@@ -171,7 +171,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
           <button
             onClick={() => setShowFilter(true)}
             className={`flex items-center gap-2 px-3 py-2 rounded-xl transition ${
-              isFiltered ? 'bg-[var(--mk-card)] text-green-700' : 'bg-white/20 text-white hover:bg-white/30'
+              isFiltered ? 'bg-[var(--mk-card)] text-[var(--mk-orange)]' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >
             <Filter className="w-4 h-4" />
@@ -251,7 +251,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             </div>
             <div className="px-3 py-3 text-center">
               <p className="text-[10px] text-[var(--mk-text-secondary)] mb-0.5">{lang === 'sw' ? 'Jumla' : 'Net'}</p>
-              <p className={`text-sm font-bold ${net >= 0 ? 'text-blue-600' : 'text-green-600'}`}>
+              <p className={`text-sm font-bold ${net >= 0 ? 'text-[var(--mk-green)]' : 'text-[var(--mk-red)]'}`}>
                 {net >= 0 ? '+' : ''}{formatCurrency(net)}
               </p>
             </div>
@@ -282,7 +282,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
             {isFiltered && (
               <button
                 onClick={() => { setFilterType('all'); setFilterSource('all'); setFilterDateRange('all'); setSearchQuery(''); }}
-                className="mt-3 text-sm text-green-600 font-medium"
+                className="mt-3 text-sm text-[var(--mk-orange)] font-medium"
               >
                 {t('clearFilters', lang)}
               </button>
@@ -400,7 +400,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 onClick={() => setVisibleCount(v => v + PAGE_SIZE)}
-                className="w-full py-3.5 bg-[var(--mk-card)] border-2 border-[var(--mk-border)] rounded-2xl text-sm font-semibold text-[var(--mk-text-secondary)] hover:border-green-400 hover:text-green-600 transition shadow-sm"
+                className="w-full py-3.5 bg-[var(--mk-card)] border-2 border-[var(--mk-border)] rounded-2xl text-sm font-semibold text-[var(--mk-text-secondary)] hover:border-[var(--mk-orange)] hover:text-[var(--mk-orange)] transition shadow-sm"
               >
                 {lang === 'sw'
                   ? `Pakia zaidi (${filteredTransactions.length - visibleCount} zimebaki)`
@@ -449,7 +449,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                       onClick={() => setFilterType(opt.value)}
                       className={`flex-1 py-2.5 rounded-xl border-2 text-sm font-medium transition ${
                         filterType === opt.value
-                          ? 'border-green-500 bg-green-50 text-green-700'
+                          ? 'border-[var(--mk-orange)] bg-orange-50 text-[var(--mk-orange)]'
                           : 'border-[var(--mk-border)] text-[var(--mk-text-secondary)] hover:border-[var(--mk-border)]'
                       }`}
                     >
@@ -468,7 +468,7 @@ export function HistoryView({ onBack, onEditTransaction }: HistoryViewProps) {
                       onClick={() => setFilterSource(opt.value)}
                       className={`px-4 py-2 rounded-xl border-2 text-sm font-medium transition ${
                         filterSource === opt.value
-                          ? 'border-green-500 bg-green-50 text-green-700'
+                          ? 'border-[var(--mk-orange)] bg-orange-50 text-[var(--mk-orange)]'
                           : 'border-[var(--mk-border)] text-[var(--mk-text-secondary)] hover:border-[var(--mk-border)]'
                       }`}
                     >

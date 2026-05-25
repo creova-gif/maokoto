@@ -388,8 +388,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                       </p>
                       {dailyRequired !== null && dailyRequired > 0 && !goal.completed && (
                         <div className="flex items-center gap-1 mt-1.5">
-                          <TrendingUp className="w-3 h-3 text-green-600" />
-                          <span className="text-[11px] text-green-700 font-semibold">
+                          <TrendingUp className="w-3 h-3 text-[var(--mk-orange)]" />
+                          <span className="text-[11px] text-[var(--mk-orange)] font-semibold">
                             {lang === 'sw' ? `${fmt(dailyRequired)}/siku inahitajika` : `${fmt(dailyRequired)}/day needed`}
                           </span>
                         </div>
@@ -406,14 +406,14 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                       <div
                         key={ms}
                         className={`flex-1 h-1.5 rounded-full transition-colors ${
-                          progress >= ms ? 'bg-green-600' : 'bg-[var(--mk-border)]'
+                          progress >= ms ? 'bg-[var(--mk-orange)]' : 'bg-[var(--mk-border)]'
                         }`}
                       />
                     ))}
                   </div>
                   <div className="flex justify-between px-0.5">
                     {MILESTONE_STEPS.map(ms => (
-                      <span key={ms} className={`text-[9px] font-bold ${progress >= ms ? 'text-green-600' : 'text-[var(--mk-text-secondary)]'}`}>
+                      <span key={ms} className={`text-[9px] font-bold ${progress >= ms ? 'text-[var(--mk-orange)]' : 'text-[var(--mk-text-secondary)]'}`}>
                         {ms}%
                       </span>
                     ))}
@@ -425,7 +425,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setShowContribute(goal.id)}
-                      className="w-full py-2.5 bg-green-700 hover:bg-purple-700 text-white rounded-xl text-sm font-bold transition"
+                      className="w-full py-2.5 text-white rounded-xl text-sm font-bold transition" style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
                     >
                       + {t('contributeNow', lang)}
                     </motion.button>
@@ -558,7 +558,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     const daily = Math.ceil(parseInt(newGoalTarget) / parseInt(newGoalDeadlineDays));
                     return (
                       <div className="mt-2 bg-purple-50 rounded-xl px-3 py-2 flex items-center gap-2">
-                        <TrendingUp className="w-4 h-4 text-green-700 shrink-0" />
+                        <TrendingUp className="w-4 h-4 text-[var(--mk-orange)] shrink-0" />
                         <p className="text-xs text-purple-800 font-medium">
                           {lang === 'sw'
                             ? `Unahitaji kuokoa ${fmt(daily)} kwa siku`
@@ -580,7 +580,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleAddGoal}
                     disabled={!newGoalTitle || !newGoalTarget}
-                    className="flex-1 py-3.5 bg-green-700 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
+                    className="flex-1 py-3.5 text-white rounded-2xl font-bold text-sm disabled:opacity-40" style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
                   >
                     {t('save', lang)}
                   </motion.button>
@@ -616,7 +616,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                   <span className="text-3xl">{goal.emoji ?? '🎯'}</span>
                   <div>
                     <h2 className="text-lg font-bold text-[var(--mk-text)]">{goal.title}</h2>
-                    <p className="text-xs text-green-700 font-medium">
+                    <p className="text-xs text-[var(--mk-text-secondary)] font-medium">
                       {t('goalRemaining', lang)}: {fmt(remaining)} · {progress.toFixed(0)}% {lang === 'sw' ? 'imekamilika' : 'done'}
                     </p>
                   </div>
@@ -671,7 +671,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     whileTap={{ scale: 0.97 }}
                     onClick={handleContribute}
                     disabled={!contributionAmount || parseInt(contributionAmount) <= 0}
-                    className="flex-1 py-3.5 bg-green-700 text-white rounded-2xl font-bold text-sm disabled:opacity-40"
+                    className="flex-1 py-3.5 text-white rounded-2xl font-bold text-sm disabled:opacity-40" style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
                   >
                     {t('contributeNow', lang)}
                   </motion.button>
@@ -747,8 +747,8 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                     {
                       label: lang === 'sw' ? 'Lengo' : 'Target',
                       value: fmt(detailGoal.target),
-                      color: 'text-green-700',
-                      bg: 'bg-purple-50',
+                      color: 'text-[var(--mk-text)]',
+                      bg: 'bg-[var(--mk-bg-alt)]',
                     },
                     {
                       label: lang === 'sw' ? 'Iliyobaki' : 'Remaining',
@@ -780,7 +780,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                 {/* Projected date */}
                 {getProjectedDate(detailGoal) && !detailGoal.completed && (
                   <div className="flex items-center gap-3 bg-[var(--mk-bg-alt)] rounded-2xl p-4">
-                    <Calendar className="w-5 h-5 text-green-600 shrink-0" />
+                    <Calendar className="w-5 h-5 text-[var(--mk-orange)] shrink-0" />
                     <div>
                       <p className="text-xs text-[var(--mk-text-secondary)]">{lang === 'sw' ? 'Tarehe ya Mwisho' : 'Deadline'}</p>
                       <p className="text-sm font-bold text-[var(--mk-text)]">{getProjectedDate(detailGoal)}</p>
@@ -816,7 +816,7 @@ export function GoalsView({ onBack }: GoalsViewProps) {
                   <motion.button
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setShowDetail(null); setShowContribute(detailGoal.id); }}
-                    className="w-full py-4 bg-green-700 text-white rounded-2xl font-bold"
+                    className="w-full py-4 text-white rounded-2xl font-bold" style={{ background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' }}
                   >
                     + {t('contributeNow', lang)}
                   </motion.button>

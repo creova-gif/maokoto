@@ -34,8 +34,8 @@ export function LanguageChoice({ onComplete }: LanguageChoiceProps) {
               name: 'Kiswahili',
               sub: 'Lugha ya kwanza · Tanzania',
               flag: '🇹🇿',
-              gradient: 'from-emerald-500 via-teal-500 to-cyan-500',
-              glow: 'shadow-emerald-400/40',
+              gradient: 'from-orange-500 via-amber-500 to-orange-400',
+              glow: 'shadow-orange-400/40',
             },
             {
               code: 'en' as Language,

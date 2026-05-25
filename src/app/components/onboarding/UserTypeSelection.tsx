@@ -43,8 +43,8 @@ const userTypes: UserTypeConfig[] = [
   {
     type: 'family',
     emoji: '🏠',
-    gradient: 'from-emerald-500 via-teal-500 to-green-500',
-    glow: 'shadow-emerald-400/40',
+    gradient: 'from-orange-500 via-amber-500 to-orange-400',
+    glow: 'shadow-orange-400/40',
     subEn: 'Household budget',
     subSw: 'Bajeti ya familia',
   },

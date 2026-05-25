@@ -43,8 +43,8 @@ const goalOptions: GoalOption[] = [
   {
     id: 'emergencyFund',
     emoji: '🛡️',
-    gradient: 'from-emerald-500 to-teal-600',
-    glow: 'shadow-emerald-400/40',
+    gradient: 'from-orange-500 to-amber-600',
+    glow: 'shadow-orange-400/40',
     labelKey: 'emergencyFund',
     descEn: '3-month buffer',
     descSw: 'Akiba ya dharura',
@@ -269,7 +269,7 @@ export function GoalSetup({ onComplete }: GoalSetupProps) {
                   placeholder={lang === 'sw' ? 'k.m. Gari mpya' : 'e.g. New car'}
                   value={customGoal}
                   onChange={e => setCustomGoal(e.target.value)}
-                  className="w-full bg-gray-950 border border-white/[0.08] text-white rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-emerald-500/60 placeholder:text-gray-600"
+                  className="w-full bg-gray-950 border border-white/[0.08] text-white rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-orange-500/60 placeholder:text-gray-600"
                 />
               </div>
             )}
@@ -280,7 +280,7 @@ export function GoalSetup({ onComplete }: GoalSetupProps) {
                   {t('targetAmount', lang)} ({regionCfg.currency})
                 </label>
                 {selected && selected.id !== 'custom' && getRegionDefault(selected.id) > 0 && (
-                  <span className="text-xs text-emerald-600 font-medium">
+                  <span className="text-xs text-orange-500 font-medium">
                     {t('suggested', lang)}: {fmt(getRegionDefault(selected.id))}
                   </span>
                 )}
@@ -294,7 +294,7 @@ export function GoalSetup({ onComplete }: GoalSetupProps) {
                   setTargetAmount(e.target.value);
                   setAmountError('');
                 }}
-                className="w-full bg-gray-950 border border-white/[0.08] text-white rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-emerald-500/60 placeholder:text-gray-600"
+                className="w-full bg-gray-950 border border-white/[0.08] text-white rounded-2xl px-4 py-3.5 text-sm focus:outline-none focus:border-orange-500/60 placeholder:text-gray-600"
                 aria-label={t('targetAmount', lang)}
               />
               {amountError && (
@@ -306,7 +306,7 @@ export function GoalSetup({ onComplete }: GoalSetupProps) {
               onClick={handleContinue}
               whileTap={{ scale: 0.97 }}
               disabled={!targetAmount || (showCustomInput && !customGoal)}
-              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-3xl py-4 font-black shadow-xl shadow-emerald-500/25 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+              className="w-full bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-3xl py-4 font-black shadow-xl shadow-orange-500/25 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
               aria-label={t('continue', lang)}
             >
               {t('continue', lang)} →
