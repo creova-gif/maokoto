@@ -249,7 +249,7 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
   };
 
   const isExpense = type === 'expense';
-  const headerBg = isExpense ? 'linear-gradient(135deg, #FF3D3D, #FF6B00)' : 'linear-gradient(135deg, #00C48C, #00E5A0)';
+  const headerBg = isExpense ? 'linear-gradient(135deg, var(--mk-red), var(--mk-orange))' : 'linear-gradient(135deg, #00C48C, var(--mk-green))';
 
   const quickAmounts = getQuickAmounts(state.region);
   const categories = isExpense ? EXPENSE_CATEGORIES[lang] : INCOME_CATEGORIES[lang];
@@ -271,12 +271,12 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', damping: 26, stiffness: 300 }}
-          style={{ background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none' }}
+          style={{ background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none' }}
           className="w-full rounded-t-3xl max-h-[92vh] overflow-y-auto"
           onClick={e => e.stopPropagation()}
         >
           {/* Colored header */}
-          <div className="text-white px-5 pt-5 pb-6 rounded-t-3xl" style={{ background: headerBg, boxShadow: isExpense ? '0 4px 24px rgba(255,61,61,0.2)' : '0 4px 24px rgba(0,229,160,0.2)' }}>
+          <div className="text-white px-5 pt-5 pb-6 rounded-t-3xl" style={{ background: headerBg, boxShadow: isExpense ? '0 4px 24px rgba(var(--mk-red-rgb),0.2)' : '0 4px 24px rgba(var(--mk-green-rgb),0.2)' }}>
             <div className="flex items-center justify-between mb-3">
               <h2 className="text-lg font-bold">
                 {isExpense ? t('addExpense', lang) : t('addIncome', lang)}
@@ -361,8 +361,8 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
             {isExpense && smartSuggestions.length > 0 && (
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-                  <Zap size={14} color="#FF6B00" />
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
+                  <Zap size={14} color="var(--mk-orange)" />
+                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? 'Mapendekezo' : 'Suggestions'}
                   </p>
                 </div>
@@ -374,9 +374,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
                       whileTap={{ scale: 0.95 }}
                       style={{
                         display: 'flex', alignItems: 'center', gap: 6, padding: '8px 12px', borderRadius: 12,
-                        border: `2px solid ${category === s.category && amount === s.amount.toString() ? '#FF6B00' : '#2A2A2E'}`,
-                        background: category === s.category && amount === s.amount.toString() ? 'rgba(255,107,0,0.1)' : '#1C1C1E',
-                        color: category === s.category && amount === s.amount.toString() ? '#FF6B00' : '#FFFFFF',
+                        border: `2px solid ${category === s.category && amount === s.amount.toString() ? 'var(--mk-orange)' : 'var(--mk-border)'}`,
+                        background: category === s.category && amount === s.amount.toString() ? 'rgba(var(--mk-orange-rgb),0.1)' : 'var(--mk-card)',
+                        color: category === s.category && amount === s.amount.toString() ? 'var(--mk-orange)' : 'var(--mk-text)',
                         fontSize: 12, fontWeight: 600, fontFamily: 'Geist, sans-serif', cursor: 'pointer',
                       }}
                     >
@@ -398,15 +398,15 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
                   onClick={applyAutoDetected}
-                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(167,139,250,0.1)', border: '2px solid rgba(167,139,250,0.3)', borderRadius: 16, padding: '12px 16px', cursor: 'pointer' }}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(var(--mk-purple-rgb),0.1)', border: '2px solid rgba(var(--mk-purple-rgb),0.3)', borderRadius: 16, padding: '12px 16px', cursor: 'pointer' }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <Sparkles size={16} color="#A78BFA" />
-                    <span style={{ fontSize: 13, color: '#A78BFA', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>
+                    <Sparkles size={16} color="var(--mk-purple)" />
+                    <span style={{ fontSize: 13, color: 'var(--mk-purple)', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>
                       {lang === 'sw' ? `Kutambua: ${autoDetected}` : `Detected: ${autoDetected}`}
                     </span>
                   </div>
-                  <span style={{ fontSize: 11, color: '#A78BFA', fontWeight: 700, background: 'rgba(167,139,250,0.2)', padding: '4px 10px', borderRadius: 999, fontFamily: 'Geist, sans-serif' }}>
+                  <span style={{ fontSize: 11, color: 'var(--mk-purple)', fontWeight: 700, background: 'rgba(var(--mk-purple-rgb),0.2)', padding: '4px 10px', borderRadius: 999, fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? 'Tumia' : 'Apply'} {getCategoryIcon(autoDetected)}
                   </span>
                 </motion.button>
@@ -415,22 +415,22 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
 
             {/* Category Grid */}
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'Geist, sans-serif' }}>
                 {t('category', lang)}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                 {categories.map(cat => {
                   const selected = category === cat;
-                  const selColor = isExpense ? '#FF3D3D' : '#00E5A0';
+                  const selColor = isExpense ? 'var(--mk-red)' : 'var(--mk-green)';
                   return (
                     <button
                       key={cat}
                       onClick={() => setCategory(cat)}
                       style={{
                         padding: '10px 8px', borderRadius: 12,
-                        border: `2px solid ${selected ? selColor : '#2A2A2E'}`,
-                        background: selected ? (isExpense ? 'rgba(255,61,61,0.1)' : 'rgba(0,229,160,0.1)') : '#1C1C1E',
-                        color: selected ? selColor : '#9CA3AF',
+                        border: `2px solid ${selected ? selColor : 'var(--mk-border)'}`,
+                        background: selected ? (isExpense ? 'rgba(var(--mk-red-rgb),0.1)' : 'rgba(var(--mk-green-rgb),0.1)') : 'var(--mk-card)',
+                        color: selected ? selColor : 'var(--mk-text-secondary)',
                         fontSize: 11, fontWeight: selected ? 700 : 500, cursor: 'pointer',
                         display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3,
                         fontFamily: 'Geist, sans-serif',
@@ -446,7 +446,7 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
 
             {/* Payment Source */}
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'Geist, sans-serif' }}>
                 {t('paymentSource', lang)}
               </p>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -456,9 +456,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
                     onClick={() => setSource(src)}
                     style={{
                       padding: '8px 14px', borderRadius: 12,
-                      border: `2px solid ${source === src ? '#FF6B00' : '#2A2A2E'}`,
-                      background: source === src ? 'rgba(255,107,0,0.1)' : '#1C1C1E',
-                      color: source === src ? '#FF6B00' : '#9CA3AF',
+                      border: `2px solid ${source === src ? 'var(--mk-orange)' : 'var(--mk-border)'}`,
+                      background: source === src ? 'rgba(var(--mk-orange-rgb),0.1)' : 'var(--mk-card)',
+                      color: source === src ? 'var(--mk-orange)' : 'var(--mk-text-secondary)',
                       fontSize: 12, fontWeight: source === src ? 700 : 500, cursor: 'pointer',
                       fontFamily: 'Geist, sans-serif',
                     }}
@@ -471,9 +471,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
 
             {/* Notes */}
             <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
                 {t('notes', lang)}
-                <span style={{ marginLeft: 8, color: '#A78BFA', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                <span style={{ marginLeft: 8, color: 'var(--mk-purple)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
                   {lang === 'sw' ? '(itatambua jamii otomatifu)' : '(auto-detects category)'}
                 </span>
               </p>
@@ -482,9 +482,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
                 placeholder={lang === 'sw' ? 'Mf: KFC, Daladala, Vodacom...' : 'e.g. KFC, Bus, Vodacom...'}
                 value={notes}
                 onChange={e => handleNotesChange(e.target.value)}
-                style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
-                onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+                onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
               />
             </div>
 
@@ -494,10 +494,10 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
               const isToday = selectedDate === today;
               return (
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? 'Tarehe' : 'Date'}
                     {!isToday && (
-                      <span style={{ marginLeft: 8, color: '#FF6B00', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                      <span style={{ marginLeft: 8, color: 'var(--mk-orange)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
                         {lang === 'sw' ? '(tarehe ya nyuma)' : '(past date)'}
                       </span>
                     )}
@@ -507,9 +507,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
                     value={selectedDate}
                     max={today}
                     onChange={e => setSelectedDate(e.target.value)}
-                    style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box', colorScheme: 'dark' }}
-                    onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                    onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                    style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '12px 16px', fontSize: 14, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box', colorScheme: 'dark' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                   />
                 </div>
               );
@@ -520,9 +520,9 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
               const parsed = parseFloat(amount);
               const roundUp = Math.ceil(parsed / 500) * 500 - parsed;
               return roundUp > 0 && roundUp < 500 ? (
-                <div style={{ background: 'rgba(0,229,160,0.08)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: 12, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ background: 'rgba(var(--mk-green-rgb),0.08)', border: '1px solid rgba(var(--mk-green-rgb),0.2)', borderRadius: 12, padding: '10px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
                   <span style={{ fontSize: 18 }}>🪙</span>
-                  <p style={{ fontSize: 12, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw'
                       ? `${symbol} ${roundUp.toLocaleString()} itaokolewa (round-up)`
                       : `${symbol} ${roundUp.toLocaleString()} will be saved (round-up)`}
@@ -538,11 +538,11 @@ export function AddTransactionDialog({ type, onClose, prefilledCategory, prefill
               disabled={!amount || !category}
               style={{
                 width: '100%', padding: '16px 0', borderRadius: 999, border: 'none',
-                background: !amount || !category ? '#1C1C1E' : headerBg,
-                color: !amount || !category ? '#4B5563' : '#fff',
+                background: !amount || !category ? 'var(--mk-card)' : headerBg,
+                color: !amount || !category ? '#4B5563' : 'var(--mk-text)',
                 fontSize: 16, fontWeight: 700, cursor: !amount || !category ? 'not-allowed' : 'pointer',
                 fontFamily: 'Geist, sans-serif', transition: 'all 0.2s',
-                boxShadow: !amount || !category ? 'none' : (isExpense ? '0 0 20px rgba(255,61,61,0.3)' : '0 0 20px rgba(0,229,160,0.3)'),
+                boxShadow: !amount || !category ? 'none' : (isExpense ? '0 0 20px rgba(var(--mk-red-rgb),0.3)' : '0 0 20px rgba(var(--mk-green-rgb),0.3)'),
               }}
             >
               {t('save', lang)} {amount && category ? `– ${symbol} ${parseFloat(amount || '0').toLocaleString()}` : ''}

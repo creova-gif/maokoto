@@ -40,20 +40,75 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 
-  /* ── Maokoto Design Tokens — Bold/Vibrant ───────────────────────────────── */
-  --mk-text-primary:   #FFFFFF;
-  --mk-text-secondary: #9CA3AF;
-  --mk-text-expense:   #FF3D3D;
-  --mk-text-income:    #00E5A0;
-  --mk-fill-primary:   #1C1C1E;
-  --mk-fill-secondary: #141414;
+  /* ── Maokoto Design Tokens — Light (default) ────────────────────────────── */
+  --mk-bg:             #F5F4F1;
+  --mk-bg-alt:         #EFEDE8;
+  --mk-card:           #FFFFFF;
+  --mk-sheet:          #F0EFEB;
+  --mk-border:         #E2E1DC;
+  --mk-text:           #111111;
+  --mk-text-secondary: #6B7280;
+  --mk-text-muted:     rgba(0,0,0,0.4);
+  --mk-text-rgb:       17, 17, 17;
+  --mk-orange:         #FF6B00;
+  --mk-orange-rgb:     255, 107, 0;
+  --mk-red:            #E53535;
+  --mk-red-rgb:        229, 53, 53;
+  --mk-green:          #00A875;
+  --mk-green-rgb:      0, 168, 117;
+  --mk-green-dark:     #007A56;
+  --mk-purple:         #6D28D9;
+  --mk-purple-rgb:     109, 40, 217;
+  --mk-overlay:        rgba(0,0,0,0.45);
+  /* legacy aliases */
+  --mk-text-primary:   #111111;
+  --mk-text-expense:   #E53535;
+  --mk-text-income:    #00A875;
+  --mk-fill-primary:   #FFFFFF;
+  --mk-fill-secondary: #F0EFEB;
   --mk-fill-orange:    #FF6B00;
-  --mk-fill-orange-alt:#FF3D3D;
-  --mk-fill-green:     #00E5A0;
-  --mk-fill-green-dark:#00B87A;
-  --mk-border:         #2A2A2E;
-  --mk-icon-primary:   #FFFFFF;
+  --mk-fill-orange-alt:#E53535;
+  --mk-fill-green:     #00A875;
+  --mk-fill-green-dark:#007A56;
+  --mk-icon-primary:   #111111;
   --mk-icon-secondary: #6B7280;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ── Maokoto Design Tokens — Dark ─────────────────────────────────────── */
+    --mk-bg:             #0D0D0D;
+    --mk-bg-alt:         #0A0A0A;
+    --mk-card:           #1C1C1E;
+    --mk-sheet:          #141414;
+    --mk-border:         #2A2A2E;
+    --mk-text:           #FFFFFF;
+    --mk-text-secondary: #6B7280;
+    --mk-text-muted:     rgba(255,255,255,0.45);
+    --mk-text-rgb:       255, 255, 255;
+    --mk-orange:         #FF6B00;
+    --mk-orange-rgb:     255, 107, 0;
+    --mk-red:            #FF3D3D;
+    --mk-red-rgb:        255, 61, 61;
+    --mk-green:          #00E5A0;
+    --mk-green-rgb:      0, 229, 160;
+    --mk-green-dark:     #00B87A;
+    --mk-purple:         #A78BFA;
+    --mk-purple-rgb:     167, 139, 250;
+    --mk-overlay:        rgba(0,0,0,0.45);
+    /* legacy aliases */
+    --mk-text-primary:   #FFFFFF;
+    --mk-text-expense:   #FF3D3D;
+    --mk-text-income:    #00E5A0;
+    --mk-fill-primary:   #1C1C1E;
+    --mk-fill-secondary: #141414;
+    --mk-fill-orange:    #FF6B00;
+    --mk-fill-orange-alt:#FF3D3D;
+    --mk-fill-green:     #00E5A0;
+    --mk-fill-green-dark:#00B87A;
+    --mk-icon-primary:   #FFFFFF;
+    --mk-icon-secondary: #6B7280;
+  }
 }
 
 .dark {

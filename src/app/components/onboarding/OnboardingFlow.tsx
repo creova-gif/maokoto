@@ -39,7 +39,7 @@ const cardOn   = 'bg-white border-2 border-[#FD8240]';
 
 // ── Confetti burst (animejs v4 compatible) ────────────────────────────────
 function spawnConfetti(container: HTMLElement) {
-  const colors = ['#FD8240', '#4E886F', '#5CC7A0', '#FFD166', '#EF476F', '#ffffff', '#A78BFA'];
+  const colors = ['#FD8240', '#4E886F', '#5CC7A0', '#FFD166', '#EF476F', 'var(--mk-text)', 'var(--mk-purple)'];
   const count = 72;
 
   for (let i = 0; i < count; i++) {
@@ -129,10 +129,10 @@ function HeroChart() {
         transition={{ delay: 0.3 }}
         style={{ textAlign: 'center', marginBottom: 8 }}
       >
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+        <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.55)', letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
           Total Balance
         </p>
-        <p style={{ fontSize: 32, fontWeight: 800, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+        <p style={{ fontSize: 32, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
           TZS <span ref={counterRef}>0</span>
         </p>
       </motion.div>
@@ -141,7 +141,7 @@ function HeroChart() {
       <svg viewBox="0 0 300 80" width="100%" height="80" style={{ overflow: 'visible' }}>
         {/* Grid lines */}
         {[20, 40, 60].map(y => (
-          <line key={y} x1="0" y1={y} x2="300" y2={y} stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+          <line key={y} x1="0" y1={y} x2="300" y2={y} stroke="rgba(var(--mk-text-rgb),0.07)" strokeWidth="1" />
         ))}
         {/* Gradient fill */}
         <defs>
@@ -281,7 +281,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
               <path d="M13 2 L14.6 10.4 L23 12 L14.6 13.6 L13 22 L11.4 13.6 L3 12 L11.4 10.4 Z" fill="white" fillOpacity="0.95" />
             </svg>
           </div>
-          <span style={{ fontWeight: 700, fontSize: 16, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em' }}>Maokoto</span>
+          <span style={{ fontWeight: 700, fontSize: 16, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em' }}>Maokoto</span>
         </motion.div>
 
         {/* Chart + Counter */}
@@ -291,7 +291,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
       {/* ── Bottom dark panel ── */}
       <div style={{
         flex: 1,
-        background: '#0D0D0D',
+        background: 'var(--mk-bg)',
         padding: '28px 28px 32px',
         display: 'flex',
         flexDirection: 'column',
@@ -299,7 +299,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
         borderRadius: '28px 28px 0 0',
         marginTop: -20,
         boxShadow: '0 -4px 32px rgba(0,0,0,0.6)',
-        border: '1px solid #1C1C1E',
+        border: '1px solid var(--mk-card)',
         borderBottom: 'none',
       }}>
         <div>
@@ -310,7 +310,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             style={{
               fontSize: 30,
               fontWeight: 800,
-              color: '#FFFFFF',
+              color: 'var(--mk-text)',
               fontFamily: 'Geist, sans-serif',
               letterSpacing: '-0.03em',
               lineHeight: 1.15,
@@ -330,9 +330,9 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
                 transition={{ delay: 0.35 + i * 0.08, type: 'spring', stiffness: 400 }}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 5,
-                  background: 'rgba(255,107,0,0.1)', border: '1px solid rgba(255,107,0,0.25)',
+                  background: 'rgba(var(--mk-orange-rgb),0.1)', border: '1px solid rgba(var(--mk-orange-rgb),0.25)',
                   borderRadius: 999, padding: '5px 12px',
-                  fontSize: 12, fontWeight: 700, color: '#FF6B00',
+                  fontSize: 12, fontWeight: 700, color: 'var(--mk-orange)',
                   fontFamily: 'Geist, sans-serif',
                 }}
               >
@@ -352,8 +352,8 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             whileTap={{ scale: 0.96 }}
             style={{
               width: '100%',
-              background: 'linear-gradient(135deg, #FF6B00 0%, #FF3D3D 100%)',
-              color: '#fff',
+              background: 'linear-gradient(135deg, var(--mk-orange) 0%, var(--mk-red) 100%)',
+              color: 'var(--mk-text)',
               borderRadius: 999,
               padding: '17px 0',
               fontWeight: 800,
@@ -361,7 +361,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
               border: 'none',
               cursor: 'pointer',
               fontFamily: 'Geist, sans-serif',
-              boxShadow: '0 8px 32px rgba(255,107,0,0.55)',
+              boxShadow: '0 8px 32px rgba(var(--mk-orange-rgb),0.55)',
               letterSpacing: '-0.01em',
             }}
           >
@@ -435,7 +435,7 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ width: 22, height: 22, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check style={{ width: 12, height: 12, color: '#fff' }} strokeWidth={2.5} />
+                      <Check style={{ width: 12, height: 12, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -522,7 +522,7 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           width: '100%',
           maxWidth: 340,
           background: '#FD8240',
-          color: '#fff',
+          color: 'var(--mk-text)',
           borderRadius: 999,
           padding: '16px 0',
           fontWeight: 600,
@@ -592,7 +592,7 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ width: 20, height: 20, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      <Check style={{ width: 11, height: 11, color: '#fff' }} strokeWidth={2.5} />
+                      <Check style={{ width: 11, height: 11, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -670,7 +670,7 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                       style={{ position: 'absolute', top: 10, right: 10, width: 18, height: 18, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      <Check style={{ width: 10, height: 10, color: '#fff' }} strokeWidth={2.5} />
+                      <Check style={{ width: 10, height: 10, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -880,7 +880,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                 {isSelected && (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
                     style={{ position: 'absolute', top: 6, right: 6, width: 14, height: 14, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Check style={{ width: 8, height: 8, color: '#fff' }} strokeWidth={2.5} />
+                    <Check style={{ width: 8, height: 8, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -954,7 +954,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
             style={{
               width: '100%',
               background: isReady ? '#FD8240' : '#F4F4F2',
-              color: isReady ? '#fff' : '#928F8B',
+              color: isReady ? 'var(--mk-text)' : '#928F8B',
               borderRadius: 999,
               padding: '16px 0',
               fontWeight: 600,
@@ -1013,7 +1013,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        background: '#fff',
+        background: 'var(--mk-text)',
         userSelect: 'none',
       }}
     >

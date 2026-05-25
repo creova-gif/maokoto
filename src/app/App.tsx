@@ -647,12 +647,28 @@ function AppContent() {
   return <OnboardingFlow onComplete={completeOnboarding} />;
 }
 
+// Sync system dark/light preference to <html> class for Tailwind compatibility
+// The CSS @media (prefers-color-scheme: dark) handles CSS variables automatically;
+// this listener ensures React re-renders and the .dark class stays in sync.
+function useSystemTheme() {
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const apply = (dark: boolean) => {
+      document.documentElement.classList.toggle('dark', dark);
+    };
+    apply(mq.matches);
+    mq.addEventListener('change', (e) => apply(e.matches));
+    return () => mq.removeEventListener('change', (e) => apply(e.matches));
+  }, []);
+}
+
 // Main App
 function App() {
+  useSystemTheme();
   return (
     <ErrorBoundary>
       <AppProvider>
-        <div className="w-full max-w-md h-screen relative bg-white overflow-hidden">
+        <div className="w-full max-w-md h-screen relative overflow-hidden" style={{ background: 'var(--mk-bg)' }}>
           <AppContent />
           <Toaster position="top-center" />
         </div>

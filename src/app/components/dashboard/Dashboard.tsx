@@ -78,8 +78,8 @@ function useCountUp(target: number, duration = 900) {
 function SectionHeader({ label, sub }: { label: string; sub?: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <p className="text-sm font-semibold" style={{ color: '#FFFFFF' }}>{label}</p>
-      {sub && <p className="text-xs" style={{ color: '#6B7280' }}>{sub}</p>}
+      <p className="text-sm font-semibold" style={{ color: 'var(--mk-text)' }}>{label}</p>
+      {sub && <p className="text-xs" style={{ color: 'var(--mk-text-secondary)' }}>{sub}</p>}
     </div>
   );
 }
@@ -97,16 +97,16 @@ function Pill({
     <button
       onClick={onClick}
       style={{
-        background: active ? '#FF6B00' : '#1C1C1E',
-        color: active ? '#fff' : '#9CA3AF',
-        border: active ? 'none' : '1px solid #2A2A2E',
+        background: active ? 'var(--mk-orange)' : 'var(--mk-card)',
+        color: active ? 'var(--mk-text)' : 'var(--mk-text-secondary)',
+        border: active ? 'none' : '1px solid var(--mk-border)',
         borderRadius: 999,
         padding: '6px 14px',
         fontSize: 12,
         fontWeight: 600,
         fontFamily: 'Geist, sans-serif',
         cursor: 'pointer',
-        boxShadow: active ? '0 0 12px rgba(255,107,0,0.4)' : 'none',
+        boxShadow: active ? '0 0 12px rgba(var(--mk-orange-rgb),0.4)' : 'none',
         transition: 'all 0.15s',
       }}
     >
@@ -120,10 +120,10 @@ function MkCard({ children, className = '', accent }: { children: React.ReactNod
     <div
       className={className}
       style={{
-        background: '#1C1C1E',
-        border: '1px solid #2A2A2E',
+        background: 'var(--mk-card)',
+        border: '1px solid var(--mk-border)',
         borderRadius: 16,
-        borderLeft: accent ? `3px solid ${accent}` : '1px solid #2A2A2E',
+        borderLeft: accent ? `3px solid ${accent}` : '1px solid var(--mk-border)',
       }}
     >
       {children}
@@ -140,7 +140,7 @@ function StripeProgressBar({ value, max }: { value: number; max: number }) {
         height: 6,
         width: '100%',
         borderRadius: 999,
-        background: '#2A2A2E',
+        background: 'var(--mk-border)',
         overflow: 'hidden',
         position: 'relative',
       }}
@@ -153,8 +153,8 @@ function StripeProgressBar({ value, max }: { value: number; max: number }) {
           height: '100%',
           width: `${pct}%`,
           borderRadius: 999,
-          background: over ? '#FF3D3D' : 'linear-gradient(90deg, #FF6B00, #00E5A0)',
-          boxShadow: over ? '0 0 8px rgba(255,61,61,0.6)' : '0 0 8px rgba(0,229,160,0.4)',
+          background: over ? 'var(--mk-red)' : 'linear-gradient(90deg, var(--mk-orange), var(--mk-green))',
+          boxShadow: over ? '0 0 8px rgba(var(--mk-red-rgb),0.6)' : '0 0 8px rgba(var(--mk-green-rgb),0.4)',
           transition: 'width 0.6s ease',
         }}
       />
@@ -183,8 +183,8 @@ function TopNav({
         position: 'sticky',
         top: 0,
         zIndex: 20,
-        background: '#0D0D0D',
-        borderBottom: '1px solid #1C1C1E',
+        background: 'var(--mk-bg)',
+        borderBottom: '1px solid var(--mk-card)',
       }}
       className="safe-area-top"
     >
@@ -204,8 +204,8 @@ function TopNav({
             width: 32,
             height: 32,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)',
-            color: '#fff',
+            background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+            color: 'var(--mk-text)',
             fontSize: 14,
             fontWeight: 700,
             display: 'flex',
@@ -215,7 +215,7 @@ function TopNav({
             cursor: 'pointer',
             flexShrink: 0,
             fontFamily: 'Geist, sans-serif',
-            boxShadow: '0 0 12px rgba(255,107,0,0.5)',
+            boxShadow: '0 0 12px rgba(var(--mk-orange-rgb),0.5)',
           }}
         >
           {initials}
@@ -224,7 +224,7 @@ function TopNav({
           style={{
             fontSize: 16,
             fontWeight: 700,
-            color: '#FFFFFF',
+            color: 'var(--mk-text)',
             fontFamily: 'Geist, sans-serif',
             letterSpacing: '-0.01em',
           }}
@@ -242,7 +242,7 @@ function TopNav({
             cursor: 'pointer',
           }}
         >
-          <Bell size={22} color="#9CA3AF" strokeWidth={1.8} />
+          <Bell size={22} color="var(--mk-text-secondary)" strokeWidth={1.8} />
           <AnimatePresence>
             {bellDot && (
               <motion.span
@@ -300,8 +300,8 @@ function BottomNav({
         position: 'sticky',
         bottom: 0,
         zIndex: 20,
-        background: '#0D0D0D',
-        borderTop: '1px solid #1C1C1E',
+        background: 'var(--mk-bg)',
+        borderTop: '1px solid var(--mk-card)',
       }}
       className="safe-area-bottom-nav"
     >
@@ -315,7 +315,7 @@ function BottomNav({
       >
         {NAV_ITEMS.map(({ id, Icon, labels }) => {
           const isActive = active === id;
-          const color = isActive ? '#FF6B00' : '#4B5563';
+          const color = isActive ? 'var(--mk-orange)' : '#4B5563';
           return (
             <motion.button
               key={id}
@@ -346,8 +346,8 @@ function BottomNav({
                     width: 28,
                     height: 3,
                     borderRadius: 999,
-                    background: 'linear-gradient(90deg, #FF6B00, #FF3D3D)',
-                    boxShadow: '0 0 10px rgba(255,107,0,0.8)',
+                    background: 'linear-gradient(90deg, var(--mk-orange), var(--mk-red))',
+                    boxShadow: '0 0 10px rgba(var(--mk-orange-rgb),0.8)',
                   }}
                   transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                 />
@@ -437,12 +437,12 @@ function HomeTab({
   })();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: 'var(--mk-bg)' }}>
       {/* Greeting */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{greeting}</p>
-          <p style={{ fontSize: 18, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em' }}>
+          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{greeting}</p>
+          <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em' }}>
             {state.userName || (lang === 'sw' ? 'Karibu' : 'Welcome back')}
           </p>
         </div>
@@ -456,14 +456,14 @@ function HomeTab({
               display: 'flex',
               alignItems: 'center',
               gap: 4,
-              background: 'rgba(255,107,0,0.15)',
-              border: '1px solid rgba(255,107,0,0.3)',
+              background: 'rgba(var(--mk-orange-rgb),0.15)',
+              border: '1px solid rgba(var(--mk-orange-rgb),0.3)',
               borderRadius: 999,
               padding: '6px 12px',
             }}
           >
-            <Flame size={14} color="#FF6B00" />
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#FF6B00', fontFamily: 'Geist, sans-serif' }}>
+            <Flame size={14} color="var(--mk-orange)" />
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
               {streak} {lang === 'sw' ? 'siku' : 'day streak'}
             </span>
           </motion.div>
@@ -482,58 +482,58 @@ function HomeTab({
           position: 'relative',
           overflow: 'hidden',
           borderRadius: 24,
-          background: 'linear-gradient(145deg, #0A0A0A 0%, #141414 40%, #1C1C1E 100%)',
+          background: 'linear-gradient(145deg, var(--mk-bg-alt) 0%, var(--mk-sheet) 40%, var(--mk-card) 100%)',
           padding: '22px 22px 20px',
-          boxShadow: '0 12px 48px rgba(0,0,0,0.8), 0 0 0 1px #2A2A2E',
+          boxShadow: '0 12px 48px rgba(0,0,0,0.8), 0 0 0 1px var(--mk-border)',
         }}
       >
         {/* Radial glow top-right — electric orange */}
         <div style={{
           position: 'absolute', top: -60, right: -60, width: 220, height: 220,
-          background: 'radial-gradient(circle, rgba(255,107,0,0.22) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(var(--mk-orange-rgb),0.22) 0%, transparent 65%)',
           pointerEvents: 'none',
         }} />
         {/* Neon green bottom-left accent */}
         <div style={{
           position: 'absolute', bottom: -40, left: -40, width: 160, height: 160,
-          background: 'radial-gradient(circle, rgba(0,229,160,0.12) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(var(--mk-green-rgb),0.12) 0%, transparent 65%)',
           pointerEvents: 'none',
         }} />
         {/* Dot-grid texture */}
         <div style={{
           position: 'absolute', inset: 0, opacity: 0.04,
-          backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, rgba(var(--mk-text-rgb),0.9) 1px, transparent 1px)',
           backgroundSize: '18px 18px', pointerEvents: 'none',
         }} />
 
         {/* Label + balance */}
-        <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', fontFamily: 'Geist, sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
+        <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.45)', fontFamily: 'Geist, sans-serif', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 4 }}>
           {lang === 'sw' ? 'Jumla ya Akaunti' : lang === 'fr' ? 'Solde total' : lang === 'ar' ? 'الرصيد الإجمالي' : lang === 'pt' ? 'Saldo total' : 'Total Balance'}
         </p>
-        <p style={{ fontSize: 40, fontWeight: 800, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 18, textShadow: '0 0 40px rgba(0,229,160,0.2)' }}>
+        <p style={{ fontSize: 40, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 18, textShadow: '0 0 40px rgba(var(--mk-green-rgb),0.2)' }}>
           {fmt(animBalance)}
         </p>
 
         {/* Today row */}
         <div style={{ display: 'flex', gap: 16, marginBottom: 18 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 22, height: 22, borderRadius: 7, background: 'rgba(0,229,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <TrendingUp size={12} color="#00E5A0" />
+            <div style={{ width: 22, height: 22, borderRadius: 7, background: 'rgba(var(--mk-green-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <TrendingUp size={12} color="var(--mk-green)" />
             </div>
             <div>
-              <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {lang === 'sw' ? 'Mapato leo' : "Today's in"}
               </p>
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>+{fmt(todayIncome)}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>+{fmt(todayIncome)}</p>
             </div>
           </div>
-          <div style={{ width: 1, background: 'rgba(255,255,255,0.1)' }} />
+          <div style={{ width: 1, background: 'rgba(var(--mk-text-rgb),0.1)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <div style={{ width: 22, height: 22, borderRadius: 7, background: 'rgba(249,99,71,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <TrendingDown size={12} color="#F96347" />
             </div>
             <div>
-              <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {lang === 'sw' ? 'Matumizi leo' : "Today's out"}
               </p>
               <p style={{ fontSize: 13, fontWeight: 600, color: '#F96347', fontFamily: 'Geist, sans-serif' }}>-{fmt(todayExpense)}</p>
@@ -544,9 +544,9 @@ function HomeTab({
         {/* Action buttons */}
         <div style={{ display: 'flex', gap: 8 }}>
           {[
-            { label: lang === 'sw' ? 'Ingiza' : lang === 'fr' ? 'Ajouter' : lang === 'ar' ? 'أضف' : lang === 'pt' ? 'Adicionar' : 'Fund', fn: onAddIncome, accent: '#00E5A0' },
-            { label: lang === 'sw' ? 'Tuma' : lang === 'fr' ? 'Envoyer' : lang === 'ar' ? 'أرسل' : lang === 'pt' ? 'Enviar' : 'Send', fn: onAddExpense, accent: '#FF6B00' },
-            { label: lang === 'sw' ? 'Maarifa' : lang === 'fr' ? 'Insights' : lang === 'ar' ? 'رؤى' : lang === 'pt' ? 'Insights' : 'Insights', fn: onInsights, accent: '#A78BFA' },
+            { label: lang === 'sw' ? 'Ingiza' : lang === 'fr' ? 'Ajouter' : lang === 'ar' ? 'أضف' : lang === 'pt' ? 'Adicionar' : 'Fund', fn: onAddIncome, accent: 'var(--mk-green)' },
+            { label: lang === 'sw' ? 'Tuma' : lang === 'fr' ? 'Envoyer' : lang === 'ar' ? 'أرسل' : lang === 'pt' ? 'Enviar' : 'Send', fn: onAddExpense, accent: 'var(--mk-orange)' },
+            { label: lang === 'sw' ? 'Maarifa' : lang === 'fr' ? 'Insights' : lang === 'ar' ? 'رؤى' : lang === 'pt' ? 'Insights' : 'Insights', fn: onInsights, accent: 'var(--mk-purple)' },
           ].map(({ label, fn, accent }) => (
             <motion.button
               key={label}
@@ -554,7 +554,7 @@ function HomeTab({
               whileTap={{ scale: 0.92 }}
               style={{
                 flex: 1,
-                background: `rgba(${accent === '#00E5A0' ? '0,229,160' : accent === '#FF6B00' ? '255,107,0' : '167,139,250'},0.12)`,
+                background: `rgba(${accent === 'var(--mk-green)' ? '0,229,160' : accent === 'var(--mk-orange)' ? '255,107,0' : '167,139,250'},0.12)`,
                 border: `1px solid ${accent}33`,
                 borderRadius: 12,
                 padding: '9px 4px',
@@ -606,7 +606,7 @@ function HomeTab({
                           width: 44,
                           height: 44,
                           borderRadius: '50%',
-                          background: '#00E5A0',
+                          background: 'var(--mk-green)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -617,19 +617,19 @@ function HomeTab({
                         {goal.emoji || '🎯'}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {goal.title}
                         </p>
-                        <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                        <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                           {Math.round(pct)}% {lang === 'sw' ? 'imekamilika' : 'complete'}
                         </p>
                       </div>
                     </div>
-                    <p style={{ fontSize: 22, fontWeight: 700, color: '#00E5A0', marginBottom: 12, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                    <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--mk-green)', marginBottom: 12, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                       {fmt(goal.target)}
                     </p>
                     <StripeProgressBar value={goal.current} max={goal.target} />
-                    <p style={{ fontSize: 12, color: '#6B7280', marginTop: 6, fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginTop: 6, fontFamily: 'Geist, sans-serif' }}>
                       {fmt(goal.current)} {lang === 'sw' ? 'imehifadhiwa' : 'saved'}
                     </p>
                   </div>
@@ -652,7 +652,7 @@ function HomeTab({
             <MkCard>
               <div style={{ padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
                 <p style={{ fontSize: 24 }}>💸</p>
-                <p style={{ fontSize: 14, color: '#6B7280', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Hakuna miamala bado' : 'No transactions yet'}
                 </p>
               </div>
@@ -680,8 +680,8 @@ function HomeTab({
                         width: 40,
                         height: 40,
                         borderRadius: '50%',
-                        border: '1px solid #2A2A2E',
-                        background: '#fff',
+                        border: '1px solid var(--mk-border)',
+                        background: 'var(--mk-text)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -694,16 +694,16 @@ function HomeTab({
                   }
                 />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {tx.category}
                   </p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{tx.source}</p>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{tx.source}</p>
                 </div>
                 <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'income' ? '#00E5A0' : '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'income' ? 'var(--mk-green)' : 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>
                     {tx.type === 'income' ? '+' : '-'}{fmt(tx.amount)}
                   </p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                     {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                   </p>
                 </div>
@@ -712,11 +712,11 @@ function HomeTab({
                   onClick={() => handleDeleteTap(tx.id)}
                   style={{
                     padding: 4,
-                    background: confirmDeleteId === tx.id ? 'rgba(255,61,61,0.15)' : 'none',
+                    background: confirmDeleteId === tx.id ? 'rgba(var(--mk-red-rgb),0.15)' : 'none',
                     border: 'none',
                     borderRadius: '50%',
                     cursor: 'pointer',
-                    color: confirmDeleteId === tx.id ? '#FF3D3D' : '#4B5563',
+                    color: confirmDeleteId === tx.id ? 'var(--mk-red)' : '#4B5563',
                     flexShrink: 0,
                   }}
                 >
@@ -731,13 +731,13 @@ function HomeTab({
             <button
               onClick={onHistory}
               style={{
-                background: 'rgba(255,107,0,0.12)',
-                color: '#FF6B00',
+                background: 'rgba(var(--mk-orange-rgb),0.12)',
+                color: 'var(--mk-orange)',
                 fontSize: 12,
                 fontWeight: 700,
                 padding: '8px 20px',
                 borderRadius: 999,
-                border: '1px solid rgba(255,107,0,0.25)',
+                border: '1px solid rgba(var(--mk-orange-rgb),0.25)',
                 cursor: 'pointer',
                 fontFamily: 'Geist, sans-serif',
               }}
@@ -755,8 +755,8 @@ function HomeTab({
       {state.emergencyMode && (
         <div
           style={{
-            background: 'rgba(255,107,0,0.1)',
-            border: '1px solid rgba(255,107,0,0.3)',
+            background: 'rgba(var(--mk-orange-rgb),0.1)',
+            border: '1px solid rgba(var(--mk-orange-rgb),0.3)',
             borderRadius: 16,
             padding: 16,
             display: 'flex',
@@ -764,12 +764,12 @@ function HomeTab({
             gap: 12,
           }}
         >
-          <AlertTriangle size={18} color="#FF6B00" style={{ flexShrink: 0, marginTop: 2 }} />
+          <AlertTriangle size={18} color="var(--mk-orange)" style={{ flexShrink: 0, marginTop: 2 }} />
           <div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#FF6B00', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Hali ya Dharura' : 'Emergency Mode On'}
             </p>
-            <p style={{ fontSize: 12, color: '#6B7280', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Matumizi muhimu tu yanaonyeshwa' : 'Only essential spending shown'}
             </p>
           </div>
@@ -842,7 +842,7 @@ function BudgetTab({
   const recentExpenses = transactions.filter(t => t.type === 'expense').slice(0, 5);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: 'var(--mk-bg)' }}>
       {/* Period selector */}
       <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         {(['today', 'week', 'month'] as Period[]).map(p => (
@@ -856,16 +856,16 @@ function BudgetTab({
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 6 }}>
           <button
             onClick={() => setShowNewBudgetType(true)}
-            style={{ padding: '6px 12px', borderRadius: 999, background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, boxShadow: '0 0 14px rgba(255,107,0,0.4)' }}
+            style={{ padding: '6px 12px', borderRadius: 999, background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4, boxShadow: '0 0 14px rgba(var(--mk-orange-rgb),0.4)' }}
           >
-            <Plus size={13} color="#fff" />
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Mpya' : 'New'}</span>
+            <Plus size={13} color="var(--mk-text)" />
+            <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Mpya' : 'New'}</span>
           </button>
           <button
             onClick={onOpenBudgetLimits}
-            style={{ padding: 6, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer' }}
+            style={{ padding: 6, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer' }}
           >
-            <Settings size={14} color="#9CA3AF" />
+            <Settings size={14} color="var(--mk-text-secondary)" />
           </button>
         </div>
       </div>
@@ -874,21 +874,21 @@ function BudgetTab({
       <SmartBudgetBuilder />
 
       {/* Budget remaining */}
-      <MkCard accent="#FF6B00">
+      <MkCard accent="var(--mk-orange)">
         <div style={{ padding: 20 }}>
-          <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Bajeti Iliyobaki' : 'Budget Remaining'}
           </p>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, margin: '4px 0 12px' }}>
-            <p style={{ fontSize: 32, fontWeight: 800, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
+            <p style={{ fontSize: 32, fontWeight: 800, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
               {fmt(remaining)}
             </p>
-            <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'iliyobaki' : 'left'}
             </p>
           </div>
           <StripeProgressBar value={totalExpense} max={totalBudget || 1} />
-          <p style={{ fontSize: 12, color: '#6B7280', marginTop: 8, fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginTop: 8, fontFamily: 'Geist, sans-serif' }}>
             {fmt(totalExpense)} / {fmt(totalBudget)} {lang === 'sw' ? 'imetumika' : 'spent'}
           </p>
         </div>
@@ -896,7 +896,7 @@ function BudgetTab({
 
       {/* Spending insight chart */}
       {cashflowData.some(d => d.income > 0 || d.expense > 0) && (
-        <MkCard accent="#A78BFA">
+        <MkCard accent="var(--mk-purple)">
           <div style={{ padding: 16 }}>
             <SectionHeader
               label={lang === 'sw' ? 'Mwenendo wa Matumizi' : 'Spending Insight'}
@@ -906,11 +906,11 @@ function BudgetTab({
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={cashflowData} barGap={2} barCategoryGap="35%">
                   <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#4B5563' }} axisLine={false} tickLine={false} />
-                  <Bar dataKey="expense" fill="#2A2A2E" radius={[3, 3, 0, 0]} />
-                  <Bar dataKey="income" fill="#00E5A0" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="expense" fill="var(--mk-border)" radius={[3, 3, 0, 0]} />
+                  <Bar dataKey="income" fill="var(--mk-green)" radius={[3, 3, 0, 0]} />
                   <Tooltip
                     formatter={(v: number) => fmt(v)}
-                    contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #2A2A2E', background: '#1C1C1E', color: '#fff' }}
+                    contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid var(--mk-border)', background: 'var(--mk-card)', color: 'var(--mk-text)' }}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -930,7 +930,7 @@ function BudgetTab({
             onClick={onOpenBudgetLimits}
             style={{
               fontSize: 12,
-              color: '#FF6B00',
+              color: 'var(--mk-orange)',
               display: 'flex',
               alignItems: 'center',
               gap: 4,
@@ -947,7 +947,7 @@ function BudgetTab({
         {topCategories.length === 0 ? (
           <MkCard>
             <div style={{ padding: 16, textAlign: 'center' }}>
-              <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Hakuna data' : 'No expense data yet'}
               </p>
             </div>
@@ -967,7 +967,7 @@ function BudgetTab({
                       width: 36,
                       height: 36,
                       borderRadius: '50%',
-                      background: '#2A2A2E',
+                      background: 'var(--mk-border)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -979,10 +979,10 @@ function BudgetTab({
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {cat}
                       </p>
-                      <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif', flexShrink: 0, marginLeft: 8 }}>
+                      <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', flexShrink: 0, marginLeft: 8 }}>
                         {fmt(amount)}{budget > 0 ? ` / ${fmt(budget)}` : ''}
                       </p>
                     </div>
@@ -999,13 +999,13 @@ function BudgetTab({
             <button
               onClick={onOpenBudgetLimits}
               style={{
-                background: 'rgba(255,107,0,0.12)',
-                color: '#FF6B00',
+                background: 'rgba(var(--mk-orange-rgb),0.12)',
+                color: 'var(--mk-orange)',
                 fontSize: 12,
                 fontWeight: 700,
                 padding: '8px 20px',
                 borderRadius: 999,
-                border: '1px solid rgba(255,107,0,0.25)',
+                border: '1px solid rgba(var(--mk-orange-rgb),0.25)',
                 cursor: 'pointer',
                 fontFamily: 'Geist, sans-serif',
               }}
@@ -1026,23 +1026,23 @@ function BudgetTab({
             label={lang === 'sw' ? 'Mtiririko wa Pesa' : 'Cash Flow'}
             sub={lang === 'sw' ? 'Jinsi pesa yako inavyosogea' : 'See how your money moved'}
           />
-          <p style={{ fontSize: 28, fontWeight: 800, color: cashflow >= 0 ? '#00E5A0' : '#FF3D3D', margin: '8px 0 12px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+          <p style={{ fontSize: 28, fontWeight: 800, color: cashflow >= 0 ? 'var(--mk-green)' : 'var(--mk-red)', margin: '8px 0 12px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
             {cashflow >= 0 ? '+' : ''}{fmt(cashflow)}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#00E5A0', display: 'inline-block', boxShadow: '0 0 6px rgba(0,229,160,0.6)' }} />
-                <span style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Pesa Inayoingia' : 'Money In'}</span>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--mk-green)', display: 'inline-block', boxShadow: '0 0 6px rgba(var(--mk-green-rgb),0.6)' }} />
+                <span style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Pesa Inayoingia' : 'Money In'}</span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>{fmt(totalIncome)}</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>{fmt(totalIncome)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF3D3D', display: 'inline-block', boxShadow: '0 0 6px rgba(255,61,61,0.6)' }} />
-                <span style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Pesa Inayotoka' : 'Money Out'}</span>
+                <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--mk-red)', display: 'inline-block', boxShadow: '0 0 6px rgba(var(--mk-red-rgb),0.6)' }} />
+                <span style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Pesa Inayotoka' : 'Money Out'}</span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 700, color: '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>{fmt(totalExpense)}</span>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>{fmt(totalExpense)}</span>
             </div>
           </div>
         </div>
@@ -1059,7 +1059,7 @@ function BudgetTab({
             {transactions.length > 5 && (
               <button
                 onClick={onHistory}
-                style={{ fontSize: 12, color: '#FF6B00', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', display: 'flex', alignItems: 'center', gap: 2 }}
+                style={{ fontSize: 12, color: 'var(--mk-orange)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', display: 'flex', alignItems: 'center', gap: 2 }}
               >
                 {lang === 'sw' ? 'Zote' : 'See all'} <ChevronRight size={12} />
               </button>
@@ -1075,7 +1075,7 @@ function BudgetTab({
                 <div
                   style={{
                     width: 36, height: 36, borderRadius: '50%',
-                    border: '1px solid #2A2A2E', background: '#1C1C1E',
+                    border: '1px solid var(--mk-border)', background: 'var(--mk-card)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 16, flexShrink: 0,
                   }}
@@ -1083,15 +1083,15 @@ function BudgetTab({
                   {getCategoryIcon(tx.category)}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {tx.notes || tx.category}
                   </p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                     {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                   </p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'expense' ? '#FF3D3D' : '#00E5A0', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'expense' ? 'var(--mk-red)' : 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
                     {tx.type === 'expense' ? '-' : '+'}{fmt(tx.amount)}
                   </p>
                   <ChevronRight size={12} color="#4B5563" />
@@ -1126,13 +1126,13 @@ function BudgetTab({
                 style={{
                   display: 'flex', alignItems: 'center', gap: 12,
                   padding: '12px 0', background: 'none', border: 'none', cursor: 'pointer',
-                  borderBottom: i === 0 ? '1px solid #2A2A2E' : 'none', width: '100%', textAlign: 'left',
+                  borderBottom: i === 0 ? '1px solid var(--mk-border)' : 'none', width: '100%', textAlign: 'left',
                 }}
               >
                 <div
                   style={{
                     width: 32, height: 32, borderRadius: 8,
-                    background: 'rgba(167,139,250,0.15)',
+                    background: 'rgba(var(--mk-purple-rgb),0.15)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 14, flexShrink: 0,
                   }}
@@ -1140,10 +1140,10 @@ function BudgetTab({
                   📖
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 12, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? a.sw : a.en}
                   </p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {lang === 'sw' ? a.subSw : a.subEn}
                   </p>
                 </div>
@@ -1155,7 +1155,7 @@ function BudgetTab({
             onClick={() => onOpenLesson('rule-50-30-20')}
             style={{
               marginTop: 12, padding: '8px 20px', borderRadius: 999,
-              background: 'rgba(167,139,250,0.12)', color: '#A78BFA', border: '1px solid rgba(167,139,250,0.25)',
+              background: 'rgba(var(--mk-purple-rgb),0.12)', color: 'var(--mk-purple)', border: '1px solid rgba(var(--mk-purple-rgb),0.25)',
               fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif',
             }}
           >
@@ -1178,25 +1178,25 @@ function BudgetTab({
               key="budget-sheet"
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 51, padding: '20px 20px 48px' }}
+              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 51, padding: '20px 20px 48px' }}
             >
               {/* Handle */}
-              <div style={{ width: 36, height: 4, borderRadius: 2, background: '#2A2A2E', margin: '0 auto 20px' }} />
+              <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--mk-border)', margin: '0 auto 20px' }} />
 
               {/* Header */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <p style={{ fontSize: 18, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Chagua Aina' : 'Select Type'}
                 </p>
                 <button
                   type="button"
                   onClick={() => setShowNewBudgetType(false)}
-                  style={{ width: 32, height: 32, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: '#FFFFFF' }}
+                  style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, color: 'var(--mk-text)' }}
                 >
                   ✕
                 </button>
               </div>
-              <p style={{ fontSize: 13, color: '#6B7280', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Chagua ni aina gani ya bajeti ungependa kuongeza' : 'Choose what type of budget item you want to add'}
               </p>
 
@@ -1207,9 +1207,9 @@ function BudgetTab({
                   type="button"
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowNewBudgetType(false)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', border: 'none', cursor: 'pointer', textAlign: 'left', boxShadow: '0 0 16px rgba(255,107,0,0.3)' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', border: 'none', cursor: 'pointer', textAlign: 'left', boxShadow: '0 0 16px rgba(var(--mk-orange-rgb),0.3)' }}
                 >
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'rgba(var(--mk-text-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                       <circle cx="12" cy="12" r="10" stroke="white" strokeWidth="1.5"/>
                       <path d="M12 2 A10 10 0 0 1 22 12 L12 12 Z" fill="white" opacity="0.8"/>
@@ -1217,14 +1217,14 @@ function BudgetTab({
                     </svg>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 15, fontWeight: 700, color: '#fff', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
+                    <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
                       {lang === 'sw' ? 'Bajeti' : 'Budget'}
                     </p>
-                    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 12, color: 'rgba(var(--mk-text-rgb),0.75)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
                       {lang === 'sw' ? 'Tenga sehemu ya fedha zako na ufuatilie matumizi' : 'Allocate a portion of your funds and track your expenses'}
                     </p>
                   </div>
-                  <ChevronRight size={16} color="rgba(255,255,255,0.6)" style={{ flexShrink: 0 }} />
+                  <ChevronRight size={16} color="rgba(var(--mk-text-rgb),0.6)" style={{ flexShrink: 0 }} />
                 </motion.button>
 
                 {/* Bills */}
@@ -1232,18 +1232,18 @@ function BudgetTab({
                   type="button"
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowNewBudgetType(false)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: '#1C1C1E', border: '1.5px solid #2A2A2E', cursor: 'pointer', textAlign: 'left' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', cursor: 'pointer', textAlign: 'left' }}
                 >
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: '#FF6B00', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 0 10px rgba(255,107,0,0.4)' }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: '0 0 10px rgba(var(--mk-orange-rgb),0.4)' }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
                       {lang === 'sw' ? 'Bili' : 'Bills'}
                     </p>
-                    <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
                       {lang === 'sw' ? 'Gharama zinazorudiwa kama kodi, umeme, n.k.' : 'Recurring expenses like rent, utility, etc.'}
                     </p>
                   </div>
@@ -1255,7 +1255,7 @@ function BudgetTab({
                   type="button"
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowNewBudgetType(false)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: '#1C1C1E', border: '1.5px solid #2A2A2E', cursor: 'pointer', textAlign: 'left' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', cursor: 'pointer', textAlign: 'left' }}
                 >
                   <div style={{ width: 44, height: 44, borderRadius: 12, background: '#F55D3E', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -1263,10 +1263,10 @@ function BudgetTab({
                     </svg>
                   </div>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
                       {lang === 'sw' ? 'Usajili' : 'Subscription'}
                     </p>
-                    <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
                       {lang === 'sw' ? 'Gharama za mara kwa mara kama streaming, uanachama' : 'Recurring expenses like streaming, memberships, etc.'}
                     </p>
                   </div>
@@ -1283,9 +1283,9 @@ function BudgetTab({
 
 // ─── NEW GOAL BOTTOM SHEET ────────────────────────────────────────────────────
 const GOAL_CATEGORIES = [
-  { id: 'regular',    emoji: '💰', en: 'Regular Savings',  sw: 'Akiba ya Kawaida', fr: 'Épargne régulière',   ar: 'ادخار منتظم',   pt: 'Poupança regular',   color: '#00E5A0', bg: 'rgba(0,229,160,0.1)' },
-  { id: 'emergency',  emoji: '🛡️', en: 'Emergencies',       sw: 'Dharura',          fr: 'Urgences',           ar: 'طوارئ',          pt: 'Emergências',        color: '#FF6B00', bg: 'rgba(255,107,0,0.1)' },
-  { id: 'life',       emoji: '🌟', en: 'Life Goals',        sw: 'Malengo ya Maisha', fr: 'Objectifs de vie',  ar: 'أهداف حياتية',  pt: 'Objetivos de vida',  color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
+  { id: 'regular',    emoji: '💰', en: 'Regular Savings',  sw: 'Akiba ya Kawaida', fr: 'Épargne régulière',   ar: 'ادخار منتظم',   pt: 'Poupança regular',   color: 'var(--mk-green)', bg: 'rgba(var(--mk-green-rgb),0.1)' },
+  { id: 'emergency',  emoji: '🛡️', en: 'Emergencies',       sw: 'Dharura',          fr: 'Urgences',           ar: 'طوارئ',          pt: 'Emergências',        color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.1)' },
+  { id: 'life',       emoji: '🌟', en: 'Life Goals',        sw: 'Malengo ya Maisha', fr: 'Objectifs de vie',  ar: 'أهداف حياتية',  pt: 'Objetivos de vida',  color: 'var(--mk-purple)', bg: 'rgba(var(--mk-purple-rgb),0.1)' },
   { id: 'holiday',    emoji: '✈️', en: 'Holidays',          sw: 'Likizo',           fr: 'Vacances',           ar: 'إجازات',          pt: 'Férias',             color: '#F55D3E', bg: '#F55D3E1A' },
 ];
 
@@ -1365,24 +1365,24 @@ function NewGoalSheet({
       <motion.div
         initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 34 }}
-        style={{ background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 40px', maxHeight: '90vh', overflowY: 'auto' }}
+        style={{ background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 40px', maxHeight: '90vh', overflowY: 'auto' }}
       >
         {/* Handle */}
-        <div style={{ width: 36, height: 4, borderRadius: 2, background: '#2A2A2E', margin: '0 auto 20px' }} />
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--mk-border)', margin: '0 auto 20px' }} />
 
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           {phase !== 'pick' ? (
-            <button type="button" onClick={goBack} style={{ padding: 8, background: '#1C1C1E', border: '1px solid #2A2A2E', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ChevronRight size={18} color="#FFFFFF" style={{ transform: 'rotate(180deg)' }} />
+            <button type="button" onClick={goBack} style={{ padding: 8, background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ChevronRight size={18} color="var(--mk-text)" style={{ transform: 'rotate(180deg)' }} />
             </button>
           ) : <div style={{ width: 36 }} />}
-          <p style={{ fontSize: 17, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
             {phase === 'life-goals'
               ? (lang === 'sw' ? 'Malengo ya Maisha' : 'Life Goals')
               : titleMap[lang]}
           </p>
-          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: '#FFFFFF' }}>
+          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, color: 'var(--mk-text)' }}>
             ✕
           </button>
         </div>
@@ -1390,7 +1390,7 @@ function NewGoalSheet({
         <AnimatePresence mode="wait">
           {phase === 'pick' && (
             <motion.div key="pick" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
                 {chooseMap[lang]}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
@@ -1407,7 +1407,7 @@ function NewGoalSheet({
                     }}
                   >
                     <span style={{ fontSize: 28 }}>{c.emoji}</span>
-                    <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
                       {catLabel(c)}
                     </p>
                   </motion.button>
@@ -1418,7 +1418,7 @@ function NewGoalSheet({
 
           {phase === 'life-goals' && (
             <motion.div key="life-goals" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Chagua lengo la maisha yako' : 'Select a life goal to save toward'}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -1428,12 +1428,12 @@ function NewGoalSheet({
                     type="button"
                     onClick={() => handleLifeGoalPick(g)}
                     whileTap={{ scale: 0.98 }}
-                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 4px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid #2A2A2E' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 4px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left', borderBottom: '1px solid var(--mk-border)' }}
                   >
-                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(167,139,250,0.15)', border: '2px solid rgba(167,139,250,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(var(--mk-purple-rgb),0.15)', border: '2px solid rgba(var(--mk-purple-rgb),0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
                       {g.emoji}
                     </div>
-                    <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', flex: 1 }}>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', flex: 1 }}>
                       {lang === 'sw' ? g.sw : g.en}
                     </p>
                     <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0 }} />
@@ -1454,29 +1454,29 @@ function NewGoalSheet({
 
               {/* Name */}
               <div>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Jina (hiari)' : lang === 'fr' ? 'Nom (optionnel)' : lang === 'ar' ? 'الاسم (اختياري)' : lang === 'pt' ? 'Nome (opcional)' : 'Name (optional)'}
                 </p>
                 <input
                   type="text" value={customName} onChange={e => setCustomName(e.target.value)}
                   placeholder={catLabel(cat!)}
-                  style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '12px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+                  style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '12px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
                   onFocus={e => (e.target.style.borderColor = cat!.color)}
-                  onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                 />
               </div>
 
               {/* Target amount */}
               <div>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Kiasi cha lengo' : lang === 'fr' ? 'Montant cible' : lang === 'ar' ? 'المبلغ المستهدف' : lang === 'pt' ? 'Valor alvo' : 'Target amount'}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#1C1C1E', border: '1.5px solid #2A2A2E', borderRadius: 12, padding: '12px 16px' }}>
-                  <span style={{ color: '#6B7280', fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', borderRadius: 12, padding: '12px 16px' }}>
+                  <span style={{ color: 'var(--mk-text-secondary)', fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
                   <input
                     type="number" inputMode="numeric" value={amount} onChange={e => setAmount(e.target.value)}
                     placeholder="0"
-                    style={{ flex: 1, background: 'transparent', color: '#FFFFFF', fontSize: 22, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
+                    style={{ flex: 1, background: 'transparent', color: 'var(--mk-text)', fontSize: 22, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
                   />
                 </div>
               </div>
@@ -1487,12 +1487,12 @@ function NewGoalSheet({
                 disabled={!amount || parseInt(amount) < 1}
                 style={{
                   width: '100%', padding: '16px 0', borderRadius: 999,
-                  background: amount && parseInt(amount) >= 1 ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)' : '#1C1C1E',
-                  color: amount && parseInt(amount) >= 1 ? '#fff' : '#4B5563',
+                  background: amount && parseInt(amount) >= 1 ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' : 'var(--mk-card)',
+                  color: amount && parseInt(amount) >= 1 ? 'var(--mk-text)' : '#4B5563',
                   fontSize: 16, fontWeight: 700, border: 'none',
                   cursor: amount && parseInt(amount) >= 1 ? 'pointer' : 'not-allowed',
                   fontFamily: 'Geist, sans-serif', transition: 'all 0.2s',
-                  boxShadow: amount && parseInt(amount) >= 1 ? '0 0 20px rgba(255,107,0,0.45)' : 'none',
+                  boxShadow: amount && parseInt(amount) >= 1 ? '0 0 20px rgba(var(--mk-orange-rgb),0.45)' : 'none',
                 }}
               >
                 {saveMap[lang]}
@@ -1522,14 +1522,14 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
   const completedGoals = goals.filter(g => g.completed);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: 'var(--mk-bg)' }}>
       {/* Total savings */}
-      <MkCard accent="#00E5A0">
+      <MkCard accent="var(--mk-green)">
         <div style={{ padding: 20 }}>
-          <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Jumla ya Akiba' : 'Total Savings'}
           </p>
-          <p style={{ fontSize: 36, fontWeight: 800, color: '#00E5A0', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', textShadow: '0 0 24px rgba(0,229,160,0.3)' }}>
+          <p style={{ fontSize: 36, fontWeight: 800, color: 'var(--mk-green)', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', textShadow: '0 0 24px rgba(var(--mk-green-rgb),0.3)' }}>
             {fmt(totalSaved)}
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -1544,18 +1544,18 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
       {roundUpEnabled && roundUpSavings > 0 && (
         <MkCard>
           <div style={{ padding: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0,229,160,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
+            <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(var(--mk-green-rgb),0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, flexShrink: 0 }}>
               🔄
             </div>
             <div style={{ flex: 1 }}>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Akiba ya Round-Up' : 'Round-Up Savings'}
               </p>
-              <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Jumla iliyohifadhiwa' : 'Total rounded up'}
               </p>
             </div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
               +{fmt(roundUpSavings)}
             </p>
           </div>
@@ -1573,14 +1573,14 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
             <MkCard>
               <div style={{ padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
                 <p style={{ fontSize: 32 }}>🎯</p>
-                <p style={{ fontSize: 14, color: '#6B7280', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Hakuna malengo bado. Ongeza lengo lako la kwanza!' : "No goals yet. Add your first goal!"}
                 </p>
                 <button
                   onClick={() => setShowNewGoal(true)}
                   style={{
-                    background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)',
-                    color: '#fff',
+                    background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+                    color: 'var(--mk-text)',
                     fontSize: 14,
                     fontWeight: 700,
                     padding: '8px 20px',
@@ -1588,7 +1588,7 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
                     border: 'none',
                     cursor: 'pointer',
                     fontFamily: 'Geist, sans-serif',
-                    boxShadow: '0 0 16px rgba(255,107,0,0.45)',
+                    boxShadow: '0 0 16px rgba(var(--mk-orange-rgb),0.45)',
                   }}
                 >
                   {lang === 'sw' ? 'Ongeza Lengo' : 'Add Goal'}
@@ -1607,27 +1607,27 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
                       style={{ display: 'block', width: '100%', padding: 16, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
                     >
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12 }}>
-                        <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(0,229,160,0.15)', border: '2px solid rgba(0,229,160,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                        <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(var(--mk-green-rgb),0.15)', border: '2px solid rgba(var(--mk-green-rgb),0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
                           {goal.emoji || '🎯'}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{goal.title}</p>
-                          <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                          <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{goal.title}</p>
+                          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                             {Math.round(pct)}% {lang === 'sw' ? 'imekamilika' : 'complete'}
                           </p>
                         </div>
                         <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0, marginTop: 2 }} />
                       </div>
-                      <p style={{ fontSize: 24, fontWeight: 800, color: '#00E5A0', marginBottom: 12, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                      <p style={{ fontSize: 24, fontWeight: 800, color: 'var(--mk-green)', marginBottom: 12, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                         {fmt(goal.target)}
                       </p>
                       <StripeProgressBar value={goal.current} max={goal.target} />
                       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                        <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                        <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                           {fmt(goal.current)} {lang === 'sw' ? 'imehifadhiwa' : 'saved'}
                         </p>
                         {goal.daysLeft != null && (
-                          <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                             {goal.daysLeft} {lang === 'sw' ? 'siku zimebaki' : 'days left'}
                           </p>
                         )}
@@ -1638,20 +1638,20 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
               })}
               {completedGoals.length > 0 && (
                 <div>
-                  <p style={{ fontSize: 12, color: '#6B7280', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
                     {completedGoals.length} {lang === 'sw' ? 'lengo limekamilika' : 'goal(s) completed'} 🎉
                   </p>
                   {completedGoals.map(goal => (
-                    <MkCard key={goal.id} accent="#00E5A0">
+                    <MkCard key={goal.id} accent="var(--mk-green)">
                       <div style={{ padding: 16, opacity: 0.7, display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(0,229,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'rgba(var(--mk-green-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
                           {goal.emoji || '🎯'}
                         </div>
                         <div style={{ flex: 1 }}>
-                          <p style={{ fontSize: 14, fontWeight: 500, color: '#9CA3AF', textDecoration: 'line-through', fontFamily: 'Geist, sans-serif' }}>{goal.title}</p>
-                          <p style={{ fontSize: 12, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>✓ {lang === 'sw' ? 'Imekamilika' : 'Completed'}</p>
+                          <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--mk-text-secondary)', textDecoration: 'line-through', fontFamily: 'Geist, sans-serif' }}>{goal.title}</p>
+                          <p style={{ fontSize: 12, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>✓ {lang === 'sw' ? 'Imekamilika' : 'Completed'}</p>
                         </div>
-                        <p style={{ fontSize: 14, fontWeight: 600, color: '#9CA3AF', fontFamily: 'Geist, sans-serif' }}>{fmt(goal.target)}</p>
+                        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{fmt(goal.target)}</p>
                       </div>
                     </MkCard>
                   ))}
@@ -1725,9 +1725,9 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
   const positive = gain >= 0;
 
   const portfolios = [
-    { id: 'easy_growth',  name: lang === 'sw' ? 'Akiba ya Hisa' : lang === 'fr' ? 'Actions Locales' : 'Local Equities', pct: '+12.4%', amount: portfolioBase * 0.45, color: '#00E5A0' },
-    { id: 'balanced',     name: lang === 'sw' ? 'Dhamana za Serikali' : lang === 'fr' ? 'Obligations d\'État' : 'Gov. Bonds', pct: '+5.1%', amount: portfolioBase * 0.3, color: '#A78BFA' },
-    { id: 'growth_max',   name: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : 'Real Estate', pct: '+8.7%', amount: portfolioBase * 0.25, color: '#FF6B00' },
+    { id: 'easy_growth',  name: lang === 'sw' ? 'Akiba ya Hisa' : lang === 'fr' ? 'Actions Locales' : 'Local Equities', pct: '+12.4%', amount: portfolioBase * 0.45, color: 'var(--mk-green)' },
+    { id: 'balanced',     name: lang === 'sw' ? 'Dhamana za Serikali' : lang === 'fr' ? 'Obligations d\'État' : 'Gov. Bonds', pct: '+5.1%', amount: portfolioBase * 0.3, color: 'var(--mk-purple)' },
+    { id: 'growth_max',   name: lang === 'sw' ? 'Mali Isiyohamishika' : lang === 'fr' ? 'Immobilier' : 'Real Estate', pct: '+8.7%', amount: portfolioBase * 0.25, color: 'var(--mk-orange)' },
   ];
 
   const assetClasses = [
@@ -1740,18 +1740,18 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
     lang === 'sw' ? sw : lang === 'fr' && fr ? fr : lang === 'ar' && ar ? ar : lang === 'pt' && pt ? pt : en;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: 'var(--mk-bg)' }}>
 
       {/* Portfolio value card */}
-      <MkCard accent="#A78BFA">
+      <MkCard accent="var(--mk-purple)">
         <div style={{ padding: 20 }}>
-          <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
             {L('Thamani ya Mali', 'Portfolio Value', 'Valeur du portefeuille', 'قيمة المحفظة', 'Valor do portfólio')}
           </p>
-          <p style={{ fontSize: 32, fontWeight: 800, color: '#FFFFFF', margin: '4px 0 2px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
+          <p style={{ fontSize: 32, fontWeight: 800, color: 'var(--mk-text)', margin: '4px 0 2px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
             {fmt(chartEnd)}
           </p>
-          <p style={{ fontSize: 14, fontWeight: 700, color: positive ? '#00E5A0' : '#FF3D3D', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 14, fontWeight: 700, color: positive ? 'var(--mk-green)' : 'var(--mk-red)', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
             {positive ? '▲' : '▼'} {fmt(Math.abs(gain))} ({gainPct}%)
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
@@ -1775,12 +1775,12 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
                 key={t}
                 onClick={() => setTf(t)}
                 style={{
-                  padding: '4px 12px', borderRadius: 999, border: tf === t ? 'none' : '1px solid #2A2A2E', cursor: 'pointer',
-                  background: tf === t ? '#FF6B00' : '#1C1C1E',
-                  color: tf === t ? '#fff' : '#6B7280',
+                  padding: '4px 12px', borderRadius: 999, border: tf === t ? 'none' : '1px solid var(--mk-border)', cursor: 'pointer',
+                  background: tf === t ? 'var(--mk-orange)' : 'var(--mk-card)',
+                  color: tf === t ? 'var(--mk-text)' : 'var(--mk-text-secondary)',
                   fontSize: 12, fontWeight: tf === t ? 700 : 500, fontFamily: 'Geist, sans-serif', flexShrink: 0,
                   transition: 'all 0.15s',
-                  boxShadow: tf === t ? '0 0 10px rgba(255,107,0,0.4)' : 'none',
+                  boxShadow: tf === t ? '0 0 10px rgba(var(--mk-orange-rgb),0.4)' : 'none',
                 }}
               >
                 {t}
@@ -1790,17 +1790,17 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
           <div style={{ height: 140 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2A2A2E" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--mk-border)" vertical={false} />
                 <XAxis dataKey="name" tick={false} axisLine={false} tickLine={false} />
                 <YAxis hide domain={['auto', 'auto']} />
                 <Tooltip
                   formatter={(v: number) => [fmt(v), '']}
-                  contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid #2A2A2E', background: '#1C1C1E', color: '#fff' }}
+                  contentStyle={{ fontSize: 11, borderRadius: 8, border: '1px solid var(--mk-border)', background: 'var(--mk-card)', color: 'var(--mk-text)' }}
                   labelStyle={{ display: 'none' }}
                 />
                 <Line
                   type="monotone" dataKey="value"
-                  stroke={positive ? '#00E5A0' : '#FF3D3D'}
+                  stroke={positive ? 'var(--mk-green)' : 'var(--mk-red)'}
                   strokeWidth={2.5} dot={false}
                 />
               </LineChart>
@@ -1816,7 +1816,7 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
           <button
             type="button"
             onClick={onNewPlan}
-            style={{ fontSize: 12, color: '#FF6B00', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', fontWeight: 700 }}
+            style={{ fontSize: 12, color: 'var(--mk-orange)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', fontWeight: 700 }}
           >
             + {L('Ongeza', 'Add', 'Ajouter', 'أضف', 'Adicionar')}
           </button>
@@ -1833,10 +1833,10 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
                   <TrendingUp size={18} color={p.color} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{p.name}</p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{fmt(p.amount)}</p>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{p.name}</p>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{fmt(p.amount)}</p>
                 </div>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#00E5A0', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>{p.pct}</span>
+                <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>{p.pct}</span>
                 <ChevronRight size={14} color="#4B5563" style={{ flexShrink: 0 }} />
               </button>
             </MkCard>
@@ -1849,16 +1849,16 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
         onClick={onNewPlan}
         style={{
           width: '100%', padding: '18px 20px', borderRadius: 16,
-          background: 'linear-gradient(135deg, #1C1C1E 0%, #2A2A2E 100%)',
-          border: '1px solid #FF6B0033',
-          boxShadow: '0 0 24px rgba(255,107,0,0.15)',
+          background: 'linear-gradient(135deg, var(--mk-card) 0%, var(--mk-border) 100%)',
+          border: '1px solid var(--mk-orange)33',
+          boxShadow: '0 0 24px rgba(var(--mk-orange-rgb),0.15)',
           cursor: 'pointer', textAlign: 'left',
         }}
       >
-        <p style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
           🌱 {L('Unda Mpango wa Uwekezaji', 'Set Up New Investment Plan', 'Créer un plan d\'investissement', 'إنشاء خطة استثمار', 'Criar plano de investimento')}
         </p>
-        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'Geist, sans-serif' }}>
+        <p style={{ fontSize: 12, color: 'rgba(var(--mk-text-rgb),0.7)', fontFamily: 'Geist, sans-serif' }}>
           {L('Anza kuwekeza leo', 'Start investing with as little as 1,000', 'Commencez à investir dès aujourd\'hui', 'ابدأ الاستثمار اليوم', 'Comece a investir hoje')}
         </p>
       </button>
@@ -1877,12 +1877,12 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
                 onClick={a.emoji === '📈' ? onStocksSelect : undefined}
                 style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', width: '100%', background: 'none', border: 'none', cursor: a.emoji === '📈' ? 'pointer' : 'default', textAlign: 'left' }}
               >
-                <div style={{ width: 40, height: 40, borderRadius: 12, background: '#2A2A2E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 12, background: 'var(--mk-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, flexShrink: 0 }}>
                   {a.emoji}
                 </div>
                 <div style={{ flex: 1 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{a.label}</p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{a.sub}</p>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{a.label}</p>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{a.sub}</p>
                 </div>
                 <ChevronRight size={16} color="#4B5563" />
               </button>
@@ -1900,17 +1900,17 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
           />
           <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
             {[
-              { id: 'low',    label: L('Chini', 'Low', 'Faible', 'منخفض', 'Baixo'),    color: '#00E5A0' },
-              { id: 'medium', label: L('Kati',  'Medium', 'Moyen', 'متوسط', 'Médio'),  color: '#FF6B00' },
-              { id: 'high',   label: L('Juu',   'High', 'Élevé', 'مرتفع', 'Alto'),     color: '#FF3D3D' },
+              { id: 'low',    label: L('Chini', 'Low', 'Faible', 'منخفض', 'Baixo'),    color: 'var(--mk-green)' },
+              { id: 'medium', label: L('Kati',  'Medium', 'Moyen', 'متوسط', 'Médio'),  color: 'var(--mk-orange)' },
+              { id: 'high',   label: L('Juu',   'High', 'Élevé', 'مرتفع', 'Alto'),     color: 'var(--mk-red)' },
             ].map(r => (
               <button
                 key={r.id}
                 style={{
                   flex: 1, padding: '10px 0', borderRadius: 12,
-                  background: r.id === 'medium' ? `${r.color}15` : '#1C1C1E',
-                  border: r.id === 'medium' ? `1.5px solid ${r.color}` : '1.5px solid #2A2A2E',
-                  color: r.id === 'medium' ? r.color : '#6B7280',
+                  background: r.id === 'medium' ? `${r.color}15` : 'var(--mk-card)',
+                  border: r.id === 'medium' ? `1.5px solid ${r.color}` : '1.5px solid var(--mk-border)',
+                  color: r.id === 'medium' ? r.color : 'var(--mk-text-secondary)',
                   fontSize: 13, fontWeight: r.id === 'medium' ? 700 : 500, cursor: 'pointer', fontFamily: 'Geist, sans-serif',
                 }}
               >
@@ -1937,27 +1937,27 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
           <motion.div
             initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 34 }}
-            style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#0D0D0D', display: 'flex', flexDirection: 'column' }}
+            style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'var(--mk-bg)', display: 'flex', flexDirection: 'column' }}
           >
             <div style={{ padding: '20px 20px 0', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <button onClick={() => setShowSetup(false)} style={{ padding: 8, background: '#1C1C1E', border: '1px solid #2A2A2E', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <ChevronRight size={18} color="#FFFFFF" style={{ transform: 'rotate(180deg)' }} />
+              <button onClick={() => setShowSetup(false)} style={{ padding: 8, background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <ChevronRight size={18} color="var(--mk-text)" style={{ transform: 'rotate(180deg)' }} />
               </button>
-              <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                 {L('Mpango wa Uwekezaji', 'New Investment Plan', 'Nouveau plan d\'investissement', 'خطة استثمار جديدة', 'Novo plano de investimento')}
               </p>
             </div>
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px', gap: 16 }}>
               <div style={{ fontSize: 64 }}>🌱</div>
-              <p style={{ fontSize: 22, fontWeight: 700, color: '#FFFFFF', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 22, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
                 {L('Karibu kwenye Uwekezaji', 'Welcome to Investing', 'Bienvenue dans l\'investissement', 'مرحباً بك في الاستثمار', 'Bem-vindo ao investimento')}
               </p>
-              <p style={{ fontSize: 14, color: '#6B7280', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.6 }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.6 }}>
                 {L('Weka pesa yako ifanye kazi. Anza na kiasi kidogo na ukue polepole.', 'Put your money to work. Start small and grow steadily over time.', 'Faites travailler votre argent. Commencez petit et grandissez régulièrement.', 'اجعل أموالك تعمل. ابدأ صغيراً وانمُ باطراد.', 'Faça seu dinheiro trabalhar. Comece pequeno e cresça continuamente.')}
               </p>
               <button
                 onClick={() => setShowSetup(false)}
-                style={{ width: '100%', maxWidth: 340, background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', color: '#fff', borderRadius: 999, padding: '16px 0', fontWeight: 700, fontSize: 16, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', boxShadow: '0 0 20px rgba(255,107,0,0.4)' }}
+                style={{ width: '100%', maxWidth: 340, background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', color: 'var(--mk-text)', borderRadius: 999, padding: '16px 0', fontWeight: 700, fontSize: 16, border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', boxShadow: '0 0 20px rgba(var(--mk-orange-rgb),0.4)' }}
               >
                 {L('Anza Sasa', 'Get Started', 'Commencer', 'ابدأ الآن', 'Começar')}
               </button>
@@ -1976,10 +1976,10 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
   const [sent, setSent] = useState(false);
 
   const contacts = [
-    { name: 'Alice',   initials: 'A', color: '#00E5A0' },
-    { name: 'Brian',   initials: 'B', color: '#FF6B00' },
-    { name: 'Cynthia', initials: 'C', color: '#A78BFA' },
-    { name: 'David',   initials: 'D', color: '#FF3D3D' },
+    { name: 'Alice',   initials: 'A', color: 'var(--mk-green)' },
+    { name: 'Brian',   initials: 'B', color: 'var(--mk-orange)' },
+    { name: 'Cynthia', initials: 'C', color: 'var(--mk-purple)' },
+    { name: 'David',   initials: 'D', color: 'var(--mk-red)' },
   ];
 
   const pad = (v: string) => {
@@ -1998,16 +1998,16 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
 
   if (sent) {
     return (
-      <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#0D0D0D', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+      <div style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'var(--mk-bg)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-          style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
+          style={{ width: 72, height: 72, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36 }}>
           ✓
         </motion.div>
-        <p style={{ color: '#fff', fontSize: 22, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>
+        <p style={{ color: 'var(--mk-text)', fontSize: 22, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>
           {sendLabel[lang]}!
         </p>
         <motion.button onClick={onClose} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
-          style={{ color: 'rgba(255,255,255,0.7)', background: 'none', border: 'none', fontSize: 14, cursor: 'pointer', fontFamily: 'Geist, sans-serif', marginTop: 8 }}>
+          style={{ color: 'rgba(var(--mk-text-rgb),0.7)', background: 'none', border: 'none', fontSize: 14, cursor: 'pointer', fontFamily: 'Geist, sans-serif', marginTop: 8 }}>
           Done
         </motion.button>
       </div>
@@ -2018,18 +2018,18 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
     <motion.div
       initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
       transition={{ type: 'spring', stiffness: 300, damping: 34 }}
-      style={{ position: 'fixed', inset: 0, zIndex: 60, background: '#0D0D0D', display: 'flex', flexDirection: 'column' }}
+      style={{ position: 'fixed', inset: 0, zIndex: 60, background: 'var(--mk-bg)', display: 'flex', flexDirection: 'column' }}
     >
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 20px 0' }}>
-        <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', border: 'none', color: '#fff', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
-        <p style={{ color: '#fff', fontSize: 16, fontWeight: 500, fontFamily: 'Geist, sans-serif' }}>{sendLabel[lang]} Money</p>
+        <button onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.1)', border: 'none', color: 'var(--mk-text)', fontSize: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>✕</button>
+        <p style={{ color: 'var(--mk-text)', fontSize: 16, fontWeight: 500, fontFamily: 'Geist, sans-serif' }}>{sendLabel[lang]} Money</p>
         <div style={{ width: 32 }} />
       </div>
 
       {/* Contact picker */}
       <div style={{ padding: '20px 20px 0' }}>
-        <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
+        <p style={{ color: 'rgba(var(--mk-text-rgb),0.5)', fontSize: 11, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
           {toLabel[lang]}
         </p>
         <div style={{ display: 'flex', gap: 16, overflowX: 'auto', paddingBottom: 4 }}>
@@ -2040,15 +2040,15 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
             >
               <div style={{
-                width: 48, height: 48, borderRadius: '50%', background: contact === c.name ? '#FF6B00' : c.color,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif',
-                border: contact === c.name ? '2px solid #FF6B00' : '2px solid transparent',
-                boxShadow: contact === c.name ? '0 0 0 3px rgba(255,107,0,0.3)' : 'none',
+                width: 48, height: 48, borderRadius: '50%', background: contact === c.name ? 'var(--mk-orange)' : c.color,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif',
+                border: contact === c.name ? '2px solid var(--mk-orange)' : '2px solid transparent',
+                boxShadow: contact === c.name ? '0 0 0 3px rgba(var(--mk-orange-rgb),0.3)' : 'none',
                 transition: 'all 0.2s',
               }}>
                 {c.initials}
               </div>
-              <span style={{ color: contact === c.name ? '#FF6B00' : 'rgba(255,255,255,0.6)', fontSize: 11, fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
+              <span style={{ color: contact === c.name ? 'var(--mk-orange)' : 'rgba(var(--mk-text-rgb),0.6)', fontSize: 11, fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
             </button>
           ))}
         </div>
@@ -2056,10 +2056,10 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
 
       {/* Amount display */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 24px' }}>
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13, fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
+        <p style={{ color: 'rgba(var(--mk-text-rgb),0.4)', fontSize: 13, fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
           {contact ? `${toLabel[lang]} ${contact}` : ''}
         </p>
-        <p style={{ color: '#fff', fontSize: 52, fontWeight: 300, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em', minHeight: 64 }}>
+        <p style={{ color: 'var(--mk-text)', fontSize: 52, fontWeight: 300, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em', minHeight: 64 }}>
           {amount || '0'}
         </p>
       </div>
@@ -2074,8 +2074,8 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
                 onClick={() => pad(key)}
                 style={{
                   height: 56, borderRadius: 16,
-                  background: key === '⌫' ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.1)',
-                  border: 'none', color: '#fff', fontSize: key === '⌫' ? 20 : 22, fontWeight: 400,
+                  background: key === '⌫' ? 'rgba(var(--mk-text-rgb),0.06)' : 'rgba(var(--mk-text-rgb),0.1)',
+                  border: 'none', color: 'var(--mk-text)', fontSize: key === '⌫' ? 20 : 22, fontWeight: 400,
                   cursor: 'pointer', fontFamily: 'Geist, sans-serif',
                   transition: 'background 0.1s',
                 }}
@@ -2089,8 +2089,8 @@ function SendMoneyModal({ onClose, lang }: { onClose: () => void; lang: import('
           onClick={() => { if (amount && parseFloat(amount) > 0) setSent(true); }}
           style={{
             width: '100%', height: 56, borderRadius: 16,
-            background: amount && parseFloat(amount) > 0 ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)' : 'rgba(255,107,0,0.2)',
-            border: 'none', color: '#fff', fontSize: 18, fontWeight: 600,
+            background: amount && parseFloat(amount) > 0 ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' : 'rgba(var(--mk-orange-rgb),0.2)',
+            border: 'none', color: 'var(--mk-text)', fontSize: 18, fontWeight: 600,
             cursor: amount && parseFloat(amount) > 0 ? 'pointer' : 'not-allowed',
             fontFamily: 'Geist, sans-serif', transition: 'background 0.2s',
           }}
@@ -2160,12 +2160,12 @@ function CardVisual({ card }: { card: LinkedCard }) {
       justifyContent: 'space-between', position: 'relative', overflow: 'hidden',
     }}>
       {/* Decorative circles */}
-      <div style={{ position: 'absolute', top: -40, right: -30, width: 130, height: 130, borderRadius: '50%', background: 'rgba(255,255,255,0.07)' }} />
-      <div style={{ position: 'absolute', bottom: -50, right: 20, width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.05)' }} />
+      <div style={{ position: 'absolute', top: -40, right: -30, width: 130, height: 130, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.07)' }} />
+      <div style={{ position: 'absolute', bottom: -50, right: 20, width: 160, height: 160, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.05)' }} />
 
       {/* Top row: bank + network */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'Geist, sans-serif' }}>{card.bank}</p>
+        <p style={{ fontSize: 13, fontWeight: 600, color: 'rgba(var(--mk-text-rgb),0.9)', fontFamily: 'Geist, sans-serif' }}>{card.bank}</p>
         {isVisa ? <VisaLogo size={18} /> : <MastercardLogo size={22} />}
       </div>
 
@@ -2173,7 +2173,7 @@ function CardVisual({ card }: { card: LinkedCard }) {
       <div>
         {/* Chip */}
         <div style={{ width: 32, height: 24, borderRadius: 5, background: 'rgba(255,215,100,0.7)', marginBottom: 12, border: '1px solid rgba(255,215,100,0.4)' }} />
-        <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(255,255,255,0.85)', letterSpacing: '2px', fontFamily: 'Geist Mono, monospace' }}>
+        <p style={{ fontSize: 15, fontWeight: 500, color: 'rgba(var(--mk-text-rgb),0.85)', letterSpacing: '2px', fontFamily: 'Geist Mono, monospace' }}>
           •••• •••• •••• {card.last4}
         </p>
       </div>
@@ -2181,12 +2181,12 @@ function CardVisual({ card }: { card: LinkedCard }) {
       {/* Bottom: holder + expiry */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
         <div>
-          <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif' }}>Card Holder</p>
-          <p style={{ fontSize: 12, fontWeight: 500, color: '#fff', fontFamily: 'Geist, sans-serif' }}>{card.holder}</p>
+          <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.55)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif' }}>Card Holder</p>
+          <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{card.holder}</p>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: 9, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif' }}>Expires</p>
-          <p style={{ fontSize: 12, fontWeight: 500, color: '#fff', fontFamily: 'Geist, sans-serif' }}>{card.expiry}</p>
+          <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.55)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif' }}>Expires</p>
+          <p style={{ fontSize: 12, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{card.expiry}</p>
         </div>
       </div>
     </div>
@@ -2209,7 +2209,7 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
   const last4 = number.replace(/\s/g, '').slice(-4);
 
   const gradients: Record<string, [string, string]> = {
-    mastercard: ['#141414', '#2A2A2E'],
+    mastercard: ['var(--mk-sheet)', 'var(--mk-border)'],
     visa:       ['#1a1f36', '#2d3561'],
     amex:       ['#2C5F8A', '#1a3d5c'],
   };
@@ -2243,28 +2243,28 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
       <motion.div
         initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 34 }}
-        style={{ background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 44px', maxHeight: '92vh', overflowY: 'auto' }}
+        style={{ background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 44px', maxHeight: '92vh', overflowY: 'auto' }}
       >
-        <div style={{ width: 36, height: 4, borderRadius: 2, background: '#2A2A2E', margin: '0 auto 20px' }} />
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--mk-border)', margin: '0 auto 20px' }} />
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           {step === 'details' ? (
-            <button type="button" onClick={() => setStep('type')} style={{ padding: 8, background: '#1C1C1E', border: '1px solid #2A2A2E', borderRadius: '50%', cursor: 'pointer', display: 'flex' }}>
-              <ChevronRight size={18} color="#FFFFFF" style={{ transform: 'rotate(180deg)' }} />
+            <button type="button" onClick={() => setStep('type')} style={{ padding: 8, background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: '50%', cursor: 'pointer', display: 'flex' }}>
+              <ChevronRight size={18} color="var(--mk-text)" style={{ transform: 'rotate(180deg)' }} />
             </button>
           ) : <div style={{ width: 36 }} />}
-          <p style={{ fontSize: 17, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Unganisha Kadi' : 'Link a Card'}
           </p>
-          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <X size={16} color="#FFFFFF" />
+          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <X size={16} color="var(--mk-text)" />
           </button>
         </div>
 
         <AnimatePresence mode="wait">
           {step === 'type' ? (
             <motion.div key="type" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-              <p style={{ fontSize: 14, color: '#6B7280', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Chagua mtandao wa kadi yako' : 'Select your card network'}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -2277,21 +2277,21 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
                     style={{
                       display: 'flex', alignItems: 'center', gap: 14,
                       padding: '16px 18px', borderRadius: 16, cursor: 'pointer',
-                      background: '#1C1C1E', border: '1.5px solid #2A2A2E', textAlign: 'left',
+                      background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', textAlign: 'left',
                     }}
                   >
                     <div style={{ width: 44, height: 44, borderRadius: 12, background: gradients[n.id][0], display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                      {n.id === 'visa' ? <VisaLogo size={14} /> : n.id === 'mastercard' ? <MastercardLogo size={18} /> : <CreditCard size={20} color="#fff" />}
+                      {n.id === 'visa' ? <VisaLogo size={14} /> : n.id === 'mastercard' ? <MastercardLogo size={18} /> : <CreditCard size={20} color="var(--mk-text)" />}
                     </div>
-                    <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', flex: 1 }}>{n.label}</p>
+                    <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', flex: 1 }}>{n.label}</p>
                     <ChevronRight size={16} color="#4B5563" />
                   </motion.button>
                 ))}
               </div>
 
-              <div style={{ marginTop: 20, padding: '14px 16px', background: 'rgba(0,229,160,0.05)', border: '1px solid rgba(0,229,160,0.15)', borderRadius: 12, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <div style={{ marginTop: 20, padding: '14px 16px', background: 'rgba(var(--mk-green-rgb),0.05)', border: '1px solid rgba(var(--mk-green-rgb),0.15)', borderRadius: 12, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                 <span style={{ fontSize: 16 }}>🔒</span>
-                <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.5 }}>
+                <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.5 }}>
                   {lang === 'sw'
                     ? 'Kadi yako inalindwa. Hatuhifadhi nambari kamili ya kadi.'
                     : 'Your card is protected with 256-bit encryption. We never store your full card number.'}
@@ -2310,47 +2310,47 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
                 { label: lang === 'sw' ? 'Jina la Mwenye Kadi' : 'Card Holder Name', value: holder, setter: setHolder, placeholder: 'Full name on card', type: 'text' },
               ].map(f => (
                 <div key={f.label}>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>{f.label}</p>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>{f.label}</p>
                   <input
                     type={f.type} value={f.value} placeholder={f.placeholder}
                     onChange={e => f.setter(e.target.value)}
-                    style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
-                    onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                    onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                    style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                   />
                 </div>
               ))}
 
               <div>
-                <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>Card Number</p>
+                <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>Card Number</p>
                 <input
                   type="tel" inputMode="numeric" value={number} placeholder="0000 0000 0000 0000"
                   onChange={e => setNumber(formatCardNumber(e.target.value))}
-                  style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist Mono, monospace', letterSpacing: '2px', boxSizing: 'border-box' }}
-                  onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                  onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                  style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist Mono, monospace', letterSpacing: '2px', boxSizing: 'border-box' }}
+                  onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                 />
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>Expiry</p>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>Expiry</p>
                   <input
                     type="tel" inputMode="numeric" value={expiry} placeholder="MM/YY"
                     onChange={e => setExpiry(formatExpiry(e.target.value))}
-                    style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist Mono, monospace', letterSpacing: '2px', boxSizing: 'border-box' }}
-                    onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                    onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                    style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist Mono, monospace', letterSpacing: '2px', boxSizing: 'border-box' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                   />
                 </div>
                 <div>
-                  <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>CVV</p>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>CVV</p>
                   <input
                     type="password" inputMode="numeric" maxLength={4} value={cvv} placeholder="•••"
                     onChange={e => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                    style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
-                    onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-                    onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+                    style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+                    onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                    onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                   />
                 </div>
               </div>
@@ -2360,10 +2360,10 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
                 disabled={!holder || !expiry || number.replace(/\s/g, '').length < 12}
                 style={{
                   width: '100%', padding: '16px 0', borderRadius: 999, border: 'none',
-                  background: holder && expiry && number.replace(/\s/g, '').length >= 12 ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)' : '#1C1C1E',
-                  color: holder && expiry && number.replace(/\s/g, '').length >= 12 ? '#fff' : '#4B5563',
+                  background: holder && expiry && number.replace(/\s/g, '').length >= 12 ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' : 'var(--mk-card)',
+                  color: holder && expiry && number.replace(/\s/g, '').length >= 12 ? 'var(--mk-text)' : '#4B5563',
                   fontSize: 16, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif', transition: 'all 0.2s',
-                  boxShadow: holder && expiry && number.replace(/\s/g, '').length >= 12 ? '0 0 20px rgba(255,107,0,0.45)' : 'none',
+                  boxShadow: holder && expiry && number.replace(/\s/g, '').length >= 12 ? '0 0 20px rgba(var(--mk-orange-rgb),0.45)' : 'none',
                 }}
               >
                 {lang === 'sw' ? 'Unganisha Kadi' : 'Link Card'}
@@ -2377,10 +2377,10 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
 }
 
 const SPLIT_CONTACTS = [
-  { name: 'Alice',   initials: 'A', color: '#00E5A0' },
-  { name: 'Brian',   initials: 'B', color: '#FF6B00' },
-  { name: 'Cynthia', initials: 'C', color: '#A78BFA' },
-  { name: 'David',   initials: 'D', color: '#FF3D3D' },
+  { name: 'Alice',   initials: 'A', color: 'var(--mk-green)' },
+  { name: 'Brian',   initials: 'B', color: 'var(--mk-orange)' },
+  { name: 'Cynthia', initials: 'C', color: 'var(--mk-purple)' },
+  { name: 'David',   initials: 'D', color: 'var(--mk-red)' },
   { name: 'Eva',     initials: 'E', color: '#38BDF8' },
   { name: 'Felix',   initials: 'F', color: '#F472B6' },
 ];
@@ -2406,7 +2406,7 @@ function SplitBillSheet({ onClose, onAdd, lang, region }: {
   const handleCreate = () => {
     if (!description || !amount || selected.length === 0) return;
     const participants = [
-      { name: 'You', initials: 'Y', color: '#FF6B00', paid: true },
+      { name: 'You', initials: 'Y', color: 'var(--mk-orange)', paid: true },
       ...selected.map(n => {
         const c = SPLIT_CONTACTS.find(c => c.name === n)!;
         return { name: c.name, initials: c.initials, color: c.color, paid: false };
@@ -2424,53 +2424,53 @@ function SplitBillSheet({ onClose, onAdd, lang, region }: {
       <motion.div
         initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 300, damping: 34 }}
-        style={{ background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 44px', maxHeight: '90vh', overflowY: 'auto' }}
+        style={{ background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', padding: '20px 20px 44px', maxHeight: '90vh', overflowY: 'auto' }}
       >
-        <div style={{ width: 36, height: 4, borderRadius: 2, background: '#2A2A2E', margin: '0 auto 20px' }} />
+        <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--mk-border)', margin: '0 auto 20px' }} />
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <div style={{ width: 36 }} />
-          <p style={{ fontSize: 17, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Gawanya Bili' : 'Split a Bill'}
           </p>
-          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <X size={16} color="#FFFFFF" />
+          <button type="button" onClick={onClose} style={{ width: 32, height: 32, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <X size={16} color="var(--mk-text)" />
           </button>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {/* Description */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Maelezo' : 'Description'}
             </p>
             <input
               type="text" value={description} placeholder={lang === 'sw' ? 'mf. Chakula cha jioni' : 'e.g. Dinner, Rent, Trip'}
               onChange={e => setDescription(e.target.value)}
-              style={{ width: '100%', background: '#1C1C1E', border: '1.5px solid #2A2A2E', color: '#FFFFFF', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
-              onFocus={e => (e.target.style.borderColor = '#FF6B00')}
-              onBlur={e => (e.target.style.borderColor = '#2A2A2E')}
+              style={{ width: '100%', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', color: 'var(--mk-text)', borderRadius: 12, padding: '13px 16px', fontSize: 15, outline: 'none', fontFamily: 'Geist, sans-serif', boxSizing: 'border-box' }}
+              onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+              onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
             />
           </div>
 
           {/* Amount */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Jumla ya Bili' : 'Total Amount'}
             </p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#1C1C1E', border: '1.5px solid #2A2A2E', borderRadius: 12, padding: '13px 16px' }}>
-              <span style={{ fontSize: 16, fontWeight: 600, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', borderRadius: 12, padding: '13px 16px' }}>
+              <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
               <input
                 type="number" inputMode="decimal" value={amount} placeholder="0.00"
                 onChange={e => setAmount(e.target.value)}
-                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 22, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}
+                style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', fontSize: 22, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}
               />
             </div>
           </div>
 
           {/* Contacts */}
           <div>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Chagua washiriki' : 'Split with'}
             </p>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
@@ -2483,19 +2483,19 @@ function SplitBillSheet({ onClose, onAdd, lang, region }: {
                     style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 5, background: 'none', border: 'none', cursor: 'pointer' }}
                   >
                     <div style={{
-                      width: 50, height: 50, borderRadius: '50%', background: isSelected ? c.color : '#1C1C1E',
+                      width: 50, height: 50, borderRadius: '50%', background: isSelected ? c.color : 'var(--mk-card)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      border: isSelected ? `2.5px solid ${c.color}` : '2px solid #2A2A2E',
+                      border: isSelected ? `2.5px solid ${c.color}` : '2px solid var(--mk-border)',
                       position: 'relative', transition: 'all 0.15s',
                     }}>
-                      <span style={{ fontSize: 17, fontWeight: 600, color: isSelected ? '#fff' : '#6B7280', fontFamily: 'Geist, sans-serif' }}>{c.initials}</span>
+                      <span style={{ fontSize: 17, fontWeight: 600, color: isSelected ? 'var(--mk-text)' : 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{c.initials}</span>
                       {isSelected && (
-                        <div style={{ position: 'absolute', bottom: -2, right: -2, width: 18, height: 18, borderRadius: '50%', background: '#00E5A0', border: '2px solid #141414', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <Check size={10} color="#fff" strokeWidth={3} />
+                        <div style={{ position: 'absolute', bottom: -2, right: -2, width: 18, height: 18, borderRadius: '50%', background: 'var(--mk-green)', border: '2px solid var(--mk-sheet)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <Check size={10} color="var(--mk-text)" strokeWidth={3} />
                         </div>
                       )}
                     </div>
-                    <span style={{ fontSize: 11, color: isSelected ? '#00E5A0' : '#6B7280', fontFamily: 'Geist, sans-serif', fontWeight: isSelected ? 700 : 400 }}>{c.name}</span>
+                    <span style={{ fontSize: 11, color: isSelected ? 'var(--mk-green)' : 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', fontWeight: isSelected ? 700 : 400 }}>{c.name}</span>
                   </button>
                 );
               })}
@@ -2505,19 +2505,19 @@ function SplitBillSheet({ onClose, onAdd, lang, region }: {
           {/* Per-person preview */}
           {perPerson > 0 && (
             <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-              style={{ background: 'rgba(0,229,160,0.08)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: 14, padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              style={{ background: 'rgba(var(--mk-green-rgb),0.08)', border: '1px solid rgba(var(--mk-green-rgb),0.2)', borderRadius: 14, padding: '14px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
             >
               <div>
-                <p style={{ fontSize: 12, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 12, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Kila mtu analipa' : 'Each person pays'}
                 </p>
-                <p style={{ fontSize: 22, fontWeight: 800, color: '#00E5A0', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                <p style={{ fontSize: 22, fontWeight: 800, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                   {cfg.symbol}{perPerson.toFixed(2)}
                 </p>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                <Users size={14} color="#00E5A0" />
-                <span style={{ fontSize: 13, color: '#00E5A0', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>{selected.length + 1} {lang === 'sw' ? 'watu' : 'people'}</span>
+                <Users size={14} color="var(--mk-green)" />
+                <span style={{ fontSize: 13, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>{selected.length + 1} {lang === 'sw' ? 'watu' : 'people'}</span>
               </div>
             </motion.div>
           )}
@@ -2527,10 +2527,10 @@ function SplitBillSheet({ onClose, onAdd, lang, region }: {
             disabled={!description || !amount || selected.length === 0}
             style={{
               width: '100%', padding: '16px 0', borderRadius: 999, border: 'none',
-              background: description && amount && selected.length > 0 ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)' : '#1C1C1E',
-              color: description && amount && selected.length > 0 ? '#fff' : '#4B5563',
+              background: description && amount && selected.length > 0 ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' : 'var(--mk-card)',
+              color: description && amount && selected.length > 0 ? 'var(--mk-text)' : '#4B5563',
               fontSize: 16, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif', transition: 'all 0.2s',
-              boxShadow: description && amount && selected.length > 0 ? '0 0 20px rgba(255,107,0,0.45)' : 'none',
+              boxShadow: description && amount && selected.length > 0 ? '0 0 20px rgba(var(--mk-orange-rgb),0.45)' : 'none',
             }}
           >
             {lang === 'sw' ? 'Unda Mgawanyo' : 'Create Split'}
@@ -2561,7 +2561,7 @@ function WalletTab({
   const [showLinkCard, setShowLinkCard] = useState(false);
   const [showSplitBill, setShowSplitBill] = useState(false);
   const [linkedCards, setLinkedCards] = useState<LinkedCard[]>([
-    { id: '1', type: 'mastercard', last4: '5642', bank: 'Chase Bank', holder: 'J. Mafie', expiry: '09/27', monthlySpend: 312.45, gradient: ['#141414', '#2A2A2E'] },
+    { id: '1', type: 'mastercard', last4: '5642', bank: 'Chase Bank', holder: 'J. Mafie', expiry: '09/27', monthlySpend: 312.45, gradient: ['var(--mk-sheet)', 'var(--mk-border)'] },
   ]);
   const [splits, setSplits] = useState<SplitBill[]>([
     {
@@ -2569,9 +2569,9 @@ function WalletTab({
       description: 'Dinner at Nusr-Et',
       total: 180,
       participants: [
-        { name: 'You',    initials: 'Y', color: '#FF6B00', paid: true },
-        { name: 'Alice',  initials: 'A', color: '#00E5A0', paid: true },
-        { name: 'Brian',  initials: 'B', color: '#FF3D3D', paid: false },
+        { name: 'You',    initials: 'Y', color: 'var(--mk-orange)', paid: true },
+        { name: 'Alice',  initials: 'A', color: 'var(--mk-green)', paid: true },
+        { name: 'Brian',  initials: 'B', color: 'var(--mk-red)', paid: false },
       ],
       createdAt: new Date(Date.now() - 86400000 * 2),
     },
@@ -2580,23 +2580,23 @@ function WalletTab({
   const walletTotal = state.cashBalance + state.mobileMoneyBalance + state.bankBalance;
 
   const quickSend = [
-    { name: 'Alice',   initials: 'A', color: '#00E5A0' },
-    { name: 'Brian',   initials: 'B', color: '#FF6B00' },
-    { name: 'Cynthia', initials: 'C', color: '#A78BFA' },
-    { name: 'David',   initials: 'D', color: '#FF3D3D' },
+    { name: 'Alice',   initials: 'A', color: 'var(--mk-green)' },
+    { name: 'Brian',   initials: 'B', color: 'var(--mk-orange)' },
+    { name: 'Cynthia', initials: 'C', color: 'var(--mk-purple)' },
+    { name: 'David',   initials: 'D', color: 'var(--mk-red)' },
   ];
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: '#0D0D0D' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, padding: '8px 20px 100px', background: 'var(--mk-bg)' }}>
 
         {/* Wallet balance */}
-        <MkCard accent="#FF6B00">
+        <MkCard accent="var(--mk-orange)">
           <div style={{ padding: 20 }}>
-            <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Salio la Mkoba' : 'Wallet Balance'}
             </p>
-            <p style={{ fontSize: 36, fontWeight: 800, color: '#FFFFFF', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
+            <p style={{ fontSize: 36, fontWeight: 800, color: 'var(--mk-text)', margin: '4px 0 16px', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em' }}>
               {fmt(walletTotal)}
             </p>
             <div style={{ display: 'flex', gap: 8 }}>
@@ -2617,10 +2617,10 @@ function WalletTab({
             <button
               type="button"
               onClick={() => setShowLinkCard(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 999, background: '#FF6B00', border: 'none', cursor: 'pointer', boxShadow: '0 0 12px rgba(255,107,0,0.45)' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 999, background: 'var(--mk-orange)', border: 'none', cursor: 'pointer', boxShadow: '0 0 12px rgba(var(--mk-orange-rgb),0.45)' }}
             >
-              <Plus size={12} color="#fff" />
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif' }}>
+              <Plus size={12} color="var(--mk-text)" />
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Ongeza' : 'Add'}
               </span>
             </button>
@@ -2632,18 +2632,18 @@ function WalletTab({
               onClick={() => setShowLinkCard(true)}
               style={{
                 width: '100%', padding: '28px 20px', borderRadius: 20,
-                background: '#1C1C1E', border: '1.5px dashed #2A2A2E',
+                background: 'var(--mk-card)', border: '1.5px dashed var(--mk-border)',
                 display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer',
               }}
             >
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(255,107,0,0.15)', border: '2px solid rgba(255,107,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <CreditCard size={22} color="#FF6B00" />
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.15)', border: '2px solid rgba(var(--mk-orange-rgb),0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <CreditCard size={22} color="var(--mk-orange)" />
               </div>
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+                <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
                   {lang === 'sw' ? 'Unganisha Kadi Yako' : 'Link Your Card'}
                 </p>
-                <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Fuatilia matumizi yote mahali pamoja' : 'Track all spending in one place'}
                 </p>
               </div>
@@ -2658,16 +2658,16 @@ function WalletTab({
                     {/* Spend summary below card */}
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 10, padding: '0 4px' }}>
                       <div>
-                        <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                        <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                           {lang === 'sw' ? 'Matumizi ya Mwezi' : 'Monthly Spend'}
                         </p>
-                        <p style={{ fontSize: 15, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                        <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                           {fmt(card.monthlySpend)}
                         </p>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 999, background: 'rgba(0,229,160,0.1)' }}>
-                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#00E5A0', boxShadow: '0 0 6px rgba(0,229,160,0.6)' }} />
-                        <span style={{ fontSize: 11, color: '#00E5A0', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 999, background: 'rgba(var(--mk-green-rgb),0.1)' }}>
+                        <div style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--mk-green)', boxShadow: '0 0 6px rgba(var(--mk-green-rgb),0.6)' }} />
+                        <span style={{ fontSize: 11, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>
                           {lang === 'sw' ? 'Imeunganishwa' : 'Connected'}
                         </span>
                       </div>
@@ -2681,15 +2681,15 @@ function WalletTab({
                   onClick={() => setShowLinkCard(true)}
                   style={{
                     width: 280, height: 165, borderRadius: 20, flexShrink: 0,
-                    background: '#1C1C1E', border: '1.5px dashed #2A2A2E',
+                    background: 'var(--mk-card)', border: '1.5px dashed var(--mk-border)',
                     display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                     gap: 8, cursor: 'pointer',
                   }}
                 >
-                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255,107,0,0.15)', border: '2px solid rgba(255,107,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Plus size={18} color="#FF6B00" />
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.15)', border: '2px solid rgba(var(--mk-orange-rgb),0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Plus size={18} color="var(--mk-orange)" />
                   </div>
-                  <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? 'Ongeza Kadi' : 'Add Another Card'}
                   </p>
                 </motion.button>
@@ -2699,25 +2699,25 @@ function WalletTab({
               {state.transactions.filter(t => t.type === 'expense').length > 0 && (
                 <MkCard style={{ marginTop: 16 }}>
                   <div style={{ padding: 16 }}>
-                    <p style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--mk-text)', marginBottom: 12, fontFamily: 'Geist, sans-serif' }}>
                       {lang === 'sw' ? 'Miamala ya Hivi Karibuni' : 'Recent Card Activity'}
                     </p>
                     {state.transactions.filter(t => t.type === 'expense').slice(0, 3).map((tx, i, arr) => (
                       <button
                         key={tx.id} type="button" onClick={() => onTxSelect(tx)}
-                        style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid #2A2A2E' : 'none', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+                        style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: i < arr.length - 1 ? '1px solid var(--mk-border)' : 'none', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
                       >
-                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#2A2A2E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mk-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 15, flexShrink: 0 }}>
                           {getCategoryIcon(tx.category)}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tx.notes || tx.category}</p>
+                          <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tx.notes || tx.category}</p>
                           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 2 }}>
                             <MastercardLogo size={12} />
-                            <span style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>•••• {linkedCards[0]?.last4 ?? '0000'}</span>
+                            <span style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>•••• {linkedCards[0]?.last4 ?? '0000'}</span>
                           </div>
                         </div>
-                        <p style={{ fontSize: 14, fontWeight: 700, color: '#FF3D3D', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
+                        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-red)', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
                           -{fmt(tx.amount)}
                         </p>
                       </button>
@@ -2739,10 +2739,10 @@ function WalletTab({
             <button
               type="button"
               onClick={() => setShowSplitBill(true)}
-              style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 999, background: '#FF6B00', border: 'none', cursor: 'pointer', boxShadow: '0 0 12px rgba(255,107,0,0.45)' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '6px 12px', borderRadius: 999, background: 'var(--mk-orange)', border: 'none', cursor: 'pointer', boxShadow: '0 0 12px rgba(var(--mk-orange-rgb),0.45)' }}
             >
-              <Split size={12} color="#fff" />
-              <span style={{ fontSize: 12, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif' }}>
+              <Split size={12} color="var(--mk-text)" />
+              <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Gawanya' : 'New Split'}
               </span>
             </button>
@@ -2752,16 +2752,16 @@ function WalletTab({
             <motion.button
               type="button" whileTap={{ scale: 0.98 }}
               onClick={() => setShowSplitBill(true)}
-              style={{ width: '100%', padding: '28px 20px', borderRadius: 20, background: '#1C1C1E', border: '1.5px dashed #2A2A2E', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer' }}
+              style={{ width: '100%', padding: '28px 20px', borderRadius: 20, background: 'var(--mk-card)', border: '1.5px dashed var(--mk-border)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, cursor: 'pointer' }}
             >
-              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(255,107,0,0.15)', border: '2px solid rgba(255,107,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Users size={22} color="#FF6B00" />
+              <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.15)', border: '2px solid rgba(var(--mk-orange-rgb),0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Users size={22} color="var(--mk-orange)" />
               </div>
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
+                <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>
                   {lang === 'sw' ? 'Gawanya Bili Yako' : 'Split Your First Bill'}
                 </p>
-                <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Gawanya gharama kwa urahisi' : 'Easily split costs with friends'}
                 </p>
               </div>
@@ -2778,14 +2778,14 @@ function WalletTab({
                     <div style={{ padding: 16 }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{split.description}</p>
-                          <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                          <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{split.description}</p>
+                          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                             {split.createdAt.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                           </p>
                         </div>
                         <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: 12 }}>
-                          <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{fmt(split.total)}</p>
-                          <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{fmt(perPerson)}/{lang === 'sw' ? 'kila mtu' : 'person'}</p>
+                          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{fmt(split.total)}</p>
+                          <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{fmt(perPerson)}/{lang === 'sw' ? 'kila mtu' : 'person'}</p>
                         </div>
                       </div>
 
@@ -2795,22 +2795,22 @@ function WalletTab({
                           {split.participants.map((p, i) => (
                             <div key={p.name} style={{
                               width: 30, height: 30, borderRadius: '50%',
-                              background: p.color, border: '2px solid #1C1C1E',
+                              background: p.color, border: '2px solid var(--mk-card)',
                               display: 'flex', alignItems: 'center', justifyContent: 'center',
                               marginLeft: i === 0 ? 0 : -8,
                               position: 'relative', zIndex: split.participants.length - i,
                             }}>
                               {p.paid
-                                ? <Check size={12} color="#fff" strokeWidth={3} />
-                                : <span style={{ fontSize: 10, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif' }}>{p.initials}</span>}
+                                ? <Check size={12} color="var(--mk-text)" strokeWidth={3} />
+                                : <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{p.initials}</span>}
                             </div>
                           ))}
                         </div>
                         <div style={{
                           padding: '4px 10px', borderRadius: 999,
-                          background: settled ? 'rgba(0,229,160,0.1)' : 'rgba(255,107,0,0.1)',
+                          background: settled ? 'rgba(var(--mk-green-rgb),0.1)' : 'rgba(var(--mk-orange-rgb),0.1)',
                         }}>
-                          <span style={{ fontSize: 11, fontWeight: 600, color: settled ? '#00E5A0' : '#FF6B00', fontFamily: 'Geist, sans-serif' }}>
+                          <span style={{ fontSize: 11, fontWeight: 600, color: settled ? 'var(--mk-green)' : 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
                             {settled
                               ? (lang === 'sw' ? 'Imelipwa' : 'Settled')
                               : `${paidCount}/${totalParticipants} ${lang === 'sw' ? 'wamelipa' : 'paid'}`}
@@ -2824,10 +2824,10 @@ function WalletTab({
 
               <button
                 type="button" onClick={() => setShowSplitBill(true)}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 0', borderRadius: 16, background: 'rgba(255,107,0,0.08)', border: '1.5px dashed rgba(255,107,0,0.3)', cursor: 'pointer' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 0', borderRadius: 16, background: 'rgba(var(--mk-orange-rgb),0.08)', border: '1.5px dashed rgba(var(--mk-orange-rgb),0.3)', cursor: 'pointer' }}
               >
-                <Plus size={16} color="#FF6B00" />
-                <span style={{ fontSize: 14, fontWeight: 600, color: '#FF6B00', fontFamily: 'Geist, sans-serif' }}>
+                <Plus size={16} color="var(--mk-orange)" />
+                <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Mgawanyo Mpya' : 'New Split'}
                 </span>
               </button>
@@ -2845,20 +2845,20 @@ function WalletTab({
                 onClick={() => setShowSend(true)}
                 style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
               >
-                <div style={{ width: 52, height: 52, borderRadius: '50%', background: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, color: '#fff', fontFamily: 'Geist, sans-serif' }}>
+                <div style={{ width: 52, height: 52, borderRadius: '50%', background: c.color, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                   {c.initials}
                 </div>
-                <span style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
+                <span style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{c.name}</span>
               </button>
             ))}
             <button
               type="button" onClick={() => setShowSplitBill(true)}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
             >
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: '#1C1C1E', border: '1.5px dashed #2A2A2E', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'var(--mk-card)', border: '1.5px dashed var(--mk-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <UserPlus size={20} color="#4B5563" />
               </div>
-              <span style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+              <span style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Zaidi' : 'More'}
               </span>
             </button>
@@ -2872,35 +2872,35 @@ function WalletTab({
               label={lang === 'sw' ? 'Historia ya Miamala' : 'Transaction History'}
               sub={`${state.transactions.length} ${lang === 'sw' ? 'jumla' : 'total'}`}
             />
-            <button type="button" onClick={onHistory} style={{ fontSize: 12, color: '#FF6B00', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <button type="button" onClick={onHistory} style={{ fontSize: 12, color: 'var(--mk-orange)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', display: 'flex', alignItems: 'center', gap: 4 }}>
               {lang === 'sw' ? 'Angalia zote' : 'See all'} <ChevronRight size={12} />
             </button>
           </div>
           {state.transactions.length === 0 ? (
             <MkCard>
               <div style={{ padding: 24, textAlign: 'center' }}>
-                <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Hakuna miamala bado' : 'No transactions yet'}
                 </p>
               </div>
             </MkCard>
           ) : (
-            <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden' }}>
               {state.transactions.slice(0, 6).map((tx, i, arr) => (
                 <button
                   key={tx.id} type="button" onClick={() => onTxSelect(tx)}
-                  style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderBottom: i < arr.length - 1 ? '1px solid #2A2A2E' : 'none', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px', borderBottom: i < arr.length - 1 ? '1px solid var(--mk-border)' : 'none', width: '100%', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
                 >
-                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: '#2A2A2E', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'var(--mk-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
                     {getCategoryIcon(tx.category)}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tx.notes || tx.category}</p>
-                    <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{tx.notes || tx.category}</p>
+                    <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                       {tx.source} · {tx.date.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                     </p>
                   </div>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'income' ? '#00E5A0' : '#FF3D3D', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'income' ? 'var(--mk-green)' : 'var(--mk-red)', flexShrink: 0, fontFamily: 'Geist, sans-serif' }}>
                     {tx.type === 'income' ? '+' : '-'}{fmt(tx.amount)}
                   </p>
                 </button>
@@ -2982,35 +2982,35 @@ function TransactionDetailSheet({
       <motion.div
         initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-        style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, maxHeight: '85vh', overflowY: 'auto' }}
+        style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, maxHeight: '85vh', overflowY: 'auto' }}
         onClick={e => e.stopPropagation()}
       >
         {/* Drag handle */}
         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 4 }}>
-          <div style={{ width: 40, height: 4, borderRadius: 999, background: '#2A2A2E' }} />
+          <div style={{ width: 40, height: 4, borderRadius: 999, background: 'var(--mk-border)' }} />
         </div>
 
         {/* Category icon + name */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '20px 20px 0' }}>
           <div style={{
             width: 64, height: 64, borderRadius: '50%',
-            background: isExpense ? 'rgba(255,61,61,0.12)' : 'rgba(0,229,160,0.12)',
-            border: `2px solid ${isExpense ? 'rgba(255,61,61,0.25)' : 'rgba(0,229,160,0.25)'}`,
+            background: isExpense ? 'rgba(var(--mk-red-rgb),0.12)' : 'rgba(var(--mk-green-rgb),0.12)',
+            border: `2px solid ${isExpense ? 'rgba(var(--mk-red-rgb),0.25)' : 'rgba(var(--mk-green-rgb),0.25)'}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 30, marginBottom: 12,
           }}>
             {getCategoryIcon(tx.category)}
           </div>
-          <p style={{ fontSize: 16, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', textAlign: 'center' }}>
+          <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', textAlign: 'center' }}>
             {tx.notes || tx.category}
           </p>
-          <p style={{ fontSize: 40, fontWeight: 800, color: isExpense ? '#FF3D3D' : '#00E5A0', fontFamily: 'Geist, sans-serif', margin: '8px 0', letterSpacing: '-0.03em', textShadow: isExpense ? '0 0 24px rgba(255,61,61,0.3)' : '0 0 24px rgba(0,229,160,0.3)' }}>
+          <p style={{ fontSize: 40, fontWeight: 800, color: isExpense ? 'var(--mk-red)' : 'var(--mk-green)', fontFamily: 'Geist, sans-serif', margin: '8px 0', letterSpacing: '-0.03em', textShadow: isExpense ? '0 0 24px rgba(var(--mk-red-rgb),0.3)' : '0 0 24px rgba(var(--mk-green-rgb),0.3)' }}>
             {isExpense ? '-' : '+'}{fmt(tx.amount)}
           </p>
         </div>
 
         {/* Detail rows */}
-        <div style={{ margin: '16px 20px 0', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden', background: '#1C1C1E' }}>
+        <div style={{ margin: '16px 20px 0', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden', background: 'var(--mk-card)' }}>
           {[
             {
               label: lang === 'sw' ? 'Tarehe' : 'Date',
@@ -3027,11 +3027,11 @@ function TransactionDetailSheet({
               style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                 padding: '14px 16px',
-                borderBottom: i < arr.length - 1 ? '1px solid #2A2A2E' : 'none',
+                borderBottom: i < arr.length - 1 ? '1px solid var(--mk-border)' : 'none',
               }}
             >
-              <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{row.label}</p>
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', maxWidth: '60%', textAlign: 'right' }}>{row.value}</p>
+              <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{row.label}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', maxWidth: '60%', textAlign: 'right' }}>{row.value}</p>
             </div>
           ))}
         </div>
@@ -3041,8 +3041,8 @@ function TransactionDetailSheet({
           <button
             onClick={() => { onEdit(tx); onClose(); }}
             style={{
-              flex: 1, padding: '14px', borderRadius: 16, border: '1.5px solid rgba(255,107,0,0.4)',
-              background: 'rgba(255,107,0,0.08)', color: '#FF6B00', fontSize: 14, fontWeight: 700,
+              flex: 1, padding: '14px', borderRadius: 16, border: '1.5px solid rgba(var(--mk-orange-rgb),0.4)',
+              background: 'rgba(var(--mk-orange-rgb),0.08)', color: 'var(--mk-orange)', fontSize: 14, fontWeight: 700,
               fontFamily: 'Geist, sans-serif', cursor: 'pointer',
             }}
           >
@@ -3052,7 +3052,7 @@ function TransactionDetailSheet({
             onClick={() => { onDelete(tx.id); onClose(); }}
             style={{
               flex: 1, padding: '14px', borderRadius: 16, border: 'none',
-              background: 'rgba(255,61,61,0.12)', color: '#FF3D3D', fontSize: 14, fontWeight: 700,
+              background: 'rgba(var(--mk-red-rgb),0.12)', color: 'var(--mk-red)', fontSize: 14, fontWeight: 700,
               fontFamily: 'Geist, sans-serif', cursor: 'pointer',
             }}
           >
@@ -3154,16 +3154,16 @@ export function Dashboard() {
     </motion.div>
   );
 
-  if (showSettings)    return slideOverlay('#0D0D0D', <SettingsView onBack={() => setShowSettings(false)} />);
-  if (showInsights)    return slideOverlay('#0D0D0D', <InsightsView onBack={() => setShowInsights(false)} />);
-  if (showHistory)     return slideOverlay('#0D0D0D', <HistoryView onBack={() => setShowHistory(false)} />);
-  if (showGoalsView)   return slideOverlay('#0D0D0D', <GoalsView onBack={() => setShowGoalsView(false)} />);
-  if (selectedCategory) return slideOverlay('#0D0D0D', <BudgetCategoryView category={selectedCategory} onBack={() => setSelectedCategory(null)} />);
+  if (showSettings)    return slideOverlay('var(--mk-bg)', <SettingsView onBack={() => setShowSettings(false)} />);
+  if (showInsights)    return slideOverlay('var(--mk-bg)', <InsightsView onBack={() => setShowInsights(false)} />);
+  if (showHistory)     return slideOverlay('var(--mk-bg)', <HistoryView onBack={() => setShowHistory(false)} />);
+  if (showGoalsView)   return slideOverlay('var(--mk-bg)', <GoalsView onBack={() => setShowGoalsView(false)} />);
+  if (selectedCategory) return slideOverlay('var(--mk-bg)', <BudgetCategoryView category={selectedCategory} onBack={() => setSelectedCategory(null)} />);
   if (selectedGoalId) {
     const goal = state.goals.find(g => g.id === selectedGoalId);
-    if (goal) return slideOverlay('#0D0D0D', <GoalDetailView goal={goal} onBack={() => setSelectedGoalId(null)} />);
+    if (goal) return slideOverlay('var(--mk-bg)', <GoalDetailView goal={goal} onBack={() => setSelectedGoalId(null)} />);
   }
-  if (investView) return slideOverlay('#0D0D0D', <InvestDetailView initialView={investView.view} portfolioName={investView.name} onBack={() => setInvestView(null)} />);
+  if (investView) return slideOverlay('var(--mk-bg)', <InvestDetailView initialView={investView.view} portfolioName={investView.name} onBack={() => setInvestView(null)} />);
 
   return (
     <div
@@ -3173,7 +3173,7 @@ export function Dashboard() {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        background: '#0D0D0D',
+        background: 'var(--mk-bg)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -3197,7 +3197,7 @@ export function Dashboard() {
       {state.emergencyMode && (
         <div
           style={{
-            background: '#FF3D3D',
+            background: 'var(--mk-red)',
             padding: '8px 20px',
             display: 'flex',
             alignItems: 'center',
@@ -3205,14 +3205,14 @@ export function Dashboard() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <AlertTriangle size={14} color="#fff" />
-            <span style={{ fontSize: 12, color: '#fff', fontWeight: 500, fontFamily: 'Geist, sans-serif' }}>
+            <AlertTriangle size={14} color="var(--mk-text)" />
+            <span style={{ fontSize: 12, color: 'var(--mk-text)', fontWeight: 500, fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Hali ya Dharura' : 'Emergency Mode'}
             </span>
           </div>
           <button
             onClick={toggleEmergencyMode}
-            style={{ fontSize: 12, color: 'rgba(255,255,255,0.8)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', textDecoration: 'underline' }}
+            style={{ fontSize: 12, color: 'rgba(var(--mk-text-rgb),0.8)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif', textDecoration: 'underline' }}
           >
             {lang === 'sw' ? 'Zima' : 'Disable'}
           </button>
@@ -3282,10 +3282,10 @@ export function Dashboard() {
         whileTap={{ scale: 0.88 }}
         animate={{
           rotate: showNewTypeSheet ? 45 : 0,
-          background: showNewTypeSheet ? '#FF3D3D' : '#FF6B00',
+          background: showNewTypeSheet ? 'var(--mk-red)' : 'var(--mk-orange)',
           boxShadow: showNewTypeSheet
-            ? '0 4px 20px rgba(255,61,61,0.5)'
-            : '0 4px 20px rgba(255,107,0,0.5)',
+            ? '0 4px 20px rgba(var(--mk-red-rgb),0.5)'
+            : '0 4px 20px rgba(var(--mk-orange-rgb),0.5)',
         }}
         transition={{ type: 'spring', stiffness: 320, damping: 22 }}
         style={{
@@ -3295,17 +3295,17 @@ export function Dashboard() {
           width: 56,
           height: 56,
           borderRadius: '50%',
-          background: '#FF6B00',
+          background: 'var(--mk-orange)',
           border: 'none',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           cursor: 'pointer',
           zIndex: 30,
-          boxShadow: '0 4px 20px rgba(255,107,0,0.5)',
+          boxShadow: '0 4px 20px rgba(var(--mk-orange-rgb),0.5)',
         }}
       >
-        <Plus size={24} color="#fff" strokeWidth={2.5} />
+        <Plus size={24} color="var(--mk-text)" strokeWidth={2.5} />
       </motion.button>
 
       {/* Bottom Nav */}
@@ -3323,37 +3323,37 @@ export function Dashboard() {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, paddingBottom: 32 }}
+              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, paddingBottom: 32 }}
               onClick={e => e.stopPropagation()}
             >
               <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 4 }}>
-                <div style={{ width: 40, height: 4, borderRadius: 999, background: '#2A2A2E' }} />
+                <div style={{ width: 40, height: 4, borderRadius: 999, background: 'var(--mk-border)' }} />
               </div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 20px 16px' }}>
-                <p style={{ fontSize: 17, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 17, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? 'Ongeza' : 'New'}
                 </p>
-                <button onClick={() => setShowNewTypeSheet(false)} style={{ background: '#1C1C1E', border: '1px solid #2A2A2E', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                  <Plus size={14} color="#FFFFFF" style={{ transform: 'rotate(45deg)' }} />
+                <button onClick={() => setShowNewTypeSheet(false)} style={{ background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: '50%', width: 30, height: 30, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+                  <Plus size={14} color="var(--mk-text)" style={{ transform: 'rotate(45deg)' }} />
                 </button>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '0 20px' }}>
                 {/* Income entry */}
                 <button
                   onClick={() => { setShowNewTypeSheet(false); openAddIncome(); }}
-                  style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', borderRadius: 16, background: 'rgba(0,229,160,0.08)', border: '1.5px solid rgba(0,229,160,0.2)', cursor: 'pointer', textAlign: 'left' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 16px', borderRadius: 16, background: 'rgba(var(--mk-green-rgb),0.08)', border: '1.5px solid rgba(var(--mk-green-rgb),0.2)', cursor: 'pointer', textAlign: 'left' }}
                 >
                   <span style={{ fontSize: 24 }}>💵</span>
                   <div style={{ flex: 1 }}>
-                    <p style={{ fontSize: 15, fontWeight: 700, color: '#00E5A0', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{lang === 'sw' ? 'Mapato' : 'Income'}</p>
-                    <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Ingiza mshahara, biashara au mapato yoyote' : 'Log salary, business earnings or any income'}</p>
+                    <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{lang === 'sw' ? 'Mapato' : 'Income'}</p>
+                    <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{lang === 'sw' ? 'Ingiza mshahara, biashara au mapato yoyote' : 'Log salary, business earnings or any income'}</p>
                   </div>
-                  <ChevronRight size={16} color="#00E5A0" />
+                  <ChevronRight size={16} color="var(--mk-green)" />
                 </button>
                 {/* Expense entries */}
                 {[
-                  { icon: '💰', label: lang === 'sw' ? 'Matumizi' : 'Expense', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: '#FF3D3D', bg: 'rgba(255,61,61,0.08)', category: undefined as string | undefined },
-                  { icon: '🧾', label: lang === 'sw' ? 'Bili' : 'Bills', sub: lang === 'sw' ? 'Matumizi ya mara kwa mara kama kodi, stima' : 'Recurring expenses like rent, utility, etc.', color: '#FF6B00', bg: 'rgba(255,107,0,0.08)', category: lang === 'sw' ? 'Malipo' : 'Bills' },
+                  { icon: '💰', label: lang === 'sw' ? 'Matumizi' : 'Expense', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: 'var(--mk-red)', bg: 'rgba(var(--mk-red-rgb),0.08)', category: undefined as string | undefined },
+                  { icon: '🧾', label: lang === 'sw' ? 'Bili' : 'Bills', sub: lang === 'sw' ? 'Matumizi ya mara kwa mara kama kodi, stima' : 'Recurring expenses like rent, utility, etc.', color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.08)', category: lang === 'sw' ? 'Malipo' : 'Bills' },
                   { icon: '📱', label: lang === 'sw' ? 'Usajili' : 'Subscription', sub: lang === 'sw' ? 'Matumizi ya kila mwezi kama Netflix, Spotify' : 'Recurring expenses like streaming, memberships', color: '#E05C7A', bg: 'rgba(224,92,122,0.08)', category: lang === 'sw' ? 'Burudani' : 'Entertainment' },
                 ].map(opt => (
                   <button
@@ -3368,7 +3368,7 @@ export function Dashboard() {
                     <span style={{ fontSize: 24 }}>{opt.icon}</span>
                     <div style={{ flex: 1 }}>
                       <p style={{ fontSize: 15, fontWeight: 600, color: opt.color, fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{opt.label}</p>
-                      <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{opt.sub}</p>
+                      <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{opt.sub}</p>
                     </div>
                     <ChevronRight size={16} color={opt.color} />
                   </button>

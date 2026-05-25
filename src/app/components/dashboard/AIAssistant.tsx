@@ -730,7 +730,7 @@ function TypingDots() {
       {[0, 1, 2].map(i => (
         <motion.span
           key={i}
-          style={{ width: 7, height: 7, borderRadius: '50%', background: '#FF6B00', display: 'block' }}
+          style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--mk-orange)', display: 'block' }}
           animate={{ y: [0, -5, 0], opacity: [0.4, 1, 0.4] }}
           transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.18, ease: 'easeInOut' }}
         />
@@ -890,9 +890,9 @@ export function AIAssistant() {
               transition={{ type: 'spring', stiffness: 400, damping: 30 }}
               style={{
                 position: 'absolute', right: 70, top: '50%', transform: 'translateY(-50%)',
-                background: '#FF6B00', color: '#fff', fontSize: 12, fontWeight: 600,
+                background: 'var(--mk-orange)', color: 'var(--mk-text)', fontSize: 12, fontWeight: 600,
                 letterSpacing: '0.01em', padding: '7px 14px', borderRadius: 22,
-                whiteSpace: 'nowrap', boxShadow: '0 4px 18px rgba(255,107,0,0.45)',
+                whiteSpace: 'nowrap', boxShadow: '0 4px 18px rgba(var(--mk-orange-rgb),0.45)',
                 pointerEvents: 'none',
               }}
             >
@@ -901,7 +901,7 @@ export function AIAssistant() {
                 position: 'absolute', right: -6, top: '50%', transform: 'translateY(-50%)',
                 width: 0, height: 0,
                 borderTop: '5px solid transparent', borderBottom: '5px solid transparent',
-                borderLeft: '7px solid #FF6B00',
+                borderLeft: '7px solid var(--mk-orange)',
               }} />
             </motion.div>
           )}
@@ -920,7 +920,7 @@ export function AIAssistant() {
           <motion.span
             style={{
               position: 'absolute', inset: -8, borderRadius: 26,
-              background: 'radial-gradient(ellipse at center, rgba(255,107,0,0.35) 0%, transparent 68%)',
+              background: 'radial-gradient(ellipse at center, rgba(var(--mk-orange-rgb),0.35) 0%, transparent 68%)',
               pointerEvents: 'none',
             }}
             animate={{ opacity: [0.5, 1, 0.5], scale: [0.92, 1.06, 0.92] }}
@@ -929,7 +929,7 @@ export function AIAssistant() {
           <motion.span
             style={{
               position: 'absolute', inset: -1.5, borderRadius: 21,
-              background: 'conic-gradient(from 0deg, rgba(255,107,0,0.9) 0deg, rgba(255,61,61,0.2) 90deg, rgba(255,107,0,0.0) 180deg, rgba(255,61,61,0.2) 270deg, rgba(255,107,0,0.9) 360deg)',
+              background: 'conic-gradient(from 0deg, rgba(var(--mk-orange-rgb),0.9) 0deg, rgba(var(--mk-red-rgb),0.2) 90deg, rgba(var(--mk-orange-rgb),0.0) 180deg, rgba(var(--mk-red-rgb),0.2) 270deg, rgba(var(--mk-orange-rgb),0.9) 360deg)',
               pointerEvents: 'none',
             }}
             animate={{ rotate: [0, 360] }}
@@ -937,13 +937,13 @@ export function AIAssistant() {
           />
           <div style={{
             position: 'absolute', inset: 1.5, borderRadius: 19,
-            background: 'linear-gradient(145deg, #1C1C1E 0%, #2A2A2E 50%, #141414 100%)',
-            boxShadow: '0 6px 24px rgba(255,107,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
+            background: 'linear-gradient(145deg, var(--mk-card) 0%, var(--mk-border) 50%, var(--mk-sheet) 100%)',
+            boxShadow: '0 6px 24px rgba(var(--mk-orange-rgb),0.4), inset 0 1px 0 rgba(var(--mk-text-rgb),0.08)',
             overflow: 'hidden',
           }}>
             <div style={{
               position: 'absolute', top: 0, left: 0, right: 0, height: '42%',
-              background: 'linear-gradient(180deg, rgba(255,255,255,0.09) 0%, transparent 100%)',
+              background: 'linear-gradient(180deg, rgba(var(--mk-text-rgb),0.09) 0%, transparent 100%)',
               borderRadius: '19px 19px 0 0', pointerEvents: 'none',
             }} />
           </div>
@@ -966,7 +966,7 @@ export function AIAssistant() {
             style={{
               position: 'absolute', top: 6, right: 6,
               width: 7, height: 7, borderRadius: '50%',
-              background: '#FF6B00', border: '1.5px solid #141414', zIndex: 2,
+              background: 'var(--mk-orange)', border: '1.5px solid var(--mk-sheet)', zIndex: 2,
             }}
             animate={{ opacity: [1, 0.35, 1], scale: [1, 1.2, 1] }}
             transition={{ duration: 2.2, repeat: Infinity }}
@@ -991,7 +991,7 @@ export function AIAssistant() {
                 position: 'fixed', bottom: 0, left: 0, right: 0,
                 borderRadius: '24px 24px 0 0', zIndex: 50,
                 height: '78vh', display: 'flex', flexDirection: 'column',
-                background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', boxShadow: '0 -8px 48px rgba(0,0,0,0.7)',
+                background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', boxShadow: '0 -8px 48px rgba(0,0,0,0.7)',
                 overflow: 'hidden',
               }}
               onClick={e => e.stopPropagation()}
@@ -999,19 +999,19 @@ export function AIAssistant() {
               {/* ── Header ── */}
               <div style={{
                 position: 'relative', overflow: 'hidden',
-                background: 'linear-gradient(135deg, #FF6B00 0%, #FF3D3D 60%, #FF6B00 100%)',
+                background: 'linear-gradient(135deg, var(--mk-orange) 0%, var(--mk-red) 60%, var(--mk-orange) 100%)',
                 padding: '16px 20px',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 flexShrink: 0, borderRadius: '24px 24px 0 0',
               }}>
                 <div style={{
                   position: 'absolute', top: -24, left: -24, width: 130, height: 130,
-                  background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 65%)',
+                  background: 'radial-gradient(circle, rgba(var(--mk-text-rgb),0.1) 0%, transparent 65%)',
                   pointerEvents: 'none',
                 }} />
                 <div style={{
                   position: 'absolute', inset: 0, opacity: 0.06,
-                  backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.9) 1px, transparent 1px)',
+                  backgroundImage: 'radial-gradient(circle, rgba(var(--mk-text-rgb),0.9) 1px, transparent 1px)',
                   backgroundSize: '14px 14px', pointerEvents: 'none',
                 }} />
 
@@ -1020,7 +1020,7 @@ export function AIAssistant() {
                     <motion.span
                       style={{
                         position: 'absolute', inset: -1.5, borderRadius: 15,
-                        background: 'conic-gradient(from 0deg, rgba(255,107,0,0.9) 0deg, rgba(255,255,255,0.1) 120deg, rgba(255,107,0,0.0) 200deg, rgba(255,107,0,0.9) 360deg)',
+                        background: 'conic-gradient(from 0deg, rgba(var(--mk-orange-rgb),0.9) 0deg, rgba(var(--mk-text-rgb),0.1) 120deg, rgba(var(--mk-orange-rgb),0.0) 200deg, rgba(var(--mk-orange-rgb),0.9) 360deg)',
                         pointerEvents: 'none',
                       }}
                       animate={{ rotate: [0, 360] }}
@@ -1028,9 +1028,9 @@ export function AIAssistant() {
                     />
                     <div style={{
                       position: 'absolute', inset: 2, borderRadius: 12,
-                      background: 'linear-gradient(145deg, #1C1C1E, #2A2A2E)',
+                      background: 'linear-gradient(145deg, var(--mk-card), var(--mk-border))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)',
+                      boxShadow: 'inset 0 1px 0 rgba(var(--mk-text-rgb),0.08)',
                     }}>
                       <svg width="20" height="20" viewBox="0 0 26 26" fill="none">
                         <path d="M13 2 L14.6 10.4 L23 12 L14.6 13.6 L13 22 L11.4 13.6 L3 12 L11.4 10.4 Z" fill="white" fillOpacity="0.92" />
@@ -1040,16 +1040,16 @@ export function AIAssistant() {
                   </div>
 
                   <div>
-                    <p style={{ fontWeight: 700, fontSize: 14, color: '#fff', letterSpacing: '0.01em' }}>
+                    <p style={{ fontWeight: 700, fontSize: 14, color: 'var(--mk-text)', letterSpacing: '0.01em' }}>
                       {t('budgetCoach', lang)}
                     </p>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 2 }}>
                       <motion.span
-                        style={{ width: 6, height: 6, borderRadius: '50%', background: '#FF6B00', display: 'inline-block' }}
+                        style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--mk-orange)', display: 'inline-block' }}
                         animate={{ opacity: [1, 0.4, 1] }}
                         transition={{ duration: 2.2, repeat: Infinity }}
                       />
-                      <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>
+                      <p style={{ fontSize: 11, color: 'rgba(var(--mk-text-rgb),0.65)' }}>
                         {anthropicClient ? (lang === 'sw' ? 'Msaidizi wa AI' : lang === 'fr' ? 'Assistant IA' : lang === 'ar' ? 'مساعد الذكاء الاصطناعي' : lang === 'pt' ? 'Assistente IA' : 'AI-Powered') : t('askAboutSpending', lang)}
                       </p>
                     </div>
@@ -1061,8 +1061,8 @@ export function AIAssistant() {
                   onClick={() => setOpen(false)}
                   style={{
                     position: 'relative', zIndex: 1, padding: 8, borderRadius: '50%',
-                    background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.12)',
-                    color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(var(--mk-text-rgb),0.1)', border: '1px solid rgba(var(--mk-text-rgb),0.12)',
+                    color: 'var(--mk-text)', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     cursor: 'pointer',
                   }}
                   aria-label="Close"
@@ -1084,14 +1084,14 @@ export function AIAssistant() {
                     {msg.role === 'assistant' && (
                       <div style={{
                         width: 28, height: 28, borderRadius: 9,
-                        background: 'linear-gradient(145deg, #1C1C1E, #2A2A2E)',
+                        background: 'linear-gradient(145deg, var(--mk-card), var(--mk-border))',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         marginRight: 8, flexShrink: 0, marginTop: 2,
-                        boxShadow: '0 2px 8px rgba(255,107,0,0.2)',
+                        boxShadow: '0 2px 8px rgba(var(--mk-orange-rgb),0.2)',
                       }}>
                         {isStreaming && i === messages.length - 1 && !msg.text ? (
                           <motion.span
-                            style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF6B00', display: 'block' }}
+                            style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--mk-orange)', display: 'block' }}
                             animate={{ scale: [1, 1.4, 1] }}
                             transition={{ duration: 0.8, repeat: Infinity }}
                           />
@@ -1107,8 +1107,8 @@ export function AIAssistant() {
                       borderRadius: msg.role === 'user' ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
                       fontSize: 13, lineHeight: 1.5, whiteSpace: 'pre-line',
                       ...(msg.role === 'user'
-                        ? { background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', color: '#fff', boxShadow: '0 4px 14px rgba(255,107,0,0.3)' }
-                        : { background: '#1C1C1E', color: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.3)', minHeight: 40, border: '1px solid #2A2A2E' }
+                        ? { background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', color: 'var(--mk-text)', boxShadow: '0 4px 14px rgba(var(--mk-orange-rgb),0.3)' }
+                        : { background: 'var(--mk-card)', color: 'var(--mk-text)', boxShadow: '0 2px 8px rgba(0,0,0,0.3)', minHeight: 40, border: '1px solid var(--mk-border)' }
                       ),
                     }}>
                       {msg.text || (isStreaming && i === messages.length - 1 ? <TypingDots /> : '')}
@@ -1124,19 +1124,19 @@ export function AIAssistant() {
                   >
                     <div style={{
                       width: 28, height: 28, borderRadius: 9,
-                      background: 'linear-gradient(145deg, #1C1C1E, #2A2A2E)',
+                      background: 'linear-gradient(145deg, var(--mk-card), var(--mk-border))',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       marginRight: 8, flexShrink: 0, marginTop: 2,
                     }}>
                       <motion.span
-                        style={{ width: 8, height: 8, borderRadius: '50%', background: '#FF6B00', display: 'block' }}
+                        style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--mk-orange)', display: 'block' }}
                         animate={{ scale: [1, 1.4, 1] }}
                         transition={{ duration: 0.8, repeat: Infinity }}
                       />
                     </div>
                     <div style={{
-                      background: '#1C1C1E', borderRadius: '18px 18px 18px 4px',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)', border: '1px solid #2A2A2E',
+                      background: 'var(--mk-card)', borderRadius: '18px 18px 18px 4px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.3)', border: '1px solid var(--mk-border)',
                     }}>
                       <TypingDots />
                     </div>
@@ -1148,7 +1148,7 @@ export function AIAssistant() {
               {/* ── Quick questions ── */}
               {messages.length <= 1 && (
                 <div style={{ padding: '0 16px 10px' }}>
-                  <p style={{ fontSize: 11, color: '#6B7280', marginBottom: 8 }}>
+                  <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', marginBottom: 8 }}>
                     {`💬 ${t('quickQuestions', lang)}`}
                   </p>
                   <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
@@ -1159,8 +1159,8 @@ export function AIAssistant() {
                         disabled={isStreaming}
                         style={{
                           fontSize: 11, fontWeight: 600,
-                          background: 'rgba(255,107,0,0.1)', border: '1px solid rgba(255,107,0,0.25)',
-                          color: '#FF6B00', padding: '6px 12px', borderRadius: 20,
+                          background: 'rgba(var(--mk-orange-rgb),0.1)', border: '1px solid rgba(var(--mk-orange-rgb),0.25)',
+                          color: 'var(--mk-orange)', padding: '6px 12px', borderRadius: 20,
                           cursor: isStreaming ? 'default' : 'pointer', transition: 'background 0.15s',
                           opacity: isStreaming ? 0.5 : 1,
                         }}
@@ -1175,7 +1175,7 @@ export function AIAssistant() {
               {/* ── Input row ── */}
               <div style={{
                 display: 'flex', gap: 8, padding: '10px 16px 20px',
-                flexShrink: 0, borderTop: '1px solid #2A2A2E', background: '#141414',
+                flexShrink: 0, borderTop: '1px solid var(--mk-border)', background: 'var(--mk-sheet)',
               }}>
                 <input
                   value={input}
@@ -1184,13 +1184,13 @@ export function AIAssistant() {
                   placeholder={t('askMeAnything', lang)}
                   disabled={isStreaming}
                   style={{
-                    flex: 1, border: '2px solid #2A2A2E', borderRadius: 22,
+                    flex: 1, border: '2px solid var(--mk-border)', borderRadius: 22,
                     padding: '10px 16px', fontSize: 13, outline: 'none',
-                    background: '#1C1C1E', color: '#FFFFFF', transition: 'border-color 0.15s',
+                    background: 'var(--mk-card)', color: 'var(--mk-text)', transition: 'border-color 0.15s',
                     opacity: isStreaming ? 0.7 : 1,
                   }}
-                  onFocus={e => { e.currentTarget.style.borderColor = '#FF6B00'; }}
-                  onBlur={e => { e.currentTarget.style.borderColor = '#2A2A2E'; }}
+                  onFocus={e => { e.currentTarget.style.borderColor = 'var(--mk-orange)'; }}
+                  onBlur={e => { e.currentTarget.style.borderColor = 'var(--mk-border)'; }}
                 />
                 <motion.button
                   whileTap={{ scale: 0.88 }}
@@ -1199,13 +1199,13 @@ export function AIAssistant() {
                   style={{
                     width: 42, height: 42, borderRadius: '50%',
                     background: input.trim() && !isStreaming
-                      ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)'
-                      : '#2A2A2E',
+                      ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))'
+                      : 'var(--mk-border)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: input.trim() && !isStreaming ? '#fff' : '#4B5563',
+                    color: input.trim() && !isStreaming ? 'var(--mk-text)' : '#4B5563',
                     flexShrink: 0,
                     cursor: input.trim() && !isStreaming ? 'pointer' : 'default',
-                    boxShadow: input.trim() && !isStreaming ? '0 4px 14px rgba(255,107,0,0.4)' : 'none',
+                    boxShadow: input.trim() && !isStreaming ? '0 4px 14px rgba(var(--mk-orange-rgb),0.4)' : 'none',
                     transition: 'background 0.2s, box-shadow 0.2s',
                     alignSelf: 'center',
                   }}

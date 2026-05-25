@@ -12,21 +12,24 @@ const features = [
     en: 'M-Pesa · Airtel · Tigo Pesa',
     sw: 'M-Pesa · Airtel · Tigo Pesa',
     label: { en: 'Mobile Money', sw: 'Pesa ya Simu' },
-    color: '#4E886F',
+    accentRgb: 'var(--mk-orange-rgb)',
+    accent: 'var(--mk-orange)',
   },
   {
     icon: '📊',
     en: 'Smart budget tracking',
     sw: 'Ufuatiliaji wa bajeti mahiri',
     label: { en: 'AI Budgeting', sw: 'Bajeti ya AI' },
-    color: '#FD8240',
+    accentRgb: 'var(--mk-green-rgb)',
+    accent: 'var(--mk-green)',
   },
   {
     icon: '🔒',
     en: 'Your data stays on your device',
     sw: 'Data yako inabaki kwenye kifaa chako',
     label: { en: '100% Private', sw: 'Faragha Kamili' },
-    color: '#215B44',
+    accentRgb: 'var(--mk-purple-rgb)',
+    accent: 'var(--mk-purple)',
   },
 ];
 
@@ -38,7 +41,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
     <div
       style={{
         height: '100vh',
-        background: '#fff',
+        background: 'var(--mk-bg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -58,7 +61,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
           width: 320,
           height: 320,
           borderRadius: '50%',
-          background: 'rgba(78,136,111,0.06)',
+          background: 'rgba(var(--mk-orange-rgb),0.06)',
           pointerEvents: 'none',
         }}
       />
@@ -86,8 +89,8 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
               width: 88,
               height: 88,
               borderRadius: 26,
-              background: '#4E886F',
-              boxShadow: '0 20px 50px rgba(78,136,111,0.3)',
+              background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+              boxShadow: '0 20px 50px rgba(var(--mk-orange-rgb),0.35)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -113,7 +116,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
             style={{
               fontSize: 44,
               fontWeight: 700,
-              color: '#4D4845',
+              color: 'var(--mk-text)',
               fontFamily: 'Geist, sans-serif',
               letterSpacing: '-0.02em',
               margin: 0,
@@ -129,7 +132,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
           style={{
-            color: '#928F8B',
+            color: 'var(--mk-text-secondary)',
             textAlign: 'center',
             marginBottom: 36,
             maxWidth: 260,
@@ -155,12 +158,12 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
                 gap: 14,
                 padding: '14px 16px',
                 borderRadius: 16,
-                background: '#F6F6F4',
-                border: '1px solid #F4F4F2',
+                background: 'var(--mk-card)',
+                border: '1px solid var(--mk-border)',
               }}
             >
               {/* Left accent */}
-              <div style={{ width: 3, height: 32, borderRadius: 999, background: f.color, flexShrink: 0 }} />
+              <div style={{ width: 3, height: 32, borderRadius: 999, background: f.accent, flexShrink: 0 }} />
 
               {/* Icon */}
               <div
@@ -168,7 +171,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
                   width: 40,
                   height: 40,
                   borderRadius: 12,
-                  background: `rgba(${f.color === '#4E886F' ? '78,136,111' : f.color === '#FD8240' ? '253,130,64' : '33,91,68'},0.12)`,
+                  background: `rgba(var(--mk-${f.accent === 'var(--mk-orange)' ? 'orange' : f.accent === 'var(--mk-green)' ? 'green' : 'purple'}-rgb),0.12)`,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -181,10 +184,10 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
 
               {/* Text */}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 10, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                <p style={{ fontSize: 10, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
                   {lang === 'sw' ? f.label.sw : f.label.en}
                 </p>
-                <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {lang === 'sw' ? f.sw : f.en}
                 </p>
               </div>
@@ -195,7 +198,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
                   width: 20,
                   height: 20,
                   borderRadius: '50%',
-                  background: f.color,
+                  background: f.accent,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -221,8 +224,8 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
           whileTap={{ scale: 0.97 }}
           style={{
             width: '100%',
-            background: '#FD8240',
-            color: '#fff',
+            background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+            color: '#FFFFFF',
             borderRadius: 999,
             padding: '18px 0',
             fontSize: 17,
@@ -230,7 +233,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
             border: 'none',
             cursor: 'pointer',
             fontFamily: 'Geist, sans-serif',
-            boxShadow: '0 8px 24px rgba(253,130,64,0.3)',
+            boxShadow: '0 8px 24px rgba(var(--mk-orange-rgb),0.35)',
           }}
           aria-label={lang === 'sw' ? 'Endelea kuanza Maokoto' : 'Continue to start Maokoto'}
         >
@@ -241,7 +244,7 @@ export function SplashScreens({ onComplete }: SplashScreensProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
-          style={{ color: '#928F8B', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
+          style={{ color: 'var(--mk-text-secondary)', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
         >
           {t('freeTagline', lang)}
         </motion.p>

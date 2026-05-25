@@ -11,7 +11,7 @@ function DueBadge({ daysUntil, lang }: { daysUntil: number; lang: string }) {
     return (
       <span style={{
         fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-        background: 'rgba(255,61,61,0.15)', color: '#FF3D3D', fontFamily: 'Geist, sans-serif',
+        background: 'rgba(var(--mk-red-rgb),0.15)', color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif',
       }}>
         {lang === 'sw' ? 'Imepita' : 'Overdue'}
       </span>
@@ -21,7 +21,7 @@ function DueBadge({ daysUntil, lang }: { daysUntil: number; lang: string }) {
     return (
       <span style={{
         fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-        background: 'rgba(255,61,61,0.15)', color: '#FF3D3D', fontFamily: 'Geist, sans-serif',
+        background: 'rgba(var(--mk-red-rgb),0.15)', color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif',
       }}>
         {lang === 'sw' ? 'Leo!' : 'Today!'}
       </span>
@@ -31,7 +31,7 @@ function DueBadge({ daysUntil, lang }: { daysUntil: number; lang: string }) {
     return (
       <span style={{
         fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 999,
-        background: 'rgba(255,107,0,0.15)', color: '#FF6B00', fontFamily: 'Geist, sans-serif',
+        background: 'rgba(var(--mk-orange-rgb),0.15)', color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif',
       }}>
         {lang === 'sw' ? `Siku ${daysUntil}` : `${daysUntil}d`}
       </span>
@@ -41,7 +41,7 @@ function DueBadge({ daysUntil, lang }: { daysUntil: number; lang: string }) {
     return (
       <span style={{
         fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 999,
-        background: 'rgba(255,107,0,0.1)', color: '#FF6B00', fontFamily: 'Geist, sans-serif',
+        background: 'rgba(var(--mk-orange-rgb),0.1)', color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif',
       }}>
         {lang === 'sw' ? `Siku ${daysUntil}` : `${daysUntil}d`}
       </span>
@@ -50,7 +50,7 @@ function DueBadge({ daysUntil, lang }: { daysUntil: number; lang: string }) {
   return (
     <span style={{
       fontSize: 10, fontWeight: 500, padding: '2px 8px', borderRadius: 999,
-      background: '#1C1C1E', color: '#6B7280', fontFamily: 'Geist, sans-serif',
+      background: 'var(--mk-card)', color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif',
     }}>
       {lang === 'sw' ? `Siku ${daysUntil}` : `${daysUntil}d`}
     </span>
@@ -73,15 +73,15 @@ export function SubscriptionTracker() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       style={{
-        background: '#1C1C1E',
+        background: 'var(--mk-card)',
         borderRadius: 20,
-        border: '1.5px solid #2A2A2E',
+        border: '1.5px solid var(--mk-border)',
         overflow: 'hidden',
       }}
     >
       <div style={{
         padding: '14px 16px 12px',
-        borderBottom: '1px solid #2A2A2E',
+        borderBottom: '1px solid var(--mk-border)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -89,24 +89,24 @@ export function SubscriptionTracker() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <div style={{
             width: 30, height: 30, borderRadius: '50%',
-            background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.2)',
+            background: 'rgba(var(--mk-green-rgb),0.1)', border: '1px solid rgba(var(--mk-green-rgb),0.2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
-            <RefreshCw size={14} color="#00E5A0" />
+            <RefreshCw size={14} color="var(--mk-green)" />
           </div>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', lineHeight: 1.2 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', lineHeight: 1.2 }}>
               {lang === 'sw' ? 'Malipo ya Mara kwa Mara' : 'Recurring Bills'}
             </p>
-            <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? `${recurring.length} zimetambuliwa` : `${recurring.length} detected`}
             </p>
           </div>
         </div>
         {urgentCount > 0 && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <AlertCircle size={13} color="#FF6B00" />
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#FF6B00', fontFamily: 'Geist, sans-serif' }}>
+            <AlertCircle size={13} color="var(--mk-orange)" />
+            <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? `${urgentCount} inakuja hivi karibuni` : `${urgentCount} due soon`}
             </span>
           </div>
@@ -125,13 +125,13 @@ export function SubscriptionTracker() {
               alignItems: 'center',
               gap: 10,
               padding: '9px 16px',
-              borderBottom: i < recurring.length - 1 ? '1px solid #2A2A2E' : 'none',
-              background: item.daysUntil <= 3 ? 'rgba(255,107,0,0.05)' : 'transparent',
+              borderBottom: i < recurring.length - 1 ? '1px solid var(--mk-border)' : 'none',
+              background: item.daysUntil <= 3 ? 'rgba(var(--mk-orange-rgb),0.05)' : 'transparent',
             }}
           >
             <div style={{
               width: 34, height: 34, borderRadius: '50%',
-              border: '1.5px solid #2A2A2E', background: '#141414',
+              border: '1.5px solid var(--mk-border)', background: 'var(--mk-sheet)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 15, flexShrink: 0,
             }}>
@@ -140,7 +140,7 @@ export function SubscriptionTracker() {
 
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{
-                fontSize: 13, fontWeight: 600, color: '#FFFFFF',
+                fontSize: 13, fontWeight: 600, color: 'var(--mk-text)',
                 fontFamily: 'Geist, sans-serif', overflow: 'hidden',
                 textOverflow: 'ellipsis', whiteSpace: 'nowrap',
               }}>
@@ -148,7 +148,7 @@ export function SubscriptionTracker() {
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 1 }}>
                 <Clock size={10} color="#4B5563" />
-                <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                   {item.nextDue.toLocaleDateString(lang === 'sw' ? 'sw' : 'en', { month: 'short', day: 'numeric' })}
                   {' · '}
                   {lang === 'sw' ? `${item.occurrences}× mwezi huu` : `${item.occurrences}× this period`}
@@ -157,7 +157,7 @@ export function SubscriptionTracker() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4, flexShrink: 0 }}>
-              <p style={{ fontSize: 13, fontWeight: 700, color: '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>
                 ~{fmt(item.avgAmount)}
               </p>
               <DueBadge daysUntil={item.daysUntil} lang={lang} />
@@ -169,10 +169,10 @@ export function SubscriptionTracker() {
       {urgentCount > 0 && (
         <div style={{
           padding: '10px 16px 14px',
-          borderTop: '1px solid #2A2A2E',
-          background: 'rgba(255,107,0,0.05)',
+          borderTop: '1px solid var(--mk-border)',
+          background: 'rgba(var(--mk-orange-rgb),0.05)',
         }}>
-          <p style={{ fontSize: 11, color: '#FF6B00', fontFamily: 'Geist, sans-serif', textAlign: 'center' }}>
+          <p style={{ fontSize: 11, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif', textAlign: 'center' }}>
             {lang === 'sw'
               ? '💡 Hakikisha una pesa za kutosha kwa malipo yanayokuja'
               : '💡 Ensure you have enough funds for upcoming payments'}

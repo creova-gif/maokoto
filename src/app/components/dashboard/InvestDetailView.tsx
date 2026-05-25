@@ -22,9 +22,9 @@ const PURPOSES = [
 ];
 
 const RISK_LEVELS = [
-  { id: 'low', en: 'Low Risk', sw: 'Hatari Ndogo', color: '#00E5A0', bg: 'rgba(0,229,160,0.1)', desc_en: 'Stable returns with capital protection. Best for beginners.', return: '5–8%' },
-  { id: 'medium', en: 'Medium Risk', sw: 'Hatari ya Wastani', color: '#FF6B00', bg: 'rgba(255,107,0,0.1)', desc_en: 'Balanced growth with moderate fluctuations.', return: '10–15%' },
-  { id: 'high', en: 'High Risk', sw: 'Hatari Kubwa', color: '#FF3D3D', bg: 'rgba(255,61,61,0.1)', desc_en: 'Maximum growth potential. For experienced investors.', return: '18–25%' },
+  { id: 'low', en: 'Low Risk', sw: 'Hatari Ndogo', color: 'var(--mk-green)', bg: 'rgba(var(--mk-green-rgb),0.1)', desc_en: 'Stable returns with capital protection. Best for beginners.', return: '5–8%' },
+  { id: 'medium', en: 'Medium Risk', sw: 'Hatari ya Wastani', color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.1)', desc_en: 'Balanced growth with moderate fluctuations.', return: '10–15%' },
+  { id: 'high', en: 'High Risk', sw: 'Hatari Kubwa', color: 'var(--mk-red)', bg: 'rgba(var(--mk-red-rgb),0.1)', desc_en: 'Maximum growth potential. For experienced investors.', return: '18–25%' },
 ];
 
 const STOCKS = [
@@ -42,7 +42,7 @@ const STOCKS = [
 function StockLogo({ symbol }: { symbol: string }) {
   const base: React.CSSProperties = { width: 44, height: 44, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 };
   if (symbol === 'GOOGL') return (
-    <div style={{ ...base, background: '#fff', border: '1px solid #E8E6E3', boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
+    <div style={{ ...base, background: 'var(--mk-text)', border: '1px solid #E8E6E3', boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
       <svg width="22" height="22" viewBox="0 0 24 24">
         <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
         <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -60,11 +60,11 @@ function StockLogo({ symbol }: { symbol: string }) {
   );
   if (symbol === 'NVDA') return (
     <div style={{ ...base, background: '#76b900' }}>
-      <span style={{ fontSize: 11, fontWeight: 800, color: '#fff', letterSpacing: '-0.5px', fontFamily: 'Geist, sans-serif' }}>NVDA</span>
+      <span style={{ fontSize: 11, fontWeight: 800, color: 'var(--mk-text)', letterSpacing: '-0.5px', fontFamily: 'Geist, sans-serif' }}>NVDA</span>
     </div>
   );
   if (symbol === 'MSFT') return (
-    <div style={{ ...base, background: '#fff', border: '1px solid #E8E6E3' }}>
+    <div style={{ ...base, background: 'var(--mk-text)', border: '1px solid #E8E6E3' }}>
       <svg width="22" height="22" viewBox="0 0 22 22">
         <rect x="0"  y="0"  width="10" height="10" rx="1" fill="#F25022"/>
         <rect x="12" y="0"  width="10" height="10" rx="1" fill="#7FBA00"/>
@@ -97,18 +97,18 @@ function StockLogo({ symbol }: { symbol: string }) {
       </svg>
     </div>
   );
-  const fallback: Record<string, string> = { SCOM: '#00E5A0', EABL: '#FF3D3D' };
+  const fallback: Record<string, string> = { SCOM: 'var(--mk-green)', EABL: 'var(--mk-red)' };
   return (
-    <div style={{ ...base, background: fallback[symbol] || '#2A2A2E' }}>
-      <span style={{ fontSize: 12, fontWeight: 700, color: '#fff', fontFamily: 'Geist, sans-serif' }}>{symbol.slice(0, 2)}</span>
+    <div style={{ ...base, background: fallback[symbol] || 'var(--mk-border)' }}>
+      <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{symbol.slice(0, 2)}</span>
     </div>
   );
 }
 
 const PORTFOLIOS = [
-  { id: 'easy_growth', name: 'Easy Growth', risk: 'Low', return: '+8.2%', value: 12450, recurring: 550, next: '15 Mar', items: ['Gov. Bonds 40%', 'Blue Chips 35%', 'Money Market 25%'], color: '#00E5A0' },
-  { id: 'balanced', name: 'Balanced Portfolio', risk: 'Medium', return: '+12.4%', value: 8200, recurring: 300, next: '1 Apr', items: ['Local Equities 50%', 'Fixed Income 30%', 'Real Estate 20%'], color: '#FF6B00' },
-  { id: 'growth_max', name: 'Growth Max', risk: 'High', return: '+19.7%', value: 5100, recurring: 1000, next: '20 Mar', items: ['Tech Stocks 60%', 'Emerging Markets 25%', 'Crypto Index 15%'], color: '#FF3D3D' },
+  { id: 'easy_growth', name: 'Easy Growth', risk: 'Low', return: '+8.2%', value: 12450, recurring: 550, next: '15 Mar', items: ['Gov. Bonds 40%', 'Blue Chips 35%', 'Money Market 25%'], color: 'var(--mk-green)' },
+  { id: 'balanced', name: 'Balanced Portfolio', risk: 'Medium', return: '+12.4%', value: 8200, recurring: 300, next: '1 Apr', items: ['Local Equities 50%', 'Fixed Income 30%', 'Real Estate 20%'], color: 'var(--mk-orange)' },
+  { id: 'growth_max', name: 'Growth Max', risk: 'High', return: '+19.7%', value: 5100, recurring: 1000, next: '20 Mar', items: ['Tech Stocks 60%', 'Emerging Markets 25%', 'Crypto Index 15%'], color: 'var(--mk-red)' },
 ];
 
 function generateChart(days: number, base: number, volatile: number) {
@@ -138,20 +138,20 @@ function PurposeScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id
   const secondary = INVEST_PURPOSES.filter(p => !p.primary);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
       {/* Back */}
       <div style={{ padding: '16px 20px 0' }}>
         <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-          <ChevronRight size={22} color="#FFFFFF" style={{ transform: 'rotate(180deg)' }} />
+          <ChevronRight size={22} color="var(--mk-text)" style={{ transform: 'rotate(180deg)' }} />
         </button>
       </div>
 
       <div style={{ padding: '16px 20px 100px', display: 'flex', flexDirection: 'column', gap: 0 }}>
         {/* Heading */}
-        <p style={{ fontSize: 28, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', lineHeight: 1.2, marginBottom: 12 }}>
+        <p style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', lineHeight: 1.2, marginBottom: 12 }}>
           {lang === 'sw' ? 'Mipango Yako ya Uwekezaji ni Gani?' : 'What Are Your Investment Plans?'}
         </p>
-        <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.5, marginBottom: 28 }}>
+        <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.5, marginBottom: 28 }}>
           {lang === 'sw'
             ? 'Tunataka kuelewa mipango yako ili tuweze kupendekeza fursa sahihi za uwekezaji'
             : 'We want to understand your plans so we can recommend the right investment opportunities'}
@@ -169,19 +169,19 @@ function PurposeScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id
                 style={{
                   display: 'flex', alignItems: 'center', gap: 16,
                   padding: '18px 20px', borderRadius: 16, border: 'none',
-                  background: isSelected ? 'rgba(255,107,0,0.1)' : '#1C1C1E',
+                  background: isSelected ? 'rgba(var(--mk-orange-rgb),0.1)' : 'var(--mk-card)',
                   cursor: 'pointer', textAlign: 'left',
-                  outline: isSelected ? '2px solid #FF6B00' : '2px solid transparent',
+                  outline: isSelected ? '2px solid var(--mk-orange)' : '2px solid transparent',
                 }}
               >
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(255,107,0,0.15)', border: '1px solid rgba(255,107,0,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 22 }}>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.15)', border: '1px solid rgba(var(--mk-orange-rgb),0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 22 }}>
                   {PURPOSE_ICONS[p.id]}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
+                  <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 3 }}>
                     {lang === 'sw' ? p.sw : p.en}
                   </p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
                     {lang === 'sw' ? p.desc_sw : p.desc_en}
                   </p>
                 </div>
@@ -192,7 +192,7 @@ function PurposeScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id
         </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: '#2A2A2E', margin: '8px 0 8px' }} />
+        <div style={{ height: 1, background: 'var(--mk-border)', margin: '8px 0 8px' }} />
 
         {/* Secondary purpose list */}
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -204,14 +204,14 @@ function PurposeScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id
               style={{
                 display: 'flex', alignItems: 'center', gap: 16,
                 padding: '16px 0', border: 'none', background: 'transparent',
-                borderBottom: i < secondary.length - 1 ? '1px solid #2A2A2E' : 'none',
+                borderBottom: i < secondary.length - 1 ? '1px solid var(--mk-border)' : 'none',
                 cursor: 'pointer', textAlign: 'left',
               }}
             >
-              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 22 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(var(--mk-purple-rgb),0.1)', border: '1px solid rgba(var(--mk-purple-rgb),0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 22 }}>
                 {PURPOSE_ICONS[p.id]}
               </div>
-              <p style={{ flex: 1, fontSize: 15, fontWeight: 500, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ flex: 1, fontSize: 15, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? p.sw : p.en}
               </p>
               <ChevronRight size={18} color="#4B5563" style={{ flexShrink: 0 }} />
@@ -227,31 +227,31 @@ function PurposeScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id
 function RiskLevelScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (id: string) => void; onBack: () => void }) {
   const [selected, setSelected] = useState('');
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
-      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#141414', borderBottom: '1px solid #2A2A2E' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: 'var(--mk-sheet)', borderBottom: '1px solid var(--mk-border)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 20px', height: 56 }}>
-          <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><ArrowLeft size={22} color="#FFFFFF" /></button>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+          <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><ArrowLeft size={22} color="var(--mk-text)" /></button>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Kiwango cha Hatari' : 'Risk Appetite'}
           </p>
         </div>
       </div>
       <div style={{ padding: '24px 20px 100px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+        <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Ni hatari kiasi gani unayoweza kuvumilia?' : 'How much risk are you comfortable with?'}
         </p>
 
         {/* Visual risk spectrum */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 20 }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', padding: 20 }}>
           <div style={{ display: 'flex', height: 8, borderRadius: 999, overflow: 'hidden', marginBottom: 8 }}>
-            <div style={{ flex: 1, background: '#00E5A0' }} />
-            <div style={{ flex: 1, background: '#FF6B00' }} />
-            <div style={{ flex: 1, background: '#FF3D3D' }} />
+            <div style={{ flex: 1, background: 'var(--mk-green)' }} />
+            <div style={{ flex: 1, background: 'var(--mk-orange)' }} />
+            <div style={{ flex: 1, background: 'var(--mk-red)' }} />
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11, color: '#00E5A0', fontFamily: 'Geist, sans-serif' }}>Low</span>
-            <span style={{ fontSize: 11, color: '#FF6B00', fontFamily: 'Geist, sans-serif' }}>Medium</span>
-            <span style={{ fontSize: 11, color: '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>High</span>
+            <span style={{ fontSize: 11, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>Low</span>
+            <span style={{ fontSize: 11, color: 'var(--mk-orange)', fontFamily: 'Geist, sans-serif' }}>Medium</span>
+            <span style={{ fontSize: 11, color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>High</span>
           </div>
         </div>
 
@@ -263,14 +263,14 @@ function RiskLevelScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (
               onClick={() => setSelected(r.id)}
               whileTap={{ scale: 0.98 }}
               style={{
-                background: isSelected ? `${r.color}18` : '#1C1C1E',
-                border: isSelected ? `2px solid ${r.color}` : '1px solid #2A2A2E',
+                background: isSelected ? `${r.color}18` : 'var(--mk-card)',
+                border: isSelected ? `2px solid ${r.color}` : '1px solid var(--mk-border)',
                 borderRadius: 16, padding: '20px', cursor: 'pointer', textAlign: 'left',
                 boxShadow: isSelected ? `0 0 16px ${r.color}30` : 'none',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                <p style={{ fontSize: 16, fontWeight: 600, color: isSelected ? r.color : '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                <p style={{ fontSize: 16, fontWeight: 600, color: isSelected ? r.color : 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                   {lang === 'sw' ? r.sw : r.en}
                 </p>
                 <div style={{
@@ -282,7 +282,7 @@ function RiskLevelScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (
                   </span>
                 </div>
               </div>
-              <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {r.desc_en}
               </p>
             </motion.button>
@@ -293,12 +293,12 @@ function RiskLevelScreen({ lang, onSelect, onBack }: { lang: string; onSelect: (
           onClick={() => selected && onSelect(selected)}
           style={{
             marginTop: 8,
-            background: selected ? 'linear-gradient(135deg, #FF6B00, #FF3D3D)' : '#2A2A2E',
-            color: selected ? '#fff' : '#4B5563',
+            background: selected ? 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))' : 'var(--mk-border)',
+            color: selected ? 'var(--mk-text)' : '#4B5563',
             fontSize: 15, fontWeight: 700, padding: 16, borderRadius: 16, border: 'none',
             cursor: selected ? 'pointer' : 'default', fontFamily: 'Geist, sans-serif',
             opacity: selected ? 1 : 0.6,
-            boxShadow: selected ? '0 0 20px rgba(255,107,0,0.3)' : 'none',
+            boxShadow: selected ? '0 0 20px rgba(var(--mk-orange-rgb),0.3)' : 'none',
           }}
         >
           {lang === 'sw' ? 'Anza Kuwekeza' : 'Start Investing'}
@@ -315,39 +315,39 @@ function PortfolioDetailScreen({ portfolioId, lang, fmt, onBack }: { portfolioId
   const [autoInvest, setAutoInvest] = useState(true);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
-      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#141414', borderBottom: '1px solid #2A2A2E' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: 'var(--mk-sheet)', borderBottom: '1px solid var(--mk-border)' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 20px', height: 56 }}>
-          <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><ArrowLeft size={22} color="#FFFFFF" /></button>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{portfolio.name}</p>
+          <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}><ArrowLeft size={22} color="var(--mk-text)" /></button>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{portfolio.name}</p>
         </div>
       </div>
       <div style={{ padding: '20px 20px 100px', display: 'flex', flexDirection: 'column', gap: 20 }}>
         {/* Portfolio hero */}
-        <div style={{ background: 'linear-gradient(135deg, #1C1C1E, #2A2A2E)', borderRadius: 20, padding: 24, border: '1px solid #2A2A2E' }}>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', fontFamily: 'Geist, sans-serif' }}>Portfolio Value</p>
-          <p style={{ fontSize: 36, fontWeight: 300, color: '#fff', fontFamily: 'Geist, sans-serif', margin: '4px 0 4px' }}>
+        <div style={{ background: 'linear-gradient(135deg, var(--mk-card), var(--mk-border))', borderRadius: 20, padding: 24, border: '1px solid var(--mk-border)' }}>
+          <p style={{ fontSize: 13, color: 'rgba(var(--mk-text-rgb),0.5)', fontFamily: 'Geist, sans-serif' }}>Portfolio Value</p>
+          <p style={{ fontSize: 36, fontWeight: 300, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', margin: '4px 0 4px' }}>
             {fmt(portfolio.value)}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <TrendingUp size={14} color="#00E5A0" />
-            <span style={{ fontSize: 13, color: '#00E5A0', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>{portfolio.return} this year</span>
+            <TrendingUp size={14} color="var(--mk-green)" />
+            <span style={{ fontSize: 13, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', fontWeight: 600 }}>{portfolio.return} this year</span>
           </div>
           <div style={{ height: 80, marginTop: 16 }}>
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
-                <Line type="monotone" dataKey="v" stroke="#FF6B00" strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="v" stroke="var(--mk-orange)" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Auto Invest toggle */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 20 }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', padding: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>Auto Invest</p>
-              <p style={{ fontSize: 12, color: autoInvest ? '#00E5A0' : '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+              <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>Auto Invest</p>
+              <p style={{ fontSize: 12, color: autoInvest ? 'var(--mk-green)' : 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {autoInvest ? 'Active' : 'Inactive'}
               </p>
             </div>
@@ -355,35 +355,35 @@ function PortfolioDetailScreen({ portfolioId, lang, fmt, onBack }: { portfolioId
               onClick={() => setAutoInvest(p => !p)}
               style={{
                 width: 44, height: 24, borderRadius: 999, border: 'none', cursor: 'pointer',
-                background: autoInvest ? '#00E5A0' : '#2A2A2E',
+                background: autoInvest ? 'var(--mk-green)' : 'var(--mk-border)',
                 display: 'flex', alignItems: 'center', padding: '0 2px',
                 justifyContent: autoInvest ? 'flex-end' : 'flex-start',
-                boxShadow: autoInvest ? '0 0 8px rgba(0,229,160,0.4)' : 'none',
+                boxShadow: autoInvest ? '0 0 8px rgba(var(--mk-green-rgb),0.4)' : 'none',
               }}
             >
-              <div style={{ width: 20, height: 20, borderRadius: '50%', background: '#fff', boxShadow: '0 1px 3px rgba(0,0,0,0.4)' }} />
+              <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--mk-text)', boxShadow: '0 1px 3px rgba(0,0,0,0.4)' }} />
             </button>
           </div>
-          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid #2A2A2E', display: 'flex', justifyContent: 'space-between' }}>
+          <div style={{ marginTop: 16, paddingTop: 16, borderTop: '1px solid var(--mk-border)', display: 'flex', justifyContent: 'space-between' }}>
             <div>
-              <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>Recurring Deposit</p>
-              <p style={{ fontSize: 18, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{fmt(portfolio.recurring)}</p>
+              <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>Recurring Deposit</p>
+              <p style={{ fontSize: 18, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{fmt(portfolio.recurring)}</p>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>Next Date</p>
-              <p style={{ fontSize: 18, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{portfolio.next}</p>
+              <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>Next Date</p>
+              <p style={{ fontSize: 18, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{portfolio.next}</p>
             </div>
           </div>
         </div>
 
         {/* Holdings breakdown */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #2A2A2E' }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>Holdings</p>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--mk-border)' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>Holdings</p>
           </div>
           {portfolio.items.map((item, i) => (
-            <div key={i} style={{ padding: '14px 20px', borderBottom: i < portfolio.items.length - 1 ? '1px solid #2A2A2E' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <p style={{ fontSize: 14, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{item.split(' ')[0]} {item.split(' ')[1]}</p>
+            <div key={i} style={{ padding: '14px 20px', borderBottom: i < portfolio.items.length - 1 ? '1px solid var(--mk-border)' : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <p style={{ fontSize: 14, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{item.split(' ')[0]} {item.split(' ')[1]}</p>
               <span style={{ fontSize: 12, fontWeight: 600, color: portfolio.color, fontFamily: 'Geist, sans-serif', background: `${portfolio.color}18`, padding: '4px 10px', borderRadius: 999 }}>
                 {item.split(' ').slice(-1)[0]}
               </span>
@@ -392,8 +392,8 @@ function PortfolioDetailScreen({ portfolioId, lang, fmt, onBack }: { portfolioId
         </div>
 
         {/* Risk badge */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <p style={{ fontSize: 14, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>Risk Level</p>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <p style={{ fontSize: 14, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>Risk Level</p>
           <span style={{
             fontSize: 13, fontWeight: 600, fontFamily: 'Geist, sans-serif',
             color: portfolio.color, background: `${portfolio.color}18`,
@@ -415,55 +415,55 @@ function StocksListScreen({ lang, onSelectStock, onBack }: { lang: string; fmt: 
     : STOCKS;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div style={{ position: 'relative', background: 'linear-gradient(160deg, #FF6B00 0%, #FF3D3D 100%)', paddingBottom: 52 }}>
+      <div style={{ position: 'relative', background: 'linear-gradient(160deg, var(--mk-orange) 0%, var(--mk-red) 100%)', paddingBottom: 52 }}>
         {[0, 1, 2, 3].map(i => (
-          <div key={i} style={{ position: 'absolute', top: `${-30 + i * 38}%`, left: '-25%', right: '-25%', height: '45%', borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.13)', pointerEvents: 'none' }} />
+          <div key={i} style={{ position: 'absolute', top: `${-30 + i * 38}%`, left: '-25%', right: '-25%', height: '45%', borderRadius: '50%', border: '1.5px solid rgba(var(--mk-text-rgb),0.13)', pointerEvents: 'none' }} />
         ))}
         <div style={{ display: 'flex', alignItems: 'center', padding: '14px 20px 0', position: 'relative', zIndex: 1 }}>
           <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex' }}>
-            <ChevronRight size={22} color="rgba(255,255,255,0.9)" style={{ transform: 'rotate(180deg)' }} />
+            <ChevronRight size={22} color="rgba(var(--mk-text-rgb),0.9)" style={{ transform: 'rotate(180deg)' }} />
           </button>
         </div>
         <div style={{ padding: '16px 20px 0', position: 'relative', zIndex: 1 }}>
-          <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-            <TrendingUp size={24} color="#FFFFFF" />
+          <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.15)', border: '1px solid rgba(var(--mk-text-rgb),0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
+            <TrendingUp size={24} color="var(--mk-text)" />
           </div>
-          <p style={{ fontSize: 30, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
+          <p style={{ fontSize: 30, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 8 }}>
             {lang === 'sw' ? 'Hisa' : 'Stocks'}
           </p>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(255,255,255,0.15)', borderRadius: 999, padding: '4px 10px', marginBottom: 10 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, background: 'rgba(var(--mk-text-rgb),0.15)', borderRadius: 999, padding: '4px 10px', marginBottom: 10 }}>
             <span style={{ fontSize: 13 }}>🔥</span>
-            <span style={{ fontSize: 12, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>High Risk</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>High Risk</span>
           </div>
-          <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontFamily: 'Geist, sans-serif', lineHeight: 1.55 }}>
+          <p style={{ fontSize: 13, color: 'rgba(var(--mk-text-rgb),0.75)', fontFamily: 'Geist, sans-serif', lineHeight: 1.55 }}>
             {lang === 'sw'
               ? 'Pata faida kubwa kwa kuwekeza muda mrefu katika hisa za kimataifa.'
               : 'Earn huge returns by investing long term in stocks from major US and International companies.'}
           </p>
         </div>
         <svg style={{ position: 'absolute', bottom: -1, left: 0, right: 0, display: 'block' }} viewBox="0 0 393 52" preserveAspectRatio="none" width="100%" height="52">
-          <path d="M0 52 L0 28 Q196.5 0 393 28 L393 52 Z" fill="#0D0D0D"/>
+          <path d="M0 52 L0 28 Q196.5 0 393 28 L393 52 Z" fill="var(--mk-bg)"/>
         </svg>
       </div>
 
       {/* Search bar */}
       <div style={{ padding: '4px 20px 10px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: '#1C1C1E', border: '1px solid #2A2A2E', borderRadius: 12, padding: '10px 14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, background: 'var(--mk-card)', border: '1px solid var(--mk-border)', borderRadius: 12, padding: '10px 14px' }}>
           <Search size={16} color="#4B5563" style={{ flexShrink: 0 }} />
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder={lang === 'sw' ? 'Tafuta...' : 'Search'}
-            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontSize: 14, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}
+            style={{ flex: 1, background: 'none', border: 'none', outline: 'none', fontSize: 14, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}
           />
         </div>
       </div>
 
       {/* Stock rows */}
       <div style={{ padding: '0 20px 100px' }}>
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden' }}>
           {filtered.map((stock, i) => {
             const up = stock.change >= 0;
             return (
@@ -473,22 +473,22 @@ function StocksListScreen({ lang, onSelectStock, onBack }: { lang: string; fmt: 
                 whileTap={{ scale: 0.98 }}
                 style={{
                   width: '100%', padding: '14px 16px', background: 'none', border: 'none',
-                  borderBottom: i < filtered.length - 1 ? '1px solid #2A2A2E' : 'none',
+                  borderBottom: i < filtered.length - 1 ? '1px solid var(--mk-border)' : 'none',
                   cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 12, textAlign: 'left',
                 }}
               >
                 <StockLogo symbol={stock.symbol} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{stock.name}</p>
-                  <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{stock.symbol}</p>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>{stock.name}</p>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{stock.symbol}</p>
                 </div>
                 <div style={{ textAlign: 'right', flexShrink: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
                     ${stock.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'flex-end' }}>
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: up ? '#00E5A0' : '#FF3D3D', display: 'inline-block', flexShrink: 0 }} />
-                    <span style={{ fontSize: 11.5, fontWeight: 500, color: up ? '#00E5A0' : '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: up ? 'var(--mk-green)' : 'var(--mk-red)', display: 'inline-block', flexShrink: 0 }} />
+                    <span style={{ fontSize: 11.5, fontWeight: 500, color: up ? 'var(--mk-green)' : 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>
                       {up ? '+' : '-'}${Math.abs(stock.change).toFixed(2)} ({up ? '+' : ''}{stock.pct}%)
                     </span>
                   </div>
@@ -546,14 +546,14 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
   ];
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
       {/* Nav */}
-      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: '#141414', borderBottom: '1px solid #2A2A2E' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 20, background: 'var(--mk-sheet)', borderBottom: '1px solid var(--mk-border)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 20px', height: 56 }}>
           <button onClick={onBack} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
-            <ArrowLeft size={22} color="#FFFFFF" />
+            <ArrowLeft size={22} color="var(--mk-text)" />
           </button>
-          <p style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{stock.name.split(' ')[0]}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{stock.name.split(' ')[0]}</p>
           <button style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}>
             <MoreHorizontal size={20} color="#4B5563" />
           </button>
@@ -562,30 +562,30 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
 
       <div style={{ padding: '20px 20px 100px', display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Price hero */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 20 }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', padding: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
             <StockLogo symbol={stock.symbol} />
             <div>
-              <p style={{ fontSize: 15, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{stock.name}</p>
-              <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{stock.symbol}</p>
+              <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{stock.name}</p>
+              <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{stock.symbol}</p>
             </div>
           </div>
-          <p style={{ fontSize: 36, fontWeight: 300, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', margin: '0 0 6px' }}>
+          <p style={{ fontSize: 36, fontWeight: 300, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', margin: '0 0 6px' }}>
             ${stock.price.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 20 }}>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: up ? '#00E5A0' : '#FF3D3D', display: 'inline-block' }} />
-            <span style={{ fontSize: 13, fontWeight: 600, color: up ? '#00E5A0' : '#FF3D3D', fontFamily: 'Geist, sans-serif' }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: up ? 'var(--mk-green)' : 'var(--mk-red)', display: 'inline-block' }} />
+            <span style={{ fontSize: 13, fontWeight: 600, color: up ? 'var(--mk-green)' : 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>
               {up ? '+' : '-'}${Math.abs(stock.change).toFixed(2)} ({up ? '+' : ''}{stock.pct}%) today
             </span>
           </div>
 
           {/* Buy / Sell */}
           <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
-            <button style={{ flex: 1, padding: '10px 0', borderRadius: 999, background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', border: 'none', color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif', boxShadow: '0 0 12px rgba(255,107,0,0.3)' }}>
+            <button style={{ flex: 1, padding: '10px 0', borderRadius: 999, background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', border: 'none', color: 'var(--mk-text)', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif', boxShadow: '0 0 12px rgba(var(--mk-orange-rgb),0.3)' }}>
               {lang === 'sw' ? 'Nunua' : 'Buy'}
             </button>
-            <button style={{ flex: 1, padding: '10px 0', borderRadius: 999, background: 'transparent', border: '1.5px solid #FF6B00', color: '#FF6B00', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
+            <button style={{ flex: 1, padding: '10px 0', borderRadius: 999, background: 'transparent', border: '1.5px solid var(--mk-orange)', color: 'var(--mk-orange)', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Uza' : 'Sell'}
             </button>
           </div>
@@ -596,22 +596,22 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
               <LineChart data={chartData}>
                 <XAxis dataKey="i" hide />
                 <YAxis hide domain={['auto', 'auto']} />
-                <Tooltip formatter={(v: any) => `$${(v / 100).toFixed(2)}`} contentStyle={{ borderRadius: 8, border: '1px solid #2A2A2E', background: '#1C1C1E', color: '#FFFFFF', fontSize: 12 }} />
-                <Line type="monotone" dataKey="v" stroke={up ? '#00E5A0' : '#FF3D3D'} strokeWidth={2} dot={false} />
+                <Tooltip formatter={(v: any) => `$${(v / 100).toFixed(2)}`} contentStyle={{ borderRadius: 8, border: '1px solid var(--mk-border)', background: 'var(--mk-card)', color: 'var(--mk-text)', fontSize: 12 }} />
+                <Line type="monotone" dataKey="v" stroke={up ? 'var(--mk-green)' : 'var(--mk-red)'} strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
           {/* Period tabs */}
-          <div style={{ display: 'flex', gap: 4, marginTop: 12, background: '#141414', borderRadius: 10, padding: 4 }}>
+          <div style={{ display: 'flex', gap: 4, marginTop: 12, background: 'var(--mk-sheet)', borderRadius: 10, padding: 4 }}>
             {CHART_PERIODS.map(p => (
               <button
                 key={p}
                 onClick={() => setPeriod(p)}
                 style={{
                   flex: 1, padding: '6px 0', borderRadius: 7, border: 'none', cursor: 'pointer',
-                  background: period === p ? '#2A2A2E' : 'transparent',
-                  color: period === p ? '#FFFFFF' : '#4B5563',
+                  background: period === p ? 'var(--mk-border)' : 'transparent',
+                  color: period === p ? 'var(--mk-text)' : '#4B5563',
                   fontSize: 11, fontWeight: period === p ? 700 : 400, fontFamily: 'Geist, sans-serif',
                   boxShadow: period === p ? '0 1px 3px rgba(0,0,0,0.3)' : 'none',
                   transition: 'background 0.15s',
@@ -622,41 +622,41 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
         </div>
 
         {/* Ownership */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', padding: 20 }}>
-          <p style={{ fontSize: 13, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 6 }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', padding: 20 }}>
+          <p style={{ fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 6 }}>
             {lang === 'sw' ? 'Umiliki' : 'Ownership'}
           </p>
-          <p style={{ fontSize: 30, fontWeight: 300, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', margin: '0 0 4px' }}>
+          <p style={{ fontSize: 30, fontWeight: 300, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', margin: '0 0 4px' }}>
             ${ownership.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 8 }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#00E5A0', display: 'inline-block' }} />
-            <span style={{ fontSize: 13, color: '#00E5A0', fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--mk-green)', display: 'inline-block' }} />
+            <span style={{ fontSize: 13, color: 'var(--mk-green)', fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>
               +${ownershipGain.toLocaleString('en', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (28.1%)
             </span>
           </div>
-          <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 12 }}>148 units</p>
-          <div style={{ height: 6, borderRadius: 999, background: '#2A2A2E', overflow: 'hidden', marginBottom: 8 }}>
-            <div style={{ width: '11%', height: '100%', background: '#00E5A0', borderRadius: 999 }} />
+          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 12 }}>148 units</p>
+          <div style={{ height: 6, borderRadius: 999, background: 'var(--mk-border)', overflow: 'hidden', marginBottom: 8 }}>
+            <div style={{ width: '11%', height: '100%', background: 'var(--mk-green)', borderRadius: 999 }} />
           </div>
-          <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+          <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? 'Ni 11% ya portfolio yako' : 'Constitutes 11% of your portfolio'}
           </p>
         </div>
 
         {/* Summary grid */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px 8px' }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Muhtasari' : 'Summary'}
             </p>
           </div>
           {summaryRows.map((row, ri) => (
-            <div key={ri} style={{ display: 'flex', borderTop: ri === 0 ? '1px solid #2A2A2E' : 'none' }}>
+            <div key={ri} style={{ display: 'flex', borderTop: ri === 0 ? '1px solid var(--mk-border)' : 'none' }}>
               {row.map((cell, ci) => (
-                <div key={ci} style={{ flex: 1, padding: '12px 20px', borderRight: ci === 0 ? '1px solid #2A2A2E' : 'none', borderTop: ri > 0 ? '1px solid #2A2A2E' : 'none' }}>
-                  <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>{cell.label}</p>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{cell.value}</p>
+                <div key={ci} style={{ flex: 1, padding: '12px 20px', borderRight: ci === 0 ? '1px solid var(--mk-border)' : 'none', borderTop: ri > 0 ? '1px solid var(--mk-border)' : 'none' }}>
+                  <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginBottom: 4 }}>{cell.label}</p>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{cell.value}</p>
                 </div>
               ))}
             </div>
@@ -664,26 +664,26 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
         </div>
 
         {/* News */}
-        <div style={{ background: '#1C1C1E', borderRadius: 16, border: '1px solid #2A2A2E', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--mk-card)', borderRadius: 16, border: '1px solid var(--mk-border)', overflow: 'hidden' }}>
           <div style={{ padding: '16px 20px 4px' }}>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
               {lang === 'sw' ? 'Habari' : 'News'}
             </p>
-            <p style={{ fontSize: 12, color: '#6B7280', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>
+            <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>
               {lang === 'sw' ? `Habari za ${stock.name.split(' ')[0]}` : `See what's happening with ${stock.name.split(' ')[0]}`}
             </p>
           </div>
           {news.slice(0, 3).map((item, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', borderTop: '1px solid #2A2A2E' }}>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 20px', borderTop: '1px solid var(--mk-border)' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 13, fontWeight: 500, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', lineHeight: 1.4, marginBottom: 4 }}>{item.title}</p>
-                <p style={{ fontSize: 11, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>{item.date}</p>
+                <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4, marginBottom: 4 }}>{item.title}</p>
+                <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{item.date}</p>
               </div>
               <div style={{ width: 56, height: 56, borderRadius: 10, background: `hsl(${(i * 47 + 20)}, 70%, 35%)`, flexShrink: 0 }} />
             </div>
           ))}
-          <div style={{ padding: '12px 20px', borderTop: '1px solid #2A2A2E' }}>
-            <button style={{ background: 'none', border: 'none', color: '#FF6B00', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Geist, sans-serif', padding: 0 }}>
+          <div style={{ padding: '12px 20px', borderTop: '1px solid var(--mk-border)' }}>
+            <button style={{ background: 'none', border: 'none', color: 'var(--mk-orange)', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'Geist, sans-serif', padding: 0 }}>
               {lang === 'sw' ? 'Tazama zaidi' : 'See more'}
             </button>
           </div>
@@ -696,26 +696,26 @@ function StockDetailScreen({ stockId, lang, onBack }: { stockId: string; lang: s
 // ── Start Investing ───────────────────────────────────────────────────────────
 function StartInvestingScreen({ lang, onStart, onBack }: { lang: string; onStart: () => void; onBack: () => void }) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#0D0D0D' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: 'var(--mk-bg)' }}>
       <div style={{ display: 'flex', alignItems: 'center', padding: '16px 20px' }}>
-        <button onClick={onBack} style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid #2A2A2E', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ArrowLeft size={18} color="#fff" />
+        <button onClick={onBack} style={{ background: 'rgba(var(--mk-text-rgb),0.08)', border: '1px solid var(--mk-border)', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <ArrowLeft size={18} color="var(--mk-text)" />
         </button>
       </div>
 
       {/* Illustration */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 40px', gap: 32 }}>
-        <div style={{ width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,107,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'rgba(255,107,0,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Sprout size={56} color="#FF6B00" />
+        <div style={{ width: 160, height: 160, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 120, height: 120, borderRadius: '50%', background: 'rgba(var(--mk-orange-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Sprout size={56} color="var(--mk-orange)" />
           </div>
         </div>
 
         <div style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: 28, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif', marginBottom: 12 }}>
+          <p style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', marginBottom: 12 }}>
             {lang === 'sw' ? 'Anza Kuwekeza Leo' : 'Start Investing Today'}
           </p>
-          <p style={{ fontSize: 15, color: '#6B7280', fontFamily: 'Geist, sans-serif', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 15, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.6 }}>
             {lang === 'sw'
               ? 'Unda utajiri wa muda mrefu kwa uwekezaji mdogo. Tunaanza safari yako ya kifedha pamoja.'
               : 'Build long-term wealth with small, consistent investments. We\'ll guide you every step of the way.'}
@@ -729,9 +729,9 @@ function StartInvestingScreen({ lang, onStart, onBack }: { lang: string; onStart
             { icon: '🤖', text: lang === 'sw' ? 'Uwekezaji wa kiotomatiki' : 'Automated investing' },
             { icon: '📊', text: lang === 'sw' ? 'Uchambuzi wa wakati halisi' : 'Real-time analytics' },
           ].map((f, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#1C1C1E', borderRadius: 12, padding: '12px 16px', border: '1px solid #2A2A2E' }}>
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12, background: 'var(--mk-card)', borderRadius: 12, padding: '12px 16px', border: '1px solid var(--mk-border)' }}>
               <span style={{ fontSize: 22 }}>{f.icon}</span>
-              <p style={{ fontSize: 14, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{f.text}</p>
+              <p style={{ fontSize: 14, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{f.text}</p>
             </div>
           ))}
         </div>
@@ -741,10 +741,10 @@ function StartInvestingScreen({ lang, onStart, onBack }: { lang: string; onStart
         <button
           onClick={onStart}
           style={{
-            width: '100%', background: 'linear-gradient(135deg, #FF6B00, #FF3D3D)', color: '#fff',
+            width: '100%', background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))', color: 'var(--mk-text)',
             fontSize: 16, fontWeight: 700, padding: 18, borderRadius: 16,
             border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif',
-            boxShadow: '0 0 24px rgba(255,107,0,0.4)',
+            boxShadow: '0 0 24px rgba(var(--mk-orange-rgb),0.4)',
           }}
         >
           {lang === 'sw' ? 'Anza Sasa' : 'Get Started'}

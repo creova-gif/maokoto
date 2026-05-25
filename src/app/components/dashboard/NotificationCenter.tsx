@@ -182,10 +182,10 @@ export function NotificationCenter() {
   const unreadCount = alerts.length;
 
   const typeConfig = {
-    urgent:  { bg: 'rgba(255,61,61,0.08)',   border: 'rgba(255,61,61,0.2)',   iconColor: '#FF3D3D' },
-    warning: { bg: 'rgba(255,107,0,0.08)',   border: 'rgba(255,107,0,0.2)',   iconColor: '#FF6B00' },
-    success: { bg: 'rgba(0,229,160,0.08)',   border: 'rgba(0,229,160,0.2)',   iconColor: '#00E5A0' },
-    info:    { bg: 'rgba(167,139,250,0.08)', border: 'rgba(167,139,250,0.2)', iconColor: '#A78BFA' },
+    urgent:  { bg: 'rgba(var(--mk-red-rgb),0.08)',   border: 'rgba(var(--mk-red-rgb),0.2)',   iconColor: 'var(--mk-red)' },
+    warning: { bg: 'rgba(var(--mk-orange-rgb),0.08)',   border: 'rgba(var(--mk-orange-rgb),0.2)',   iconColor: 'var(--mk-orange)' },
+    success: { bg: 'rgba(var(--mk-green-rgb),0.08)',   border: 'rgba(var(--mk-green-rgb),0.2)',   iconColor: 'var(--mk-green)' },
+    info:    { bg: 'rgba(var(--mk-purple-rgb),0.08)', border: 'rgba(var(--mk-purple-rgb),0.2)', iconColor: 'var(--mk-purple)' },
   };
 
   return (
@@ -202,26 +202,26 @@ export function NotificationCenter() {
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#141414', border: '1px solid #2A2A2E', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}
+              style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: 'var(--mk-sheet)', border: '1px solid var(--mk-border)', borderBottom: 'none', borderRadius: '24px 24px 0 0', zIndex: 50, maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}
               onClick={e => e.stopPropagation()}
             >
               {/* Handle */}
               <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 12, paddingBottom: 4, flexShrink: 0 }}>
-                <div style={{ width: 40, height: 4, borderRadius: 999, background: '#2A2A2E' }} />
+                <div style={{ width: 40, height: 4, borderRadius: 999, background: 'var(--mk-border)' }} />
               </div>
               {/* Header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 20px 14px', borderBottom: '1px solid #2A2A2E', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '8px 20px 14px', borderBottom: '1px solid var(--mk-border)', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <Bell size={18} color="#FFFFFF" />
-                  <h2 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>
+                  <Bell size={18} color="var(--mk-text)" />
+                  <h2 style={{ fontSize: 16, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                     {t('notifications', lang)}
                   </h2>
                   {unreadCount > 0 && (
-                    <span style={{ background: '#FF3D3D', color: '#fff', fontSize: 11, padding: '2px 8px', borderRadius: 999, fontWeight: 700, fontFamily: 'Geist, sans-serif', boxShadow: '0 0 8px rgba(255,61,61,0.4)' }}>{unreadCount}</span>
+                    <span style={{ background: 'var(--mk-red)', color: 'var(--mk-text)', fontSize: 11, padding: '2px 8px', borderRadius: 999, fontWeight: 700, fontFamily: 'Geist, sans-serif', boxShadow: '0 0 8px rgba(var(--mk-red-rgb),0.4)' }}>{unreadCount}</span>
                   )}
                 </div>
-                <button onClick={() => setOpen(false)} style={{ width: 30, height: 30, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #2A2A2E', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <X size={14} color="#FFFFFF" />
+                <button onClick={() => setOpen(false)} style={{ width: 30, height: 30, borderRadius: '50%', background: 'var(--mk-card)', border: '1px solid var(--mk-border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <X size={14} color="var(--mk-text)" />
                 </button>
               </div>
 
@@ -229,8 +229,8 @@ export function NotificationCenter() {
               <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {alerts.length === 0 ? (
                   <div style={{ padding: '48px 0', textAlign: 'center' }}>
-                    <CheckCircle size={48} color="#2A2A2E" style={{ margin: '0 auto 12px' }} />
-                    <p style={{ fontSize: 14, fontWeight: 600, color: '#6B7280', fontFamily: 'Geist, sans-serif' }}>
+                    <CheckCircle size={48} color="var(--mk-border)" style={{ margin: '0 auto 12px' }} />
+                    <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                       {t('noNotifications', lang)}
                     </p>
                     <p style={{ fontSize: 12, color: '#4B5563', marginTop: 4, fontFamily: 'Geist, sans-serif' }}>
@@ -248,12 +248,12 @@ export function NotificationCenter() {
                         transition={{ delay: i * 0.04 }}
                         style={{ position: 'relative', display: 'flex', alignItems: 'flex-start', gap: 12, padding: 12, borderRadius: 16, border: `1px solid ${cfg.border}`, background: cfg.bg }}
                       >
-                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                           <alert.icon size={16} color={cfg.iconColor} />
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <p style={{ fontSize: 12, fontWeight: 700, color: '#FFFFFF', fontFamily: 'Geist, sans-serif' }}>{alert.title[lang]}</p>
-                          <p style={{ fontSize: 12, color: '#6B7280', marginTop: 2, lineHeight: 1.5, fontFamily: 'Geist, sans-serif' }}>{alert.body[lang]}</p>
+                          <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{alert.title[lang]}</p>
+                          <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginTop: 2, lineHeight: 1.5, fontFamily: 'Geist, sans-serif' }}>{alert.body[lang]}</p>
                           {alert.action && (
                             <button style={{ marginTop: 6, fontSize: 11, fontWeight: 700, color: cfg.iconColor, background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
                               {alert.action[lang]} →
@@ -262,7 +262,7 @@ export function NotificationCenter() {
                         </div>
                         <button
                           onClick={() => dismissNotification(alert.id)}
-                          style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                          style={{ flexShrink: 0, width: 24, height: 24, borderRadius: '50%', background: 'rgba(var(--mk-text-rgb),0.05)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                         >
                           <X size={12} color="#4B5563" />
                         </button>
@@ -276,7 +276,7 @@ export function NotificationCenter() {
                 <div style={{ padding: '8px 16px 24px', flexShrink: 0 }}>
                   <button
                     onClick={() => { alerts.forEach(a => dismissNotification(a.id)); setOpen(false); }}
-                    style={{ width: '100%', padding: '12px 0', fontSize: 13, color: '#6B7280', background: '#1C1C1E', border: '1.5px solid #2A2A2E', borderRadius: 16, fontWeight: 600, cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
+                    style={{ width: '100%', padding: '12px 0', fontSize: 13, color: 'var(--mk-text-secondary)', background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', borderRadius: 16, fontWeight: 600, cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}
                   >
                     {t('dismissAll', lang)}
                   </button>
