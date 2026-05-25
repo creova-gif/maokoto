@@ -746,7 +746,6 @@ export function AIAssistant() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [showPeek, setShowPeek] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
@@ -769,14 +768,6 @@ export function AIAssistant() {
     };
     return [{ role: 'assistant', text: greetings[lang] || greetings.en }];
   };
-
-  // Peek tooltip — shows after 1.8s, hides after 3s
-  useEffect(() => {
-    if (open) return;
-    const show = setTimeout(() => setShowPeek(true), 1800);
-    const hide = setTimeout(() => setShowPeek(false), 4800);
-    return () => { clearTimeout(show); clearTimeout(hide); };
-  }, [open]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -876,103 +867,82 @@ export function AIAssistant() {
 
   return (
     <>
-      {/* ── Floating AI button ─────────────────────────────────────────── */}
-      <div className="fixed bottom-20 right-4 z-40 flex items-center" style={{ WebkitTapHighlightColor: 'transparent' }}>
-
-        {/* Peek tooltip */}
-        <AnimatePresence>
-          {showPeek && !open && (
-            <motion.div
-              key="peek"
-              initial={{ opacity: 0, x: 10, scale: 0.9 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 10, scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-              style={{
-                position: 'absolute', right: 70, top: '50%', transform: 'translateY(-50%)',
-                background: 'var(--mk-orange)', color: 'var(--mk-text)', fontSize: 12, fontWeight: 600,
-                letterSpacing: '0.01em', padding: '7px 14px', borderRadius: 22,
-                whiteSpace: 'nowrap', boxShadow: '0 4px 18px rgba(var(--mk-orange-rgb),0.45)',
-                pointerEvents: 'none',
-              }}
-            >
-              {peekText[lang] || peekText.en}
-              <span style={{
-                position: 'absolute', right: -6, top: '50%', transform: 'translateY(-50%)',
-                width: 0, height: 0,
-                borderTop: '5px solid transparent', borderBottom: '5px solid transparent',
-                borderLeft: '7px solid var(--mk-orange)',
-              }} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Button */}
+      {/* ── Coach pill bar ─────────────────────────────────────────────── */}
+      <motion.div
+        style={{
+          position: 'fixed', bottom: 72, left: 16, right: 16, zIndex: 40,
+          WebkitTapHighlightColor: 'transparent',
+        }}
+        initial={{ y: 32, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: 'spring', stiffness: 260, damping: 24, delay: 1.1 }}
+      >
         <motion.button
           onClick={() => { setOpen(true); if (messages.length === 0) setMessages(initMessages()); }}
-          aria-label="Open AI Budget Coach"
-          initial={{ scale: 0, y: 24, opacity: 0 }}
-          animate={{ scale: 1, y: 0, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 280, damping: 22, delay: 1 }}
-          whileTap={{ scale: 0.9 }}
-          style={{ position: 'relative', width: 58, height: 58, flexShrink: 0 }}
+          aria-label="Open Budget Coach"
+          whileTap={{ scale: 0.97 }}
+          animate={{ scale: [1, 1.015, 1] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+          style={{
+            width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+            padding: '11px 16px 11px 12px', borderRadius: 999, cursor: 'pointer',
+            background: 'linear-gradient(135deg, #1a0800 0%, var(--mk-orange) 65%, #c84b00 100%)',
+            border: '1px solid rgba(255,255,255,0.14)',
+            boxShadow: '0 6px 28px rgba(var(--mk-orange-rgb),0.45), 0 2px 8px rgba(0,0,0,0.25)',
+            position: 'relative', overflow: 'hidden',
+          }}
         >
-          <motion.span
+          {/* Shimmer sweep */}
+          <motion.div
             style={{
-              position: 'absolute', inset: -8, borderRadius: 26,
-              background: 'radial-gradient(ellipse at center, rgba(var(--mk-orange-rgb),0.35) 0%, transparent 68%)',
-              pointerEvents: 'none',
+              position: 'absolute', top: 0, bottom: 0, width: '40%',
+              background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent)',
+              borderRadius: 999, pointerEvents: 'none',
             }}
-            animate={{ opacity: [0.5, 1, 0.5], scale: [0.92, 1.06, 0.92] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ left: ['-40%', '140%'] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'linear', repeatDelay: 3 }}
           />
-          <motion.span
-            style={{
-              position: 'absolute', inset: -1.5, borderRadius: 21,
-              background: 'conic-gradient(from 0deg, rgba(var(--mk-orange-rgb),0.9) 0deg, rgba(var(--mk-red-rgb),0.2) 90deg, rgba(var(--mk-orange-rgb),0.0) 180deg, rgba(var(--mk-red-rgb),0.2) 270deg, rgba(var(--mk-orange-rgb),0.9) 360deg)',
-              pointerEvents: 'none',
-            }}
-            animate={{ rotate: [0, 360] }}
-            transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}
-          />
+
+          {/* Icon badge */}
           <div style={{
-            position: 'absolute', inset: 1.5, borderRadius: 19,
-            background: 'linear-gradient(145deg, var(--mk-card) 0%, var(--mk-border) 50%, var(--mk-sheet) 100%)',
-            boxShadow: '0 6px 24px rgba(var(--mk-orange-rgb),0.4), inset 0 1px 0 rgba(var(--mk-text-rgb),0.08)',
-            overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute', top: 0, left: 0, right: 0, height: '42%',
-              background: 'linear-gradient(180deg, rgba(var(--mk-text-rgb),0.09) 0%, transparent 100%)',
-              borderRadius: '19px 19px 0 0', pointerEvents: 'none',
-            }} />
-          </div>
-          <div style={{
-            position: 'absolute', inset: 0,
+            width: 36, height: 36, borderRadius: 14, flexShrink: 0,
+            background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.22)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            pointerEvents: 'none',
           }}>
-            <motion.svg
-              width="26" height="26" viewBox="0 0 26 26" fill="none"
-              animate={{ rotate: [0, 8, -8, 0] }}
-              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-            >
+            <svg width="18" height="18" viewBox="0 0 26 26" fill="none">
               <path d="M13 2 L14.6 10.4 L23 12 L14.6 13.6 L13 22 L11.4 13.6 L3 12 L11.4 10.4 Z" fill="white" fillOpacity="0.95" />
               <path d="M20.5 3.5 L21.2 6.3 L24 7 L21.2 7.7 L20.5 10.5 L19.8 7.7 L17 7 L19.8 6.3 Z" fill="white" fillOpacity="0.5" />
-              <circle cx="5.5" cy="19.5" r="1.2" fill="white" fillOpacity="0.32" />
-            </motion.svg>
+            </svg>
           </div>
-          <motion.span
-            style={{
-              position: 'absolute', top: 6, right: 6,
-              width: 7, height: 7, borderRadius: '50%',
-              background: 'var(--mk-orange)', border: '1.5px solid var(--mk-sheet)', zIndex: 2,
-            }}
-            animate={{ opacity: [1, 0.35, 1], scale: [1, 1.2, 1] }}
-            transition={{ duration: 2.2, repeat: Infinity }}
-          />
+
+          {/* Labels */}
+          <div style={{ flex: 1, textAlign: 'left', minWidth: 0 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#fff', letterSpacing: '0.01em', lineHeight: 1.1 }}>
+              {lang === 'sw' ? 'Mshauri wa Bajeti' : lang === 'fr' ? 'Coach Budget' : lang === 'ar' ? 'مدرب الميزانية' : lang === 'pt' ? 'Coach Financeiro' : 'Budget Coach'}
+            </p>
+            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 2, lineHeight: 1 }}>
+              {lang === 'sw' ? 'Niulize kuhusu bajeti yako...' : lang === 'fr' ? 'Posez une question...' : lang === 'ar' ? 'اسألني عن ميزانيتك...' : lang === 'pt' ? 'Pergunte sobre seu orçamento...' : 'Ask about your finances...'}
+            </p>
+          </div>
+
+          {/* Live indicator + arrow */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 7, flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <motion.span
+                style={{ width: 7, height: 7, borderRadius: '50%', background: '#4ade80', display: 'block' }}
+                animate={{ opacity: [1, 0.3, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+              <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>
+                {lang === 'sw' ? 'Mtandaoni' : lang === 'fr' ? 'En ligne' : lang === 'ar' ? 'متصل' : lang === 'pt' ? 'Online' : 'Online'}
+              </span>
+            </div>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </div>
         </motion.button>
-      </div>
+      </motion.div>
 
       {/* ── Chat sheet ─────────────────────────────────────────────────── */}
       <AnimatePresence>

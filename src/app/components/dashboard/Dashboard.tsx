@@ -29,6 +29,7 @@ import { SpendingNudge } from './SpendingNudge';
 import { BudgetLimitsSheet } from './BudgetLimitsSheet';
 import { EditTransactionDialog } from './EditTransactionDialog';
 import { NotificationCenter } from './NotificationCenter';
+import { AIAssistant } from './AIAssistant';
 import { SavingsChallenge } from './SavingsChallenge';
 import { NetWorthCard } from './NetWorthCard';
 import { FinancialEducation } from './FinancialEducation';
@@ -3405,6 +3406,7 @@ export function Dashboard() {
         <BudgetLimitsSheet onClose={() => setShowBudgetLimits(false)} />
       )}
       <NotificationCenter />
+      <AIAssistant />
 
       {/* Transaction detail sheet */}
       <AnimatePresence>
