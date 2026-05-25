@@ -1,74 +1,152 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Trophy, Zap, X, Play, CheckCircle, Users, Plus, Trash2 } from 'lucide-react';
+import { Trophy, Zap, X, Play, CheckCircle, Users, Plus, Trash2, Flame } from 'lucide-react';
 import { useApp } from '@/app/App';
 import { toast } from 'sonner';
 import { formatCurrency, REGION_CONFIG } from '@/app/utils/currency';
 
-/** Roadmap Feature 7 — Community Savings Challenges */
-
 interface ChallengeTemplate {
   id: string;
   emoji: string;
-  name: { sw: string; en: string };
-  desc: { sw: string; en: string };
+  name: { sw: string; en: string; fr: string; ar: string; pt: string };
+  desc: { sw: string; en: string; fr: string; ar: string; pt: string };
   targetDays: number;
   dailyAmount: number;
-  communityPct: number; // mocked % of users on track
-  color: string;
-  gradientFrom: string;
-  gradientTo: string;
+  communityPct: number;
+  accent: string;
+  glow: string;
 }
 
 const TEMPLATES: ChallengeTemplate[] = [
   {
     id: 'tpl-30day',
     emoji: '🔥',
-    name: { sw: 'Changamoto ya Siku 30', en: '30-Day Savings Sprint' },
-    desc: { sw: 'Hifadhi TSh 3,000 kila siku kwa siku 30', en: 'Save TSh 3,000 every day for 30 days' },
+    name: {
+      sw: 'Changamoto ya Siku 30', en: '30-Day Savings Sprint',
+      fr: 'Défi 30 Jours', ar: 'تحدي 30 يوماً', pt: 'Desafio 30 Dias',
+    },
+    desc: {
+      sw: 'Hifadhi TSh 3,000 kila siku kwa siku 30', en: 'Save TSh 3,000 every day for 30 days',
+      fr: 'Épargnez 3 000 TSh chaque jour pendant 30 jours', ar: 'وفر 3,000 TSh يومياً لمدة 30 يوماً', pt: 'Poupe 3.000 TSh por dia durante 30 dias',
+    },
     targetDays: 30, dailyAmount: 3000, communityPct: 68,
-    color: 'text-orange-600',
-    gradientFrom: 'from-orange-500', gradientTo: 'to-orange-600',
+    accent: '#F97316', glow: 'rgba(249,115,22,0.18)',
   },
   {
     id: 'tpl-emergency',
     emoji: '🏦',
-    name: { sw: 'Sprint ya Mfuko wa Dharura', en: 'Emergency Fund Sprint' },
-    desc: { sw: 'Hifadhi TSh 5,000 kila siku kwa miezi 3', en: 'Save TSh 5,000 daily for 90 days' },
+    name: {
+      sw: 'Sprint ya Mfuko wa Dharura', en: 'Emergency Fund Sprint',
+      fr: "Sprint Fonds d'Urgence", ar: 'سباق صندوق الطوارئ', pt: 'Sprint Fundo de Emergência',
+    },
+    desc: {
+      sw: 'Hifadhi TSh 5,000 kila siku kwa miezi 3', en: 'Save TSh 5,000 daily for 90 days',
+      fr: 'Épargnez 5 000 TSh/jour pendant 90 jours', ar: 'وفر 5,000 TSh يومياً لـ 90 يوماً', pt: 'Poupe 5.000 TSh/dia por 90 dias',
+    },
     targetDays: 90, dailyAmount: 5000, communityPct: 42,
-    color: 'text-blue-600',
-    gradientFrom: 'from-blue-500', gradientTo: 'to-blue-600',
+    accent: '#3B82F6', glow: 'rgba(59,130,246,0.18)',
   },
   {
     id: 'tpl-no-spend',
     emoji: '🚫',
-    name: { sw: 'Wiki ya Bila Starehe', en: 'No-Entertainment Week' },
-    desc: { sw: 'Epuka matumizi ya burudani kwa siku 7', en: 'Zero entertainment spending for 7 days' },
+    name: {
+      sw: 'Wiki ya Bila Starehe', en: 'No-Entertainment Week',
+      fr: 'Semaine Sans Loisirs', ar: 'أسبوع بدون ترفيه', pt: 'Semana Sem Entretenimento',
+    },
+    desc: {
+      sw: 'Epuka matumizi ya burudani kwa siku 7', en: 'Zero entertainment spending for 7 days',
+      fr: 'Zéro dépense loisirs pendant 7 jours', ar: 'صفر إنفاق ترفيهي لمدة 7 أيام', pt: 'Zero gastos com entretenimento por 7 dias',
+    },
     targetDays: 7, dailyAmount: 2000, communityPct: 55,
-    color: 'text-purple-600',
-    gradientFrom: 'from-purple-500', gradientTo: 'to-purple-600',
+    accent: '#A855F7', glow: 'rgba(168,85,247,0.18)',
   },
   {
     id: 'tpl-data',
     emoji: '📱',
-    name: { sw: 'Punguza Data – Siku 14', en: 'Data Detox – 14 Days' },
-    desc: { sw: 'Hifadhi TSh 1,000 kwa siku kwa kupunguza data', en: 'Save TSh 1,000/day by cutting data costs' },
+    name: {
+      sw: 'Punguza Data – Siku 14', en: 'Data Detox – 14 Days',
+      fr: 'Détox Data – 14 Jours', ar: 'إزالة سموم البيانات – 14 يوماً', pt: 'Detox de Dados – 14 Dias',
+    },
+    desc: {
+      sw: 'Hifadhi TSh 1,000 kwa siku kwa kupunguza data', en: 'Save TSh 1,000/day by cutting data costs',
+      fr: 'Économisez 1 000 TSh/jour en réduisant data', ar: 'وفر 1,000 TSh/يوم بتقليل تكاليف البيانات', pt: 'Poupe 1.000 TSh/dia reduzindo custos de dados',
+    },
     targetDays: 14, dailyAmount: 1000, communityPct: 74,
-    color: 'text-teal-600',
-    gradientFrom: 'from-teal-500', gradientTo: 'to-teal-600',
+    accent: '#00A875', glow: 'rgba(0,168,117,0.18)',
   },
 ];
 
+function CommunityRing({ pct, color }: { pct: number; color: string }) {
+  const r = 20;
+  const circ = 2 * Math.PI * r;
+  const dash = (pct / 100) * circ;
+  return (
+    <div style={{ position: 'relative', width: 50, height: 50, flexShrink: 0 }}>
+      <svg width={50} height={50} viewBox="0 0 50 50" style={{ transform: 'rotate(-90deg)' }}>
+        <circle cx={25} cy={25} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={4} />
+        <motion.circle
+          cx={25} cy={25} r={r} fill="none" stroke={color} strokeWidth={4}
+          strokeLinecap="round"
+          initial={{ strokeDasharray: `0 ${circ}` }}
+          animate={{ strokeDasharray: `${dash} ${circ}` }}
+          transition={{ duration: 1, ease: 'easeOut', delay: 0.3 }}
+        />
+      </svg>
+      <div style={{
+        position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <span style={{ fontSize: 10, fontWeight: 800, color, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em' }}>
+          {pct}%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+type Lang = 'sw' | 'en' | 'fr' | 'ar' | 'pt';
+
+function tx(obj: Record<string, string>, lang: string): string {
+  return obj[lang] || obj.en;
+}
+
+const UI = {
+  header:       { sw: 'Changamoto za Akiba', en: 'Savings Challenges', fr: 'Défis Épargne', ar: 'تحديات الادخار', pt: 'Desafios de Poupança' },
+  completed:    { sw: 'zilizokamilika', en: 'completed', fr: 'complétés', ar: 'مكتملة', pt: 'completos' },
+  succeed:      { sw: 'wanafanikiwa', en: 'succeed', fr: 'réussissent', ar: 'ينجحون', pt: 'têm sucesso' },
+  days:         { sw: 'siku', en: 'days', fr: 'jours', ar: 'أيام', pt: 'dias' },
+  start:        { sw: 'Anza', en: 'Start', fr: 'Commencer', ar: 'ابدأ', pt: 'Iniciar' },
+  startNow:     { sw: 'Anza Sasa!', en: 'Start Now!', fr: 'Commencer!', ar: 'ابدأ الآن!', pt: 'Começar Agora!' },
+  cancel:       { sw: 'Ghairi', en: 'Cancel', fr: 'Annuler', ar: 'إلغاء', pt: 'Cancelar' },
+  daysLeft:     { sw: 'siku zimebaki', en: 'days left', fr: 'jours restants', ar: 'أيام متبقية', pt: 'dias restantes' },
+  saved:        { sw: 'imeokolewa', en: 'saved', fr: 'économisé', ar: 'مدخر', pt: 'poupado' },
+  logToday:     { sw: 'Rekodi Leo', en: 'Log Today', fr: "Enregistrer Aujourd'hui", ar: 'سجّل اليوم', pt: 'Registrar Hoje' },
+  onTrack:      { sw: 'Kwenye mkondo', en: 'On track', fr: 'Dans les temps', ar: 'في المسار', pt: 'No caminho' },
+  behind:       { sw: 'Umechelewa', en: 'Behind', fr: 'En retard', ar: 'متأخر', pt: 'Atrasado' },
+  abandon:      { sw: 'Acha changamoto?', en: 'Abandon challenge?', fr: 'Abandonner le défi?', ar: 'التخلي عن التحدي؟', pt: 'Abandonar desafio?' },
+  started:      { sw: '🔥 Changamoto imeanza!', en: '🔥 Challenge started!', fr: '🔥 Défi commencé!', ar: '🔥 بدأ التحدي!', pt: '🔥 Desafio iniciado!' },
+  dayLogged:    { sw: '✅ Siku imerekodiwa!', en: '✅ Day logged!', fr: '✅ Jour enregistré!', ar: '✅ تم تسجيل اليوم!', pt: '✅ Dia registrado!' },
+  daily:        { sw: 'kila siku', en: '/day', fr: '/jour', ar: '/يوم', pt: '/dia' },
+  goal:         { sw: 'Lengo', en: 'Goal', fr: 'Objectif', ar: 'الهدف', pt: 'Meta' },
+  dailyAmt:     { sw: 'Kiasi cha kila siku — hiari', en: 'Daily amount — optional', fr: 'Montant quotidien — optionnel', ar: 'المبلغ اليومي — اختياري', pt: 'Valor diário — opcional' },
+  defaultAmt:   { sw: 'Kiasi cha chaguo msingi:', en: 'Default:', fr: 'Par défaut:', ar: 'الافتراضي:', pt: 'Padrão:' },
+  communityTxt: {
+    sw: 'ya watumiaji wa Maokoto wanaofanya changamoto hii wanafanikiwa.',
+    en: 'of Maokoto users taking this challenge succeed.',
+    fr: 'des utilisateurs Maokoto réussissent ce défi.',
+    ar: 'من مستخدمي Maokoto الذين يأخذون هذا التحدي ينجحون.',
+    pt: 'dos usuários do Maokoto que fazem este desafio têm sucesso.',
+  },
+};
+
 export function SavingsChallenge() {
   const { state, startChallenge, logChallengeDay, abandonChallenge } = useApp();
-  const lang = state.language;
+  const lang = (state.language || 'en') as Lang;
   const [showStart, setShowStart] = useState<ChallengeTemplate | null>(null);
   const [logAmount, setLogAmount] = useState('');
   const [logTarget, setLogTarget] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState('');
 
   const fmt = (n: number) => formatCurrency(n, state.region);
-  const fmtFull = fmt;
   const symbol = REGION_CONFIG[state.region].symbol;
 
   const activeChallenges = state.challenges?.filter(c => !c.completed) ?? [];
@@ -87,7 +165,7 @@ export function SavingsChallenge() {
   const handleStart = (tpl: ChallengeTemplate) => {
     const dailyAmt = customAmount ? parseInt(customAmount) : tpl.dailyAmount;
     startChallenge({
-      name: tpl.name[lang],
+      name: tx(tpl.name, lang),
       emoji: tpl.emoji,
       targetDays: tpl.targetDays,
       dailyAmount: dailyAmt,
@@ -95,7 +173,7 @@ export function SavingsChallenge() {
     });
     setShowStart(null);
     setCustomAmount('');
-    toast.success(lang === 'sw' ? `🔥 Changamoto imeanza!` : `🔥 Challenge started!`);
+    toast.success(tx(UI.started, lang));
   };
 
   const handleLogDay = (id: string) => {
@@ -104,107 +182,190 @@ export function SavingsChallenge() {
     logChallengeDay(id, amount);
     setLogTarget(null);
     setLogAmount('');
-    toast.success(lang === 'sw' ? `✅ Siku imerekodiwa! +${fmtFull(amount)}` : `✅ Day logged! +${fmtFull(amount)}`);
+    toast.success(`${tx(UI.dayLogged, lang)} +${fmt(amount)}`);
   };
+
+  const availableTemplates = TEMPLATES.filter(
+    tpl => !activeChallenges.some(c => c.name === tx(tpl.name, lang))
+  );
 
   return (
     <>
-      <div className="space-y-3">
-        {/* Header */}
-        <div className="flex items-center justify-between px-1">
-          <div className="flex items-center gap-2">
-            <Trophy className="w-5 h-5 text-amber-500" />
-            <h3 className="text-base font-bold text-gray-900">
-              {lang === 'sw' ? 'Changamoto za Akiba' : 'Savings Challenges'}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+        {/* ── Header ──────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 2px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 10,
+              background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Trophy style={{ width: 16, height: 16, color: '#fff' }} />
+            </div>
+            <h3 style={{
+              fontSize: 16, fontWeight: 800, color: 'var(--mk-text)',
+              fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em',
+            }}>
+              {tx(UI.header, lang)}
             </h3>
           </div>
           {completedChallenges.length > 0 && (
-            <span className="text-xs text-amber-600 font-semibold bg-amber-50 px-2 py-1 rounded-full">
-              🏆 {completedChallenges.length} {lang === 'sw' ? 'zilizokamilika' : 'completed'}
-            </span>
+            <motion.div
+              initial={{ scale: 0 }} animate={{ scale: 1 }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 4,
+                background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.25)',
+                borderRadius: 999, padding: '4px 10px',
+              }}
+            >
+              <span style={{ fontSize: 11 }}>🏆</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#D97706', fontFamily: 'Geist, sans-serif' }}>
+                {completedChallenges.length} {tx(UI.completed, lang)}
+              </span>
+            </motion.div>
           )}
         </div>
 
-        {/* Active challenges */}
-        {activeChallenges.map(c => {
+        {/* ── Active challenges ────────────────────────────────────────── */}
+        {activeChallenges.map((c, idx) => {
           const { daysLogged, totalSaved, pct, onTrack, remaining } = getChallengeProgress(c);
+          const tpl = TEMPLATES.find(t => t.emoji === c.emoji) || TEMPLATES[0];
           return (
             <motion.div
               key={c.id}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-2xl shadow-md overflow-hidden"
+              transition={{ delay: idx * 0.05 }}
+              style={{
+                background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
+                border: `1px solid ${tpl.accent}30`,
+                borderRadius: 20,
+                overflow: 'hidden',
+                position: 'relative',
+              }}
             >
-              <div className="px-4 pt-4 pb-2 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl">{c.emoji}</span>
-                  <div>
-                    <p className="text-sm font-bold text-gray-900">{c.name}</p>
-                    <div className="flex items-center gap-1.5">
-                      <span className={`text-xs font-medium ${onTrack ? 'text-emerald-600' : 'text-orange-600'}`}>
-                        {onTrack ? '✅ On track' : '⚠️ Behind'}
-                      </span>
-                      <span className="text-xs text-gray-400">·</span>
-                      <span className="text-xs text-gray-400">
-                        {remaining} {lang === 'sw' ? 'siku zimebaki' : 'days left'}
-                      </span>
+              {/* glow */}
+              <div style={{
+                position: 'absolute', top: -20, right: -20, width: 120, height: 120,
+                background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
+                pointerEvents: 'none',
+              }} />
+
+              <div style={{ padding: '16px 16px 0', position: 'relative' }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <div style={{
+                      width: 40, height: 40, borderRadius: 12, fontSize: 20,
+                      background: `${tpl.accent}20`, border: `1px solid ${tpl.accent}40`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    }}>
+                      {c.emoji}
+                    </div>
+                    <div>
+                      <p style={{ fontSize: 14, fontWeight: 800, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em', marginBottom: 2 }}>
+                        {c.name}
+                      </p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 700, fontFamily: 'Geist, sans-serif',
+                          color: onTrack ? '#00A875' : '#F97316',
+                          background: onTrack ? 'rgba(0,168,117,0.15)' : 'rgba(249,115,22,0.15)',
+                          padding: '2px 7px', borderRadius: 999,
+                        }}>
+                          {onTrack ? `✅ ${tx(UI.onTrack, lang)}` : `⚠️ ${tx(UI.behind, lang)}`}
+                        </span>
+                        <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                          {remaining} {tx(UI.daysLeft, lang)}
+                        </span>
+                      </div>
                     </div>
                   </div>
+                  <button
+                    onClick={() => { if (confirm(tx(UI.abandon, lang))) abandonChallenge(c.id); }}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 6, color: 'rgba(255,255,255,0.2)' }}
+                  >
+                    <Trash2 style={{ width: 14, height: 14 }} />
+                  </button>
                 </div>
-                <button
-                  onClick={() => { if (confirm(lang === 'sw' ? 'Acha changamoto?' : 'Abandon challenge?')) abandonChallenge(c.id); }}
-                  className="p-1.5 text-gray-300 hover:text-red-400"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
 
-              {/* Progress bar */}
-              <div className="px-4 pb-2">
-                <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
+                {/* Stats row */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 14, marginBottom: 10 }}>
+                  <div>
+                    <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                      {daysLogged}/{c.targetDays} {tx(UI.days, lang)}
+                    </p>
+                    <p style={{ fontSize: 18, fontWeight: 800, color: tpl.accent, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                      {fmt(totalSaved)}
+                    </p>
+                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                      {tx(UI.saved, lang)}
+                    </p>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <p style={{ fontSize: 28, fontWeight: 900, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', lineHeight: 1 }}>
+                      {pct}<span style={{ fontSize: 14 }}>%</span>
+                    </p>
+                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.35)', fontFamily: 'Geist, sans-serif' }}>
+                      {lang === 'sw' ? 'imekamilika' : lang === 'fr' ? 'terminé' : lang === 'ar' ? 'مكتمل' : lang === 'pt' ? 'concluído' : 'complete'}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Progress bar */}
+                <div style={{ height: 6, background: 'rgba(255,255,255,0.08)', borderRadius: 999, overflow: 'hidden', marginBottom: 14 }}>
                   <motion.div
-                    className={`h-full rounded-full ${onTrack ? 'bg-emerald-500' : 'bg-orange-400'}`}
                     initial={{ width: 0 }}
                     animate={{ width: `${pct}%` }}
-                    transition={{ duration: 0.8 }}
+                    transition={{ duration: 0.9, ease: 'easeOut' }}
+                    style={{ height: '100%', borderRadius: 999, background: `linear-gradient(90deg, ${tpl.accent}, ${tpl.accent}bb)` }}
                   />
-                </div>
-                <div className="flex justify-between text-xs text-gray-400 mt-1">
-                  <span>{daysLogged}/{c.targetDays} {lang === 'sw' ? 'siku' : 'days'}</span>
-                  <span className="font-bold text-gray-700">{fmtFull(totalSaved)} {lang === 'sw' ? 'imeokolewa' : 'saved'}</span>
                 </div>
               </div>
 
-              {/* Log today's contribution */}
+              {/* Log row */}
               {logTarget === c.id ? (
-                <div className="px-4 pb-4 flex gap-2">
-                  <div className="flex-1 flex items-center border-2 border-emerald-400 rounded-xl overflow-hidden">
-                    <span className="px-2 text-xs text-gray-400">{symbol}</span>
+                <div style={{ padding: '0 16px 16px', display: 'flex', gap: 8 }}>
+                  <div style={{
+                    flex: 1, display: 'flex', alignItems: 'center',
+                    border: `2px solid ${tpl.accent}`, borderRadius: 12, overflow: 'hidden',
+                    background: 'rgba(255,255,255,0.04)',
+                  }}>
+                    <span style={{ padding: '0 10px', fontSize: 12, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif' }}>{symbol}</span>
                     <input
                       type="number"
                       placeholder={c.dailyAmount.toString()}
                       value={logAmount}
                       onChange={e => setLogAmount(e.target.value)}
-                      className="flex-1 py-2 text-sm font-bold outline-none"
+                      style={{ flex: 1, padding: '10px 0', fontSize: 14, fontWeight: 700, background: 'none', border: 'none', outline: 'none', color: '#fff', fontFamily: 'Geist, sans-serif' }}
                       autoFocus
                     />
                   </div>
-                  <button onClick={() => handleLogDay(c.id)} className="bg-emerald-600 text-white px-4 py-2 rounded-xl text-sm font-bold">
+                  <button
+                    onClick={() => handleLogDay(c.id)}
+                    style={{ background: tpl.accent, border: 'none', borderRadius: 12, padding: '0 16px', cursor: 'pointer', fontSize: 16 }}
+                  >
                     ✅
                   </button>
-                  <button onClick={() => setLogTarget(null)} className="text-gray-400 px-2">
-                    <X className="w-4 h-4" />
+                  <button onClick={() => setLogTarget(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.3)', padding: '0 6px' }}>
+                    <X style={{ width: 16, height: 16 }} />
                   </button>
                 </div>
               ) : (
-                <div className="px-4 pb-4">
+                <div style={{ padding: '0 16px 16px' }}>
                   <motion.button
                     whileTap={{ scale: 0.97 }}
                     onClick={() => { setLogTarget(c.id); setLogAmount(c.dailyAmount.toString()); }}
-                    className="w-full py-2.5 border-2 border-emerald-500 text-emerald-700 rounded-xl text-sm font-bold flex items-center justify-center gap-2"
+                    style={{
+                      width: '100%', padding: '11px 0', border: `1.5px solid ${tpl.accent}55`,
+                      borderRadius: 12, background: `${tpl.accent}18`,
+                      color: tpl.accent, fontSize: 13, fontWeight: 700,
+                      fontFamily: 'Geist, sans-serif', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                    }}
                   >
-                    <Plus className="w-4 h-4" />
-                    {lang === 'sw' ? `Rekodi Leo (+${fmt(c.dailyAmount)})` : `Log Today (+${fmt(c.dailyAmount)})`}
+                    <Plus style={{ width: 15, height: 15 }} />
+                    {tx(UI.logToday, lang)} (+{fmt(c.dailyAmount)})
                   </motion.button>
                 </div>
               )}
@@ -212,105 +373,251 @@ export function SavingsChallenge() {
           );
         })}
 
-        {/* Challenge templates */}
-        <div className="grid grid-cols-2 gap-3">
-          {TEMPLATES.filter(tpl => !activeChallenges.some(c => c.name === tpl.name[lang])).map((tpl, i) => (
-            <motion.button
-              key={tpl.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.05 }}
-              whileTap={{ scale: 0.96 }}
-              onClick={() => setShowStart(tpl)}
-              className="bg-white rounded-2xl shadow-md p-4 text-left hover:shadow-lg transition"
-            >
-              <div className="text-2xl mb-2">{tpl.emoji}</div>
-              <p className="text-xs font-bold text-gray-900 mb-1">{tpl.name[lang]}</p>
-              <p className="text-xs text-gray-400 mb-2 leading-relaxed">{tpl.desc[lang]}</p>
-              <div className="flex items-center gap-1">
-                <Users className="w-3 h-3 text-gray-300" />
-                <span className="text-xs text-gray-400">{tpl.communityPct}% {lang === 'sw' ? 'wamefanikiwa' : 'succeed'}</span>
-              </div>
-              <div className={`mt-2 py-1.5 rounded-lg text-xs font-bold text-center bg-gradient-to-r ${tpl.gradientFrom} ${tpl.gradientTo} text-white`}>
-                {lang === 'sw' ? 'Anza' : 'Start'} →
-              </div>
-            </motion.button>
-          ))}
-        </div>
+        {/* ── Template cards — horizontal scroll ───────────────────────── */}
+        {availableTemplates.length > 0 && (
+          <div
+            style={{
+              display: 'flex', gap: 12,
+              overflowX: 'auto', scrollSnapType: 'x mandatory',
+              scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch',
+              marginLeft: -20, paddingLeft: 20, paddingRight: 20, paddingBottom: 4,
+            }}
+          >
+            {availableTemplates.map((tpl, i) => (
+              <motion.button
+                key={tpl.id}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.07, type: 'spring', stiffness: 260, damping: 26 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => setShowStart(tpl)}
+                style={{
+                  minWidth: 220, maxWidth: 240, scrollSnapAlign: 'start', flexShrink: 0,
+                  background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
+                  border: `1px solid ${tpl.accent}28`,
+                  borderRadius: 20, padding: 18, textAlign: 'left', cursor: 'pointer',
+                  position: 'relative', overflow: 'hidden',
+                  boxShadow: `0 8px 32px rgba(0,0,0,0.35), 0 0 0 1px ${tpl.accent}10`,
+                }}
+              >
+                {/* Corner glow */}
+                <div style={{
+                  position: 'absolute', top: -30, right: -30, width: 120, height: 120,
+                  background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
+                  pointerEvents: 'none',
+                }} />
+                <div style={{
+                  position: 'absolute', bottom: -20, left: -10, width: 80, height: 80,
+                  background: `radial-gradient(circle, ${tpl.glow} 0%, transparent 70%)`,
+                  pointerEvents: 'none', opacity: 0.5,
+                }} />
+
+                {/* Emoji badge */}
+                <div style={{
+                  width: 48, height: 48, borderRadius: 14, fontSize: 24,
+                  background: `${tpl.accent}18`, border: `1.5px solid ${tpl.accent}35`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: 14, position: 'relative',
+                }}>
+                  {tpl.emoji}
+                </div>
+
+                {/* Days badge */}
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  background: `${tpl.accent}18`, border: `1px solid ${tpl.accent}30`,
+                  borderRadius: 999, padding: '3px 8px', marginBottom: 8,
+                }}>
+                  <Flame style={{ width: 10, height: 10, color: tpl.accent }} />
+                  <span style={{ fontSize: 10, fontWeight: 700, color: tpl.accent, fontFamily: 'Geist, sans-serif' }}>
+                    {tpl.targetDays} {tx(UI.days, lang)}
+                  </span>
+                </div>
+
+                {/* Name */}
+                <p style={{
+                  fontSize: 14, fontWeight: 800, color: '#fff',
+                  fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em',
+                  lineHeight: 1.2, marginBottom: 6,
+                }}>
+                  {tx(tpl.name, lang)}
+                </p>
+
+                {/* Desc */}
+                <p style={{
+                  fontSize: 11, color: 'rgba(255,255,255,0.45)',
+                  fontFamily: 'Geist, sans-serif', lineHeight: 1.5, marginBottom: 16,
+                }}>
+                  {tx(tpl.desc, lang)}
+                </p>
+
+                {/* Community ring row */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                  <CommunityRing pct={tpl.communityPct} color={tpl.accent} />
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                    {tx(UI.succeed, lang)}
+                  </span>
+                </div>
+
+                {/* CTA */}
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+                  borderRadius: 12, padding: '10px 0', textAlign: 'center',
+                  color: '#fff', fontWeight: 700, fontSize: 13,
+                  fontFamily: 'Geist, sans-serif', letterSpacing: '-0.01em',
+                  boxShadow: `0 4px 16px rgba(var(--mk-orange-rgb),0.3)`,
+                }}>
+                  {tx(UI.start, lang)} →
+                </div>
+              </motion.button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {/* Start challenge sheet */}
+      {/* ── Start challenge bottom sheet ──────────────────────────────── */}
       <AnimatePresence>
         {showStart && (
           <>
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/60 z-50"
+              style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', zIndex: 50 }}
               onClick={() => setShowStart(null)}
             />
             <motion.div
               initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
-              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="fixed bottom-0 left-0 right-0 bg-white rounded-t-3xl z-50 p-5 pb-8"
+              transition={{ type: 'spring', damping: 32, stiffness: 320 }}
+              style={{
+                position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
+                background: 'var(--mk-card)', borderRadius: '28px 28px 0 0',
+                padding: '8px 20px 36px', boxShadow: '0 -12px 48px rgba(0,0,0,0.3)',
+              }}
               onClick={e => e.stopPropagation()}
             >
-              <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-4" />
+              {/* Handle */}
+              <div style={{ width: 36, height: 4, background: 'var(--mk-border)', borderRadius: 999, margin: '0 auto 20px' }} />
 
-              <div className={`bg-gradient-to-r ${showStart.gradientFrom} ${showStart.gradientTo} text-white rounded-2xl p-5 mb-5`}>
-                <div className="text-4xl mb-2">{showStart.emoji}</div>
-                <h2 className="text-xl font-black mb-1">{showStart.name[lang]}</h2>
-                <p className="text-sm text-white/80">{showStart.desc[lang]}</p>
-                <div className="mt-3 flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  <span className="text-sm font-semibold">
-                    {showStart.targetDays} {lang === 'sw' ? 'siku' : 'days'} ·{' '}
-                    {lang === 'sw' ? 'Lengo:' : 'Goal:'} {fmtFull(showStart.targetDays * showStart.dailyAmount)}
-                  </span>
+              {/* Dark hero header */}
+              <div style={{
+                background: 'linear-gradient(160deg, #1a0800 0%, #0f0600 100%)',
+                border: `1px solid ${showStart.accent}30`,
+                borderRadius: 20, padding: 20, marginBottom: 16, position: 'relative', overflow: 'hidden',
+              }}>
+                <div style={{
+                  position: 'absolute', top: -20, right: -20, width: 100, height: 100,
+                  background: `radial-gradient(circle, ${showStart.glow} 0%, transparent 70%)`,
+                  pointerEvents: 'none',
+                }} />
+                <div style={{ fontSize: 36, marginBottom: 10 }}>{showStart.emoji}</div>
+                <h2 style={{
+                  fontSize: 20, fontWeight: 900, color: '#fff',
+                  fontFamily: 'Geist, sans-serif', letterSpacing: '-0.03em', marginBottom: 4,
+                }}>
+                  {tx(showStart.name, lang)}
+                </h2>
+                <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', fontFamily: 'Geist, sans-serif', marginBottom: 14 }}>
+                  {tx(showStart.desc, lang)}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div>
+                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                      {tx(UI.days, lang)}
+                    </p>
+                    <p style={{ fontSize: 20, fontWeight: 900, color: showStart.accent, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                      {showStart.targetDays}
+                    </p>
+                  </div>
+                  <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.1)' }} />
+                  <div>
+                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', marginBottom: 2 }}>
+                      {tx(UI.goal, lang)}
+                    </p>
+                    <p style={{ fontSize: 20, fontWeight: 900, color: '#fff', fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
+                      {fmt(showStart.targetDays * showStart.dailyAmount)}
+                    </p>
+                  </div>
+                  <div style={{ width: 1, height: 32, background: 'rgba(255,255,255,0.1)' }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CommunityRing pct={showStart.communityPct} color={showStart.accent} />
+                    <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', fontFamily: 'Geist, sans-serif', maxWidth: 60, lineHeight: 1.4 }}>
+                      {tx(UI.succeed, lang)}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Community stat */}
-              <div className="flex items-center gap-2 bg-gray-50 rounded-xl px-3 py-2 mb-4">
-                <Users className="w-4 h-4 text-gray-400" />
-                <p className="text-xs text-gray-600">
-                  <span className="font-bold text-gray-800">{showStart.communityPct}%</span>{' '}
-                  {lang === 'sw'
-                    ? 'ya watumiaji wa PesaPlan wanaofanya changamoto hii wanafanikiwa.'
-                    : 'of Maokoto users taking this challenge succeed.'}
+              {/* Community strip */}
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 10,
+                background: 'var(--mk-bg-alt)', borderRadius: 14, padding: '10px 14px', marginBottom: 16,
+              }}>
+                <Users style={{ width: 16, height: 16, color: 'var(--mk-text-secondary)', flexShrink: 0 }} />
+                <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', lineHeight: 1.4 }}>
+                  <span style={{ fontWeight: 800, color: 'var(--mk-text)' }}>{showStart.communityPct}%</span>{' '}
+                  {tx(UI.communityTxt, lang)}
                 </p>
               </div>
 
               {/* Custom daily amount */}
-              <div className="mb-4">
-                <label className="text-xs font-semibold text-gray-600 uppercase tracking-wide block mb-1.5">
-                  {lang === 'sw' ? 'Kiasi cha kila siku — hiari' : 'Daily amount — optional'}
+              <div style={{ marginBottom: 20 }}>
+                <label style={{
+                  fontSize: 10, fontWeight: 700, color: 'var(--mk-text-secondary)',
+                  textTransform: 'uppercase', letterSpacing: '0.08em',
+                  fontFamily: 'Geist, sans-serif', display: 'block', marginBottom: 8,
+                }}>
+                  {tx(UI.dailyAmt, lang)}
                 </label>
-                <input
-                  type="number"
-                  placeholder={showStart.dailyAmount.toString()}
-                  value={customAmount}
-                  onChange={e => setCustomAmount(e.target.value)}
-                  className="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-emerald-500 transition"
-                />
-                <p className="text-xs text-gray-400 mt-1">
-                  {lang === 'sw' ? `Kiasi cha chaguo msingi: ${fmtFull(showStart.dailyAmount)}/siku` : `Default: ${fmtFull(showStart.dailyAmount)}/day`}
+                <div style={{
+                  display: 'flex', alignItems: 'center',
+                  border: '1.5px solid var(--mk-border)', borderRadius: 14,
+                  overflow: 'hidden', background: 'var(--mk-bg)',
+                }}>
+                  <span style={{ padding: '0 12px', fontSize: 13, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
+                    {symbol}
+                  </span>
+                  <input
+                    type="number"
+                    placeholder={showStart.dailyAmount.toString()}
+                    value={customAmount}
+                    onChange={e => setCustomAmount(e.target.value)}
+                    style={{
+                      flex: 1, padding: '13px 0', fontSize: 15, fontWeight: 700,
+                      background: 'none', border: 'none', outline: 'none',
+                      color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif',
+                    }}
+                  />
+                </div>
+                <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 6 }}>
+                  {tx(UI.defaultAmt, lang)} {fmt(showStart.dailyAmount)}{tx(UI.daily, lang)}
                 </p>
               </div>
 
-              <div className="flex gap-3">
+              <div style={{ display: 'flex', gap: 10 }}>
                 <button
-                  onClick={() => setShowStart(null)}
-                  className="flex-1 py-3.5 border-2 border-gray-200 rounded-2xl text-gray-700 font-semibold text-sm"
+                  onClick={() => { setShowStart(null); setCustomAmount(''); }}
+                  style={{
+                    flex: 1, padding: '14px 0', border: '1.5px solid var(--mk-border)',
+                    borderRadius: 16, background: 'none', color: 'var(--mk-text-secondary)',
+                    fontWeight: 600, fontSize: 14, fontFamily: 'Geist, sans-serif', cursor: 'pointer',
+                  }}
                 >
-                  {lang === 'sw' ? 'Ghairi' : 'Cancel'}
+                  {tx(UI.cancel, lang)}
                 </button>
                 <motion.button
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleStart(showStart)}
-                  className={`flex-1 py-3.5 rounded-2xl text-white font-bold text-sm flex items-center justify-center gap-2 bg-gradient-to-r ${showStart.gradientFrom} ${showStart.gradientTo}`}
+                  style={{
+                    flex: 2, padding: '14px 0', border: 'none', borderRadius: 16,
+                    background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
+                    color: '#fff', fontWeight: 800, fontSize: 15,
+                    fontFamily: 'Geist, sans-serif', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+                    boxShadow: '0 6px 20px rgba(var(--mk-orange-rgb),0.35)',
+                    letterSpacing: '-0.01em',
+                  }}
                 >
-                  <Play className="w-4 h-4" />
-                  {lang === 'sw' ? 'Anza Sasa!' : 'Start Now!'}
+                  <Play style={{ width: 16, height: 16 }} />
+                  {tx(UI.startNow, lang)}
                 </motion.button>
               </div>
             </motion.div>
