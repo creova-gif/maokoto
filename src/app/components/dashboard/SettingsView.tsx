@@ -30,10 +30,10 @@ function HealthBar({ score }: { score: number }) {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-1.5">
-        <span className="text-xs font-semibold text-gray-500">{label.en}</span>
+        <span className="text-xs font-semibold text-[var(--mk-text-secondary)]">{label.en}</span>
         <span className="text-sm font-black" style={{ color }}>{score}/100</span>
       </div>
-      <div className="h-2.5 bg-[#eae9e6] rounded-full overflow-hidden">
+      <div className="h-2.5 bg-[var(--mk-border)] rounded-full overflow-hidden">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: color }}
@@ -101,7 +101,7 @@ function PhoneInstallCard({ lang }: { lang: 'sw' | 'en' }) {
             <div className="flex flex-col items-center px-4 pb-4">
               {/* Phone-frame QR */}
               <div className="relative mt-2 mb-3">
-                <div className="bg-white rounded-2xl p-3 shadow-2xl">
+                <div className="bg-[var(--mk-card)] rounded-2xl p-3 shadow-2xl">
                   <img
                     src={qrUrl}
                     alt="QR Code"
@@ -327,9 +327,9 @@ export function SettingsView({ onBack }: SettingsViewProps) {
   }
 
   return (
-    <div className="min-h-screen pb-24" style={{ background: '#f4f3ef' }}>
+    <div className="min-h-screen pb-24" style={{ background: 'var(--mk-bg)' }}>
       {/* Header */}
-      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: '#0b1a0d' }}>
+      <div className="text-white px-6 pb-8 min-safe-top" style={{ background: 'linear-gradient(135deg, var(--mk-orange) 0%, var(--mk-red) 100%)' }}>
         <div className="flex items-center mb-5">
           <button onClick={onBack} className="mr-4 p-2 hover:bg-white/10 rounded-full">
             <ArrowLeft className="w-6 h-6" />
@@ -365,10 +365,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
       <div className="px-4 py-5 space-y-5">
         {/* Financial Health Score */}
-        <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}>
+        <div className="bg-[var(--mk-card)] rounded-2xl p-4" style={{ border: '1px solid var(--mk-border)' }}>
           <div className="flex items-center gap-2 mb-3">
             <TrendingUp className="w-4 h-4 text-emerald-600" />
-            <h2 className="text-sm font-bold text-gray-800">
+            <h2 className="text-sm font-bold text-[var(--mk-text)]">
               {lang === 'sw' ? 'Alama ya Afya ya Fedha' : 'Financial Health Score'}
             </h2>
           </div>
@@ -379,18 +379,18 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               { icon: '🎯', label: lang === 'sw' ? 'Malengo' : 'Goals', value: state.goals.length },
               { icon: '🔥', label: lang === 'sw' ? 'Siku' : 'Streak', value: `${state.streak}d` },
             ].map(({ icon, label, value }) => (
-              <div key={label} className="bg-[#f4f3ef] rounded-xl p-2.5 text-center">
+              <div key={label} className="bg-[var(--mk-bg-alt)] rounded-xl p-2.5 text-center">
                 <p className="text-base">{icon}</p>
-                <p className="text-sm font-bold text-gray-800">{value}</p>
-                <p className="text-[10px] text-gray-400">{label}</p>
+                <p className="text-sm font-bold text-[var(--mk-text)]">{value}</p>
+                <p className="text-[10px] text-[var(--mk-text-secondary)]">{label}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* Name input */}
-        <div className="bg-white rounded-2xl p-4" style={{ border: '1px solid #e8e7e4' }}>
-          <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide block mb-2">
+        <div className="bg-[var(--mk-card)] rounded-2xl p-4" style={{ border: '1px solid var(--mk-border)' }}>
+          <label className="text-xs font-semibold text-[var(--mk-text-secondary)] uppercase tracking-wide block mb-2">
             {t('yourName', lang)}
           </label>
           <div className="flex gap-2">
@@ -399,7 +399,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               value={nameInput}
               onChange={e => setNameInput(e.target.value)}
               placeholder={lang === 'sw' ? 'Weka jina lako...' : 'Enter your name...'}
-              className="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400"
+              className="flex-1 border border-[var(--mk-border)] rounded-xl px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--mk-orange)]"
               maxLength={30}
             />
             <motion.button
@@ -415,28 +415,28 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* General Settings */}
         <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
+          <h2 className="text-xs font-semibold text-[var(--mk-text-secondary)] uppercase tracking-wide mb-3 px-1">
             {t('settings', lang)}
           </h2>
-          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}>
+          <div className="bg-[var(--mk-card)] rounded-2xl overflow-hidden" style={{ border: '1px solid var(--mk-border)' }}>
             {settingsItems.map((item, index) => (
               <motion.button
                 key={index}
                 onClick={item.action}
-                className={`w-full flex items-center justify-between p-4 hover:bg-[#f4f3ef] transition ${
-                  index < settingsItems.length - 1 ? 'border-b border-gray-100' : ''
+                className={`w-full flex items-center justify-between p-4 hover:bg-[var(--mk-bg-alt)] transition ${
+                  index < settingsItems.length - 1 ? 'border-b border-[var(--mk-border)]' : ''
                 }`}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex items-center gap-3">
-                  <div className="bg-[#eae9e6] p-2 rounded-full">
-                    <item.icon className="w-4 h-4 text-gray-600" />
+                  <div className="bg-[var(--mk-border)] p-2 rounded-full">
+                    <item.icon className="w-4 h-4 text-[var(--mk-text-secondary)]" />
                   </div>
-                  <span className="font-medium text-gray-900 text-sm">{item.label}</span>
+                  <span className="font-medium text-[var(--mk-text)] text-sm">{item.label}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-500">{item.value}</span>
-                  <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <span className="text-xs text-[var(--mk-text-secondary)]">{item.value}</span>
+                  <svg className="w-4 h-4 text-[var(--mk-text-secondary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
@@ -447,10 +447,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* Notification Preferences */}
         <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
+          <h2 className="text-xs font-semibold text-[var(--mk-text-secondary)] uppercase tracking-wide mb-3 px-1">
             🔔 {lang === 'sw' ? 'Mipangilio ya Arifa' : 'Notification Preferences'}
           </h2>
-          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}>
+          <div className="bg-[var(--mk-card)] rounded-2xl overflow-hidden" style={{ border: '1px solid var(--mk-border)' }}>
             {[
               {
                 icon: AlertTriangle,
@@ -480,21 +480,21 @@ export function SettingsView({ onBack }: SettingsViewProps) {
                 toggle: () => setNotifyGoal(v => !v),
               },
             ].map((item, i, arr) => (
-              <div key={item.label} className={`flex items-center p-4 gap-3 ${i < arr.length - 1 ? 'border-b border-gray-100' : ''}`}>
+              <div key={item.label} className={`flex items-center p-4 gap-3 ${i < arr.length - 1 ? 'border-b border-[var(--mk-border)]' : ''}`}>
                 <div className={`${item.bg} p-2 rounded-full shrink-0`}>
                   <item.icon className={`w-4 h-4 ${item.color}`} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-gray-900">{item.label}</p>
-                  <p className="text-xs text-gray-400 truncate">{item.sub}</p>
+                  <p className="text-sm font-semibold text-[var(--mk-text)]">{item.label}</p>
+                  <p className="text-xs text-[var(--mk-text-secondary)] truncate">{item.sub}</p>
                 </div>
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={item.toggle}
                   className={`w-11 h-6 rounded-full flex items-center transition-colors duration-300 shrink-0 ${
-                    item.value ? 'justify-end' : 'bg-[#d4d3cf] justify-start'
+                    item.value ? 'justify-end' : 'bg-[var(--mk-border)] justify-start'
                   } px-0.5`}
-                  style={item.value ? { background: '#16a34a' } : undefined}
+                  style={item.value ? { background: 'var(--mk-green)' } : undefined}
                 >
                   <motion.div
                     layout
@@ -518,14 +518,14 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* Actions */}
         <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
+          <h2 className="text-xs font-semibold text-[var(--mk-text-secondary)] uppercase tracking-wide mb-3 px-1">
             {t('actions', lang)}
           </h2>
           <div className="space-y-3">
             <motion.button
               onClick={handleExportCSV}
               disabled={state.transactions.length === 0}
-              className={`w-full bg-white rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition ${
+              className={`w-full bg-[var(--mk-card)] rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition ${
                 state.transactions.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               whileTap={state.transactions.length > 0 ? { scale: 0.98 } : {}}
@@ -536,10 +536,10 @@ export function SettingsView({ onBack }: SettingsViewProps) {
                   : <Download className="w-5 h-5 text-emerald-600" />}
               </div>
               <div className="text-left">
-                <span className="font-medium text-gray-900 block text-sm">
+                <span className="font-medium text-[var(--mk-text)] block text-sm">
                   {exportDone ? t('downloaded', lang) : t('exportHistory', lang)}
                 </span>
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-[var(--mk-text-secondary)]">
                   {state.transactions.length === 0
                     ? t('noDataToExport', lang)
                     : `${state.transactions.length} ${lang === 'sw' ? 'miamala → CSV' : 'transactions → CSV'}`}
@@ -549,29 +549,29 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
             <motion.button
               onClick={handleExportJSON}
-              className="w-full bg-white rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition"
+              className="w-full bg-[var(--mk-card)] rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition"
               whileTap={{ scale: 0.98 }}
             >
               <div className="bg-blue-100 p-2 rounded-full">
                 <Download className="w-5 h-5 text-blue-600" />
               </div>
               <div className="text-left">
-                <span className="font-medium text-gray-900 block text-sm">{t('saveBackupJSON', lang)}</span>
-                <span className="text-xs text-gray-500">{t('fullDataBackup', lang)}</span>
+                <span className="font-medium text-[var(--mk-text)] block text-sm">{t('saveBackupJSON', lang)}</span>
+                <span className="text-xs text-[var(--mk-text-secondary)]">{t('fullDataBackup', lang)}</span>
               </div>
             </motion.button>
 
-            <label className="w-full bg-white rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition cursor-pointer active:scale-[0.98]">
+            <label className="w-full bg-[var(--mk-card)] rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition cursor-pointer active:scale-[0.98]">
               <div className={`p-2 rounded-full ${importDone ? 'bg-emerald-100' : 'bg-purple-100'}`}>
                 {importDone
                   ? <CheckCircle className="w-5 h-5 text-emerald-600" />
                   : <Upload className="w-5 h-5 text-purple-600" />}
               </div>
               <div className="text-left">
-                <span className="font-medium text-gray-900 block text-sm">
+                <span className="font-medium text-[var(--mk-text)] block text-sm">
                   {importDone ? t('restoredDone', lang) : t('restoreBackupJSON', lang)}
                 </span>
-                <span className="text-xs text-gray-500">{t('restoreFromFile', lang)}</span>
+                <span className="text-xs text-[var(--mk-text-secondary)]">{t('restoreFromFile', lang)}</span>
               </div>
               <input type="file" accept=".json,application/json" className="hidden" onChange={handleImportJSON} />
             </label>
@@ -579,7 +579,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
             <motion.button
               onClick={() => setShowDeleteConfirm(true)}
-              className="w-full bg-white rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition border border-red-100"
+              className="w-full bg-[var(--mk-card)] rounded-2xl p-4 shadow-md flex items-center gap-3 hover:shadow-lg transition border border-red-100"
               whileTap={{ scale: 0.98 }}
             >
               <div className="bg-red-100 p-2 rounded-full">
@@ -587,7 +587,7 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               </div>
               <div className="text-left">
                 <span className="font-medium text-red-700 block text-sm">{t('deleteData', lang)}</span>
-                <span className="text-xs text-gray-500">{t('eraseAllData', lang)}</span>
+                <span className="text-xs text-[var(--mk-text-secondary)]">{t('eraseAllData', lang)}</span>
               </div>
             </motion.button>
           </div>
@@ -595,27 +595,27 @@ export function SettingsView({ onBack }: SettingsViewProps) {
 
         {/* Security */}
         <div>
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3 px-1">
+          <h2 className="text-xs font-semibold text-[var(--mk-text-secondary)] uppercase tracking-wide mb-3 px-1">
             🔒 {t('security', lang)}
           </h2>
-          <div className="bg-white rounded-2xl overflow-hidden" style={{ border: '1px solid #e8e7e4' }}>
+          <div className="bg-[var(--mk-card)] rounded-2xl overflow-hidden" style={{ border: '1px solid var(--mk-border)' }}>
             <motion.button
               onClick={() => {
                 if (state.appLockEnabled) setShowDisableLockConfirm(true);
                 else setShowLockSetup(true);
               }}
-              className="w-full flex items-center justify-between p-4 hover:bg-[#f4f3ef] transition"
+              className="w-full flex items-center justify-between p-4 hover:bg-[var(--mk-bg-alt)] transition"
               whileTap={{ scale: 0.98 }}
             >
               <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-full ${state.appLockEnabled ? 'bg-emerald-100' : 'bg-[#eae9e6]'}`}>
+                <div className={`p-2 rounded-full ${state.appLockEnabled ? 'bg-emerald-100' : 'bg-[var(--mk-border)]'}`}>
                   {state.appLockEnabled
                     ? <Lock className="w-4 h-4 text-emerald-600" />
-                    : <Unlock className="w-4 h-4 text-gray-500" />}
+                    : <Unlock className="w-4 h-4 text-[var(--mk-text-secondary)]" />}
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-gray-900 text-sm">{t('appLock', lang)}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="font-medium text-[var(--mk-text)] text-sm">{t('appLock', lang)}</p>
+                  <p className="text-xs text-[var(--mk-text-secondary)]">
                     {state.appLockEnabled ? t('enabledTapToChange', lang) : t('secureApp', lang)}
                   </p>
                 </div>
@@ -639,15 +639,15 @@ export function SettingsView({ onBack }: SettingsViewProps) {
         <PhoneInstallCard lang={lang} />
 
         {/* App Info */}
-        <div className="bg-white rounded-2xl p-4 text-center" style={{ border: '1px solid #e8e7e4' }}>
+        <div className="bg-[var(--mk-card)] rounded-2xl p-4 text-center" style={{ border: '1px solid var(--mk-border)' }}>
           <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${avatarColor} flex items-center justify-center text-2xl mx-auto mb-2`}>
             💰
           </div>
-          <p className="font-bold text-gray-900">Maokoto v1.0.0</p>
-          <p className="text-xs text-gray-400 mt-0.5">{lang === 'sw' ? 'Imetengenezwa kwa East Africa 🌍' : 'Made for East Africa 🌍'}</p>
+          <p className="font-bold text-[var(--mk-text)]">Maokoto v1.0.0</p>
+          <p className="text-xs text-[var(--mk-text-secondary)] mt-0.5">{lang === 'sw' ? 'Imetengenezwa kwa East Africa 🌍' : 'Made for East Africa 🌍'}</p>
           <button
             onClick={() => setShowLegal(true)}
-            className="mt-2 text-xs text-gray-400 underline underline-offset-2"
+            className="mt-2 text-xs text-[var(--mk-text-secondary)] underline underline-offset-2"
           >
             {t('privacyPolicy', lang)} · {t('termsOfService', lang)}
           </button>
@@ -667,22 +667,22 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 z-50 shadow-2xl"
+              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-[var(--mk-card)] rounded-3xl p-6 z-50 shadow-2xl"
             >
-              <button onClick={() => setShowDeleteConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[#eae9e6] rounded-full">
-                <X className="w-5 h-5 text-gray-500" />
+              <button onClick={() => setShowDeleteConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[var(--mk-border)] rounded-full">
+                <X className="w-5 h-5 text-[var(--mk-text-secondary)]" />
               </button>
               <div className="bg-red-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
                 <AlertTriangle className="w-7 h-7 text-red-600" />
               </div>
-              <h2 className="text-xl font-bold text-center text-gray-900 mb-2">{t('deleteAllDataTitle', lang)}</h2>
-              <p className="text-sm text-gray-600 text-center mb-6">
+              <h2 className="text-xl font-bold text-center text-[var(--mk-text)] mb-2">{t('deleteAllDataTitle', lang)}</h2>
+              <p className="text-sm text-[var(--mk-text-secondary)] text-center mb-6">
                 {lang === 'sw'
                   ? 'Hii itafuta miamala yote, malengo, na mipangilio yako. Haitaweza kutenduliwa.'
                   : 'This will permanently erase all your transactions, goals, and settings. This cannot be undone.'}
               </p>
               <div className="flex gap-3">
-                <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-gray-300 text-gray-700 font-semibold">
+                <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-[var(--mk-border)] text-[var(--mk-text)] font-semibold">
                   {t('cancel', lang)}
                 </button>
                 <button onClick={handleDeleteData} className="flex-1 py-3 rounded-2xl bg-red-600 text-white font-semibold">
@@ -707,22 +707,22 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 z-50 shadow-2xl"
+              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-[var(--mk-card)] rounded-3xl p-6 z-50 shadow-2xl"
             >
-              <button onClick={() => setShowImportConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[#eae9e6] rounded-full">
-                <X className="w-5 h-5 text-gray-500" />
+              <button onClick={() => setShowImportConfirm(false)} className="absolute top-4 right-4 p-1 hover:bg-[var(--mk-border)] rounded-full">
+                <X className="w-5 h-5 text-[var(--mk-text-secondary)]" />
               </button>
               <div className="bg-purple-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Upload className="w-7 h-7 text-purple-600" />
               </div>
-              <h2 className="text-xl font-bold text-center text-gray-900 mb-2">{t('restoreBackupTitle', lang)}</h2>
-              <p className="text-sm text-gray-600 text-center mb-6">
+              <h2 className="text-xl font-bold text-center text-[var(--mk-text)] mb-2">{t('restoreBackupTitle', lang)}</h2>
+              <p className="text-sm text-[var(--mk-text-secondary)] text-center mb-6">
                 {lang === 'sw'
                   ? 'Data yako ya sasa itafutwa na kubadilishwa na nakala. Hii haiwezi kutenduliwa.'
                   : 'Your current data will be replaced with the backup. This cannot be undone.'}
               </p>
               <div className="flex gap-3">
-                <button onClick={() => setShowImportConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-gray-300 text-gray-700 font-semibold">
+                <button onClick={() => setShowImportConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-[var(--mk-border)] text-[var(--mk-text)] font-semibold">
                   {t('cancel', lang)}
                 </button>
                 <button onClick={confirmImport} className="flex-1 py-3 rounded-2xl bg-purple-600 text-white font-semibold">
@@ -762,19 +762,19 @@ export function SettingsView({ onBack }: SettingsViewProps) {
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-white rounded-3xl p-6 z-50 shadow-2xl"
+              className="fixed inset-x-6 top-1/2 -translate-y-1/2 bg-[var(--mk-card)] rounded-3xl p-6 z-50 shadow-2xl"
             >
               <div className="bg-amber-100 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Unlock className="w-7 h-7 text-amber-600" />
               </div>
-              <h2 className="text-xl font-bold text-center text-gray-900 mb-2">{t('disablePinLock', lang)}</h2>
-              <p className="text-sm text-gray-600 text-center mb-6">
+              <h2 className="text-xl font-bold text-center text-[var(--mk-text)] mb-2">{t('disablePinLock', lang)}</h2>
+              <p className="text-sm text-[var(--mk-text-secondary)] text-center mb-6">
                 {lang === 'sw'
                   ? 'Je, una uhakika unataka kuzima kufunga kwa PIN?'
                   : 'Are you sure you want to disable PIN lock?'}
               </p>
               <div className="flex gap-3">
-                <button onClick={() => setShowDisableLockConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-gray-300 text-gray-700 font-semibold">
+                <button onClick={() => setShowDisableLockConfirm(false)} className="flex-1 py-3 rounded-2xl border-2 border-[var(--mk-border)] text-[var(--mk-text)] font-semibold">
                   {t('cancel', lang)}
                 </button>
                 <button

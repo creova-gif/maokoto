@@ -1,0 +1,254 @@
+DO A BRUTAL, SILICON-VALLEY-LEVEL UI/UX AUDIT OF THIS ENTIRE PRODUCT.
+
+Audit this platform as if you are a senior design review team from Apple, Stripe, Airbnb, Linear, Notion, Arc Browser, Figma, and Vercel combined. Be ruthless, detailed, technical, visual, strategic, and psychologically aware. We are not building a “good-looking student project.” We are building a world-class, category-defining product intended to compete visually and experientially with elite Silicon Valley software.
+
+Your mission is to identify EVERYTHING that makes this product feel:
+
+* amateur
+* outdated
+* inconsistent
+* cluttered
+* generic
+* startup-template-like
+* inaccessible
+* cognitively overwhelming
+* visually weak
+* emotionally flat
+* low trust
+* low retention
+* low premium perception
+
+Go extremely deep into:
+
+* UI
+* UX
+* visual hierarchy
+* interaction design
+* accessibility
+* branding
+* motion systems
+* typography
+* spacing
+* color systems
+* responsiveness
+* animations
+* onboarding
+* emotional design
+* retention psychology
+* premium feel
+* conversion optimization
+* user flows
+* scalability of the design system
+* mobile ergonomics
+* enterprise readiness
+* trust indicators
+* performance perception
+* cognitive load
+* consistency across screens
+* information architecture
+* microinteractions
+* product identity
+* cultural relevance
+* perceived innovation level
+
+I want a TRUE audit — not surface-level compliments.
+
+Be direct and unapologetically honest.
+
+For EVERY issue:
+
+1. Explain the problem
+2. Explain WHY it hurts the experience/business
+3. Explain how elite products solve it
+4. Give a modern redesign recommendation
+5. Provide implementation direction for frontend/design teams
+
+SPECIFIC AREAS TO AUDIT:
+
+1. BRAND & VISUAL IDENTITY
+
+* Does the product feel premium?
+* Does the branding feel memorable?
+* Does the visual language feel original or template-based?
+* Are colors emotionally aligned with the mission?
+* Does the product communicate trust, innovation, intelligence, and scale?
+* Does the app feel culturally modern and globally competitive?
+
+Audit:
+
+* logo usage
+* color palette
+* gradients
+* iconography
+* typography pairings
+* illustrations
+* visual consistency
+* visual tension
+* whitespace usage
+* brand recognition potential
+
+2. COLOR SYSTEMS (IMPORTANT)
+   We DO NOT want a permanently dark-only interface.
+
+The UI MUST intelligently adapt to:
+
+* user device settings
+* operating system theme
+* accessibility settings
+* ambient experience expectations
+
+Audit:
+
+* light mode quality
+* dark mode quality
+* dynamic theming
+* contrast ratios
+* accessibility compliance
+* eye strain
+* emotional tone differences between themes
+* semantic color usage
+* token consistency
+* color hierarchy
+
+Then redesign the system into:
+
+* world-class adaptive theming
+* semantic design tokens
+* scalable color architecture
+* Apple-level polish
+* Stripe-level clarity
+* Linear-level elegance
+
+The app should feel premium in BOTH light and dark mode — not like dark mode was the only design consideration.
+
+3. UX & USER FLOW
+   Audit:
+
+* onboarding
+* navigation clarity
+* discoverability
+* user confusion points
+* friction
+* retention loops
+* CTA hierarchy
+* dashboard logic
+* interaction friction
+* form experience
+* empty states
+* loading states
+* error states
+* settings architecture
+* information overload
+* mobile-first usability
+
+Identify moments where users:
+
+* hesitate
+* feel cognitive fatigue
+* lose trust
+* get confused
+* abandon actions
+
+4. DESIGN SYSTEM & CONSISTENCY
+   Audit whether the platform has:
+
+* a scalable design language
+* reusable component architecture
+* consistent spacing
+* radius system
+* shadow system
+* typography scale
+* layout grid
+* animation logic
+* responsive rules
+* interaction standards
+
+Identify inconsistencies aggressively.
+
+5. MICROINTERACTIONS & MOTION
+   We want premium motion design.
+
+Audit:
+
+* transitions
+* hover states
+* scroll behavior
+* page transitions
+* feedback systems
+* animation timing
+* gesture interactions
+* delight moments
+* perceived performance
+
+Recommend:
+
+* cinematic but functional motion
+* physics-based transitions
+* subtle depth systems
+* smooth state changes
+* premium tactile feel
+
+Motion should feel intentional, intelligent, and emotionally reinforcing — not decorative noise.
+
+6. MOBILE EXPERIENCE
+   Audit the product primarily as a mobile-first experience:
+
+* thumb ergonomics
+* spacing
+* readability
+* one-handed usability
+* safe areas
+* scroll fatigue
+* navigation placement
+* keyboard interactions
+* responsiveness
+* gesture behavior
+
+Identify every area where the product feels like a desktop site shrunk onto a phone.
+
+7. SILICON VALLEY BENCHMARKING
+   Compare this product against:
+
+* Apple
+* Linear
+* Stripe
+* Notion
+* Airbnb
+* Arc Browser
+* Figma
+* Framer
+* Vercel
+* Revolut
+* Superhuman
+
+Explain:
+
+* where we look behind
+* where we feel outdated
+* where polish is missing
+* where emotional UX is weak
+* where trust perception drops
+* where speed/performance perception suffers
+
+8. FINAL VERDICT
+   At the end provide:
+
+* Overall UI score /10
+* UX score /10
+* Branding score /10
+* Product polish score /10
+* Scalability readiness /10
+* Premium perception score /10
+
+Then provide:
+
+* Top 10 highest priority fixes
+* Top 10 quick wins
+* Top 10 “this changes everything” upgrades
+* A roadmap to make this feel like a billion-dollar product
+
+IMPORTANT:
+Do NOT protect feelings.
+Do NOT give generic praise.
+Do NOT act like a junior designer.
+Think like an elite product/design review board preparing this company for venture-scale growth and global adoption.

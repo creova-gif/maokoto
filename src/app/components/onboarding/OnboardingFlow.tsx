@@ -14,11 +14,10 @@ function ProgressBar({ total, current }: { total: number; current: number }) {
   return (
     <div className="flex gap-1.5 items-center flex-1">
       {Array.from({ length: total }).map((_, i) => (
-        <motion.div
+        <div
           key={i}
-          className="h-[3px] rounded-full flex-1"
-          animate={{ backgroundColor: i <= current ? '#FD8240' : '#F4F4F2' }}
-          transition={{ duration: 0.25 }}
+          className="h-[3px] rounded-full flex-1 transition-all duration-250"
+          style={{ background: i <= current ? 'var(--mk-orange)' : 'rgba(var(--mk-text-rgb),0.12)' }}
         />
       ))}
     </div>
@@ -34,12 +33,12 @@ const SLIDE_VARIANTS = {
 
 // ── Card style helpers ─────────────────────────────────────────────────────
 const cardBase = 'relative overflow-hidden rounded-2xl text-left transition-all duration-200 cursor-pointer';
-const cardIdle = 'bg-white border border-[#F4F4F2]';
-const cardOn   = 'bg-white border-2 border-[#FD8240]';
+const cardIdle = 'bg-[var(--mk-card)] border border-[var(--mk-border)]';
+const cardOn   = 'bg-[var(--mk-card)] border-2 border-[var(--mk-orange)]';
 
 // ── Confetti burst (animejs v4 compatible) ────────────────────────────────
 function spawnConfetti(container: HTMLElement) {
-  const colors = ['#FD8240', '#4E886F', '#5CC7A0', '#FFD166', '#EF476F', 'var(--mk-text)', 'var(--mk-purple)'];
+  const colors = ['var(--mk-orange)', 'var(--mk-green)', '#FFD166', '#FF6B00', 'var(--mk-red)', 'var(--mk-text)', 'var(--mk-purple)'];
   const count = 72;
 
   for (let i = 0; i < count; i++) {
@@ -146,8 +145,8 @@ function HeroChart() {
         {/* Gradient fill */}
         <defs>
           <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#5CC7A0" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="#5CC7A0" stopOpacity="0" />
+            <stop offset="0%" style={{ stopColor: 'var(--mk-orange)' }} stopOpacity="0.35" />
+            <stop offset="100%" style={{ stopColor: 'var(--mk-orange)' }} stopOpacity="0" />
           </linearGradient>
         </defs>
         <path
@@ -159,19 +158,19 @@ function HeroChart() {
           ref={pathRef}
           d="M0,70 C30,65 50,60 80,50 C110,40 120,55 150,38 C180,22 200,35 230,20 C260,8 280,12 300,5"
           fill="none"
-          stroke="#5CC7A0"
+          style={{ stroke: 'var(--mk-orange)' }}
           strokeWidth="2.5"
           strokeLinecap="round"
         />
         {/* End dot */}
         <motion.circle
-          cx="300" cy="5" r="5" fill="#5CC7A0"
+          cx="300" cy="5" r="5" style={{ fill: 'var(--mk-orange)' }}
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1.8, type: 'spring', stiffness: 400 }}
         />
         <motion.circle
-          cx="300" cy="5" r="9" fill="none" stroke="#5CC7A0" strokeWidth="1.5"
+          cx="300" cy="5" r="9" fill="none" style={{ stroke: 'var(--mk-orange)' }} strokeWidth="1.5"
           initial={{ scale: 0, opacity: 0 }}
           animate={{ scale: [0, 1.4, 1], opacity: [0, 0.5, 0] }}
           transition={{ delay: 1.9, duration: 0.8, repeat: Infinity, repeatDelay: 2 }}
@@ -188,7 +187,7 @@ function FloatingParticle({ x, y, delay, size }: { x: number; y: number; delay: 
       style={{
         position: 'absolute', left: `${x}%`, top: `${y}%`,
         width: size, height: size, borderRadius: '50%',
-        background: 'rgba(92,199,160,0.25)',
+        background: 'rgba(var(--mk-orange-rgb),0.15)',
         pointerEvents: 'none',
       }}
       animate={{ y: [0, -18, 0], opacity: [0.3, 0.7, 0.3] }}
@@ -241,7 +240,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
       {/* ── Hero (top 55%) — dark green ── */}
       <div style={{
         position: 'relative',
-        background: 'linear-gradient(160deg, #0F2419 0%, #1A3D2E 40%, #245E42 100%)',
+        background: 'linear-gradient(160deg, #1A0A00 0%, #2D1200 40%, var(--mk-orange) 100%)',
         padding: '48px 28px 32px',
         flexShrink: 0,
         overflow: 'hidden',
@@ -260,7 +259,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
         {/* Radial glow top-right */}
         <div style={{
           position: 'absolute', top: -60, right: -60, width: 220, height: 220,
-          background: 'radial-gradient(circle, rgba(92,199,160,0.18) 0%, transparent 65%)',
+          background: 'radial-gradient(circle, rgba(var(--mk-orange-rgb),0.18) 0%, transparent 65%)',
           pointerEvents: 'none',
         }} />
 
@@ -273,9 +272,9 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
         >
           <div style={{
             width: 32, height: 32, borderRadius: 10,
-            background: 'linear-gradient(135deg, #4E886F, #245E42)',
+            background: 'linear-gradient(135deg, var(--mk-orange), var(--mk-red))',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 4px 14px rgba(78,136,111,0.4)',
+            boxShadow: '0 4px 14px rgba(var(--mk-orange-rgb),0.45)',
           }}>
             <svg width="18" height="18" viewBox="0 0 26 26" fill="none">
               <path d="M13 2 L14.6 10.4 L23 12 L14.6 13.6 L13 22 L11.4 13.6 L3 12 L11.4 10.4 Z" fill="white" fillOpacity="0.95" />
@@ -371,7 +370,7 @@ function WelcomeStep({ onNext, lang }: { onNext: () => void; lang: Language }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
-            style={{ color: '#4B5563', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
+            style={{ color: 'var(--mk-text-secondary)', textAlign: 'center', fontSize: 12, marginTop: 12, fontFamily: 'Geist, sans-serif' }}
           >
             {footer[lang] || footer.en}
           </motion.p>
@@ -401,11 +400,11 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', padding: '0 24px' }}>
       <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 8, fontFamily: 'Geist, sans-serif' }}>
         Choose your language · Choisissez votre langue
       </motion.p>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}
-        style={{ fontSize: 26, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
+        style={{ fontSize: 26, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         Habari? / Hello! / مرحبا
       </motion.h2>
 
@@ -428,13 +427,13 @@ function LanguageStep({ onPick }: { onPick: (l: Language) => void }) {
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '14px 18px' }}>
                 <span style={{ fontSize: 28, flexShrink: 0 }}>{l.flag}</span>
                 <div style={{ flex: 1, textAlign: isRtl ? 'right' : 'left' }}>
-                  <p style={{ fontSize: 16, fontWeight: 600, color: '#4D4845', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>{l.name}</p>
-                  <p style={{ fontSize: 11, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>{l.sub}</p>
+                  <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--mk-text)', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>{l.name}</p>
+                  <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>{l.sub}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      style={{ width: 22, height: 22, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      style={{ width: 22, height: 22, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Check style={{ width: 12, height: 12, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
@@ -467,11 +466,11 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
         </motion.div>
 
         <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-          style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
+          style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Jina lako ni nani?' : "What's your name?"}
         </motion.h2>
         <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-          style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 28, fontFamily: 'Geist, sans-serif' }}>
+          style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 28, fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Tunataka kukusalimu vizuri' : "We'd love to greet you personally"}
         </motion.p>
 
@@ -479,7 +478,7 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
           <motion.p key={displayName}
             initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }} transition={{ duration: 0.15 }}
-            style={{ fontSize: 20, fontWeight: 600, color: '#4E886F', marginBottom: 24, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+            style={{ fontSize: 20, fontWeight: 600, color: 'var(--mk-green)', marginBottom: 24, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
             {lang === 'sw' ? `Karibu, ${displayName}!` : `Hi, ${displayName}!`}
           </motion.p>
         </AnimatePresence>
@@ -497,19 +496,19 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
             textAlign: 'center',
             fontSize: 20,
             fontWeight: 600,
-            background: '#F6F6F4',
-            border: '1.5px solid #F4F4F2',
-            color: '#4D4845',
+            background: 'var(--mk-card)',
+            border: '1.5px solid var(--mk-border)',
+            color: 'var(--mk-text)',
             borderRadius: 16,
             padding: '14px 20px',
             outline: 'none',
             fontFamily: 'Geist, sans-serif',
             boxSizing: 'border-box',
           }}
-          onFocus={e => (e.target.style.borderColor = '#FD8240')}
-          onBlur={e => (e.target.style.borderColor = '#F4F4F2')}
+          onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+          onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
         />
-        <p style={{ color: '#928F8B', fontSize: 12, marginTop: 8, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
+        <p style={{ color: 'var(--mk-text-secondary)', fontSize: 12, marginTop: 8, textAlign: 'center', fontFamily: 'Geist, sans-serif' }}>
           {lang === 'sw' ? 'Au bonyeza Endelea bila jina' : 'Or continue without a name'}
         </p>
       </div>
@@ -521,7 +520,7 @@ function NameStep({ onNext, lang, initialName }: { onNext: (name: string) => voi
         style={{
           width: '100%',
           maxWidth: 340,
-          background: '#FD8240',
+          background: 'var(--mk-orange)',
           color: 'var(--mk-text)',
           borderRadius: 999,
           padding: '16px 0',
@@ -561,11 +560,11 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '32px 24px 0' }} dir={isRtl ? 'rtl' : 'ltr'}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+        style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
         {copy.title}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 16, fontFamily: 'Geist, sans-serif' }}>
         {copy.subtitle}
       </motion.p>
 
@@ -583,15 +582,15 @@ function RegionStep({ onPick, lang }: { onPick: (r: Region) => void; lang: Langu
               <div style={{ display: 'flex', alignItems: 'center', gap: 14, padding: '13px 16px' }}>
                 <span style={{ fontSize: 26, flexShrink: 0 }}>{cfg.flag}</span>
                 <div style={{ flex: 1, textAlign: isRtl ? 'right' : 'left' }}>
-                  <p style={{ fontSize: 15, fontWeight: 500, color: '#4D4845', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--mk-text)', fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
                     {getRegionName(code, lang)}
                   </p>
-                  <p style={{ fontSize: 12, color: '#928F8B', fontFamily: 'Geist, sans-serif' }}>{cfg.currency} · {cfg.symbol}</p>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>{cfg.currency} · {cfg.symbol}</p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      style={{ width: 20, height: 20, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      style={{ width: 20, height: 20, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       <Check style={{ width: 11, height: 11, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
@@ -630,11 +629,11 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
+        style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Nani wewe?' : 'Who are you?'}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Tunaboresha uzoefu wako' : 'We personalise your experience'}
       </motion.p>
 
@@ -659,17 +658,17 @@ function UserTypeStep({ onPick, lang }: { onPick: (t: UserType) => void; lang: L
               }}>
                 <span style={{ fontSize: isLast ? 22 : 24 }}>{emoji}</span>
                 <div style={{ flex: isLast ? 1 : undefined, marginTop: isLast ? 0 : 'auto' }}>
-                  <p style={{ fontSize: 13, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? sw_ : en}
                   </p>
-                  <p style={{ fontSize: 11, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 11, color: 'var(--mk-text-secondary)', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? subSw : subEn}
                   </p>
                 </div>
                 <AnimatePresence>
                   {isSelected && (
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                      style={{ position: 'absolute', top: 10, right: 10, width: 18, height: 18, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      style={{ position: 'absolute', top: 10, right: 10, width: 18, height: 18, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Check style={{ width: 10, height: 10, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                     </motion.div>
                   )}
@@ -706,11 +705,11 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
+        style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 6, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Unapata pesa vipi?' : 'How do you earn?'}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 24, fontFamily: 'Geist, sans-serif' }}>
         {lang === 'sw' ? 'Hii inasaidia kutabiri mwenendo wa pesa' : 'Helps us forecast your cash flow'}
       </motion.p>
 
@@ -726,10 +725,10 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 16px' }}>
                 <span style={{ fontSize: 22, flexShrink: 0 }}>{emoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 14, fontWeight: 500, color: '#4D4845', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? sw_ : en}
                   </p>
-                  <p style={{ fontSize: 12, color: '#928F8B', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', marginTop: 2, fontFamily: 'Geist, sans-serif' }}>
                     {lang === 'sw' ? subSw : subEn}
                   </p>
                 </div>
@@ -739,8 +738,8 @@ function IncomeStep({ onPick, lang }: { onPick: (f: IncomeFrequency) => void; la
                   fontSize: 11,
                   fontWeight: 500,
                   flexShrink: 0,
-                  background: isSelected ? 'rgba(253,130,64,0.12)' : '#F6F6F4',
-                  color: isSelected ? '#FD8240' : '#928F8B',
+                  background: isSelected ? 'rgba(var(--mk-orange-rgb),0.12)' : 'var(--mk-card)',
+                  color: isSelected ? 'var(--mk-orange)' : 'var(--mk-text-secondary)',
                   fontFamily: 'Geist, sans-serif',
                 }}>
                   {lang === 'sw' ? tagSw : tagEn}
@@ -854,11 +853,11 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '32px 24px 24px' }} dir={isRtl ? 'rtl' : 'ltr'}>
       <motion.h2 initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-        style={{ fontSize: 28, fontWeight: 700, color: '#4D4845', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
+        style={{ fontSize: 28, fontWeight: 700, color: 'var(--mk-text)', textAlign: 'center', marginBottom: 6, fontFamily: isRtl ? 'system-ui, sans-serif' : 'Geist, sans-serif' }}>
         {ml(lang, { en: 'Your first goal', sw: 'Lengo lako la kwanza', fr: 'Votre premier objectif', ar: 'هدفك الأول', pt: 'Seu primeiro objetivo' })}
       </motion.h2>
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-        style={{ color: '#928F8B', fontSize: 14, textAlign: 'center', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
+        style={{ color: 'var(--mk-text-secondary)', fontSize: 14, textAlign: 'center', marginBottom: 20, fontFamily: 'Geist, sans-serif' }}>
         {ml(lang, { en: "Let's start your savings journey!", sw: 'Tuanze safari ya kuokoa!', fr: 'Commençons votre parcours d\'épargne !', ar: 'لنبدأ رحلة الادخار!', pt: 'Vamos começar sua jornada de poupança!' })}
       </motion.p>
 
@@ -873,13 +872,13 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
               className={`${cardBase} ${isSelected ? cardOn : cardIdle}`}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '14px 8px', gap: 6, minHeight: 80, position: 'relative' }}>
               <span style={{ fontSize: 22 }}>{emoji}</span>
-              <p style={{ fontSize: 10, fontWeight: 500, color: isSelected ? '#FD8240' : '#928F8B', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
+              <p style={{ fontSize: 10, fontWeight: 500, color: isSelected ? 'var(--mk-orange)' : 'var(--mk-text-secondary)', textAlign: 'center', fontFamily: 'Geist, sans-serif', lineHeight: 1.3 }}>
                 {ml(lang, opt)}
               </p>
               <AnimatePresence>
                 {isSelected && (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}
-                    style={{ position: 'absolute', top: 6, right: 6, width: 14, height: 14, borderRadius: '50%', background: '#FD8240', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    style={{ position: 'absolute', top: 6, right: 6, width: 14, height: 14, borderRadius: '50%', background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Check style={{ width: 8, height: 8, color: 'var(--mk-text)' }} strokeWidth={2.5} />
                   </motion.div>
                 )}
@@ -901,9 +900,9 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                   placeholder={ml(lang, { en: 'Name your goal...', sw: 'Jina la lengo lako...', fr: 'Nommez votre objectif...', ar: 'سمِّ هدفك...', pt: 'Nomeie seu objetivo...' })}
                   style={{
                     width: '100%',
-                    background: '#F6F6F4',
-                    border: '1.5px solid #F4F4F2',
-                    color: '#4D4845',
+                    background: 'var(--mk-card)',
+                    border: '1.5px solid var(--mk-border)',
+                    color: 'var(--mk-text)',
                     borderRadius: 14,
                     padding: '12px 16px',
                     fontSize: 14,
@@ -911,37 +910,37 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
                     fontFamily: 'Geist, sans-serif',
                     boxSizing: 'border-box',
                   }}
-                  onFocus={e => (e.target.style.borderColor = '#FD8240')}
-                  onBlur={e => (e.target.style.borderColor = '#F4F4F2')}
+                  onFocus={e => (e.target.style.borderColor = 'var(--mk-orange)')}
+                  onBlur={e => (e.target.style.borderColor = 'var(--mk-border)')}
                 />
               )}
 
-              <div style={{ borderRadius: 14, padding: 16, background: '#F6F6F4', border: `1.5px solid ${amountFocused ? '#FD8240' : '#F4F4F2'}`, transition: 'border-color 0.15s' }}>
+              <div style={{ borderRadius: 14, padding: 16, background: 'var(--mk-card)', border: `1.5px solid ${amountFocused ? 'var(--mk-orange)' : 'var(--mk-border)'}`, transition: 'border-color 0.15s' }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-                  <p style={{ fontSize: 11, fontWeight: 500, color: '#928F8B', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
+                  <p style={{ fontSize: 11, fontWeight: 500, color: 'var(--mk-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Geist, sans-serif' }}>
                     {ml(lang, { en: 'Target amount', sw: 'Kiasi cha lengo', fr: 'Montant cible', ar: 'المبلغ المستهدف', pt: 'Valor alvo' })}
                   </p>
                   {goalId !== 'custom' && defaults[goalId] && (
-                    <span style={{ fontSize: 11, color: '#4E886F', fontFamily: 'Geist, sans-serif' }}>
+                    <span style={{ fontSize: 11, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
                       {ml(lang, { en: 'Suggested:', sw: 'Pendekezo:', fr: 'Suggéré :', ar: 'مقترح:', pt: 'Sugerido:' })} {fmt(defaults[goalId])}
                     </span>
                   )}
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ color: '#928F8B', fontSize: 16, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
+                  <span style={{ color: 'var(--mk-text-secondary)', fontSize: 16, fontWeight: 600, fontFamily: 'Geist, sans-serif' }}>{cfg.symbol}</span>
                   <input type="number" inputMode="numeric" value={amount}
                     onChange={e => { setAmount(e.target.value); setError(''); }}
                     onFocus={() => setAmountFocused(true)}
                     onBlur={() => setAmountFocused(false)}
                     placeholder="0"
-                    style={{ flex: 1, background: 'transparent', color: '#4D4845', fontSize: 24, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
+                    style={{ flex: 1, background: 'transparent', color: 'var(--mk-text)', fontSize: 24, fontWeight: 700, outline: 'none', border: 'none', fontFamily: 'Geist, sans-serif' }}
                   />
                 </div>
               </div>
 
               {error && (
                 <motion.p initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-                  style={{ color: '#C9362B', fontSize: 12, paddingLeft: 4, fontFamily: 'Geist, sans-serif' }}>
+                  style={{ color: 'var(--mk-red)', fontSize: 12, paddingLeft: 4, fontFamily: 'Geist, sans-serif' }}>
                   {error}
                 </motion.p>
               )}
@@ -953,8 +952,8 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
           <motion.button onClick={handleSubmit} whileTap={{ scale: 0.97 }} disabled={!isReady}
             style={{
               width: '100%',
-              background: isReady ? '#FD8240' : '#F4F4F2',
-              color: isReady ? 'var(--mk-text)' : '#928F8B',
+              background: isReady ? 'var(--mk-orange)' : 'var(--mk-border)',
+              color: isReady ? 'var(--mk-text)' : 'var(--mk-text-secondary)',
               borderRadius: 999,
               padding: '16px 0',
               fontWeight: 600,
@@ -967,7 +966,7 @@ function GoalStep({ onDone, lang, region }: { onDone: (title: string, amount: nu
             {ml(lang, { en: 'Start Saving', sw: 'Anza Kuokoa', fr: 'Commencer à épargner', ar: 'ابدأ الادخار', pt: 'Começar a poupar' })}
           </motion.button>
           <button onClick={() => onDone(ml(lang, { en: 'My Goal', sw: 'Lengo Langu', fr: 'Mon Objectif', ar: 'هدفي', pt: 'Meu Objetivo' }), defaults['emergencyFund'] ?? 50000)}
-            style={{ background: 'none', border: 'none', color: '#928F8B', fontSize: 14, padding: '8px 0', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
+            style={{ background: 'none', border: 'none', color: 'var(--mk-text-secondary)', fontSize: 14, padding: '8px 0', cursor: 'pointer', fontFamily: 'Geist, sans-serif' }}>
             {ml(lang, { en: 'Skip for now', sw: 'Ruka kwa sasa', fr: 'Passer pour l\'instant', ar: 'تخطى الآن', pt: 'Pular por agora' })}
           </button>
         </div>
@@ -1028,7 +1027,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               onClick={() => go(step - 1)}
               style={{
                 padding: 8,
-                background: '#F6F6F4',
+                background: 'var(--mk-card)',
                 border: 'none',
                 borderRadius: '50%',
                 cursor: 'pointer',
@@ -1037,7 +1036,7 @@ export function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 justifyContent: 'center',
               }}
             >
-              <ChevronLeft style={{ width: 18, height: 18, color: '#4D4845' }} />
+              <ChevronLeft style={{ width: 18, height: 18, color: 'var(--mk-text)' }} />
             </motion.button>
           )}
         </div>

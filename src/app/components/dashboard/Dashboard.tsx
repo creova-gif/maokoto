@@ -258,7 +258,7 @@ function TopNav({
                   right: 2,
                   width: 8,
                   height: 8,
-                  background: '#F55D3E',
+                  background: 'var(--mk-orange)',
                   borderRadius: '50%',
                   display: 'block',
                 }}
@@ -315,7 +315,7 @@ function BottomNav({
       >
         {NAV_ITEMS.map(({ id, Icon, labels }) => {
           const isActive = active === id;
-          const color = isActive ? 'var(--mk-orange)' : '#4B5563';
+          const color = isActive ? 'var(--mk-orange)' : 'var(--mk-text-secondary)';
           return (
             <motion.button
               key={id}
@@ -529,14 +529,14 @@ function HomeTab({
           </div>
           <div style={{ width: 1, background: 'rgba(var(--mk-text-rgb),0.1)' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <div style={{ width: 22, height: 22, borderRadius: 7, background: 'rgba(249,99,71,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <TrendingDown size={12} color="#F96347" />
+            <div style={{ width: 22, height: 22, borderRadius: 7, background: 'rgba(var(--mk-red-rgb),0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <TrendingDown size={12} color="var(--mk-red)" />
             </div>
             <div>
               <p style={{ fontSize: 9, color: 'rgba(var(--mk-text-rgb),0.4)', fontFamily: 'Geist, sans-serif', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
                 {lang === 'sw' ? 'Matumizi leo' : "Today's out"}
               </p>
-              <p style={{ fontSize: 13, fontWeight: 600, color: '#F96347', fontFamily: 'Geist, sans-serif' }}>-{fmt(todayExpense)}</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--mk-red)', fontFamily: 'Geist, sans-serif' }}>-{fmt(todayExpense)}</p>
             </div>
           </div>
         </div>
@@ -554,8 +554,8 @@ function HomeTab({
               whileTap={{ scale: 0.92 }}
               style={{
                 flex: 1,
-                background: `rgba(${accent === 'var(--mk-green)' ? '0,229,160' : accent === 'var(--mk-orange)' ? '255,107,0' : '167,139,250'},0.12)`,
-                border: `1px solid ${accent}33`,
+                background: `rgba(var(${accent === 'var(--mk-green)' ? '--mk-green-rgb' : accent === 'var(--mk-orange)' ? '--mk-orange-rgb' : '--mk-purple-rgb'}),0.12)`,
+                border: `1px solid rgba(var(${accent === 'var(--mk-green)' ? '--mk-green-rgb' : accent === 'var(--mk-orange)' ? '--mk-orange-rgb' : '--mk-purple-rgb'}),0.22)`,
                 borderRadius: 12,
                 padding: '9px 4px',
                 fontSize: 12,
@@ -905,7 +905,7 @@ function BudgetTab({
             <div style={{ marginTop: 12, height: 120 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={cashflowData} barGap={2} barCategoryGap="35%">
-                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#4B5563' }} axisLine={false} tickLine={false} />
+                  <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--mk-text-secondary)' }} axisLine={false} tickLine={false} />
                   <Bar dataKey="expense" fill="var(--mk-border)" radius={[3, 3, 0, 0]} />
                   <Bar dataKey="income" fill="var(--mk-green)" radius={[3, 3, 0, 0]} />
                   <Tooltip
@@ -988,7 +988,7 @@ function BudgetTab({
                     </div>
                     <StripeProgressBar value={amount} max={budget || amount} />
                   </div>
-                  <ChevronRight size={14} color="#4B5563" style={{ flexShrink: 0 }} />
+                  <ChevronRight size={14} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
                 </button>
               );
             })}
@@ -1094,7 +1094,7 @@ function BudgetTab({
                   <p style={{ fontSize: 14, fontWeight: 700, color: tx.type === 'expense' ? 'var(--mk-red)' : 'var(--mk-green)', fontFamily: 'Geist, sans-serif' }}>
                     {tx.type === 'expense' ? '-' : '+'}{fmt(tx.amount)}
                   </p>
-                  <ChevronRight size={12} color="#4B5563" />
+                  <ChevronRight size={12} color="var(--mk-text-secondary)" />
                 </div>
               </button>
             ))}
@@ -1147,7 +1147,7 @@ function BudgetTab({
                     {lang === 'sw' ? a.subSw : a.subEn}
                   </p>
                 </div>
-                <ChevronRight size={14} color="#4B5563" style={{ flexShrink: 0 }} />
+                <ChevronRight size={14} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
               </button>
             ))}
           </div>
@@ -1247,7 +1247,7 @@ function BudgetTab({
                       {lang === 'sw' ? 'Gharama zinazorudiwa kama kodi, umeme, n.k.' : 'Recurring expenses like rent, utility, etc.'}
                     </p>
                   </div>
-                  <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0 }} />
+                  <ChevronRight size={16} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
                 </motion.button>
 
                 {/* Subscription */}
@@ -1257,7 +1257,7 @@ function BudgetTab({
                   onClick={() => setShowNewBudgetType(false)}
                   style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '18px 20px', borderRadius: 16, background: 'var(--mk-card)', border: '1.5px solid var(--mk-border)', cursor: 'pointer', textAlign: 'left' }}
                 >
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: '#F55D3E', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--mk-orange)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                       <path d="M21 2v6h-6M3 12a9 9 0 0 1 15-6.7L21 8M3 22v-6h6M21 12a9 9 0 0 1-15 6.7L3 16" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
@@ -1270,7 +1270,7 @@ function BudgetTab({
                       {lang === 'sw' ? 'Gharama za mara kwa mara kama streaming, uanachama' : 'Recurring expenses like streaming, memberships, etc.'}
                     </p>
                   </div>
-                  <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0 }} />
+                  <ChevronRight size={16} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
                 </motion.button>
               </div>
             </motion.div>
@@ -1286,7 +1286,7 @@ const GOAL_CATEGORIES = [
   { id: 'regular',    emoji: '💰', en: 'Regular Savings',  sw: 'Akiba ya Kawaida', fr: 'Épargne régulière',   ar: 'ادخار منتظم',   pt: 'Poupança regular',   color: 'var(--mk-green)', bg: 'rgba(var(--mk-green-rgb),0.1)' },
   { id: 'emergency',  emoji: '🛡️', en: 'Emergencies',       sw: 'Dharura',          fr: 'Urgences',           ar: 'طوارئ',          pt: 'Emergências',        color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.1)' },
   { id: 'life',       emoji: '🌟', en: 'Life Goals',        sw: 'Malengo ya Maisha', fr: 'Objectifs de vie',  ar: 'أهداف حياتية',  pt: 'Objetivos de vida',  color: 'var(--mk-purple)', bg: 'rgba(var(--mk-purple-rgb),0.1)' },
-  { id: 'holiday',    emoji: '✈️', en: 'Holidays',          sw: 'Likizo',           fr: 'Vacances',           ar: 'إجازات',          pt: 'Férias',             color: '#F55D3E', bg: '#F55D3E1A' },
+  { id: 'holiday',    emoji: '✈️', en: 'Holidays',          sw: 'Likizo',           fr: 'Vacances',           ar: 'إجازات',          pt: 'Férias',             color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.1)' },
 ];
 
 type GoalCat = typeof GOAL_CATEGORIES[number];
@@ -1436,7 +1436,7 @@ function NewGoalSheet({
                     <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', flex: 1 }}>
                       {lang === 'sw' ? g.sw : g.en}
                     </p>
-                    <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0 }} />
+                    <ChevronRight size={16} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
                   </motion.button>
                 ))}
               </div>
@@ -1616,7 +1616,7 @@ function SavingsTab({ onAddGoal, onGoalSelect, onAddIncome }: { onAddGoal: () =>
                             {Math.round(pct)}% {lang === 'sw' ? 'imekamilika' : 'complete'}
                           </p>
                         </div>
-                        <ChevronRight size={16} color="#4B5563" style={{ flexShrink: 0, marginTop: 2 }} />
+                        <ChevronRight size={16} color="var(--mk-text-secondary)" style={{ flexShrink: 0, marginTop: 2 }} />
                       </div>
                       <p style={{ fontSize: 24, fontWeight: 800, color: 'var(--mk-green)', marginBottom: 12, fontFamily: 'Geist, sans-serif', letterSpacing: '-0.02em' }}>
                         {fmt(goal.target)}
@@ -1837,7 +1837,7 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
                   <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{fmt(p.amount)}</p>
                 </div>
                 <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--mk-green)', fontFamily: 'Geist, sans-serif', flexShrink: 0 }}>{p.pct}</span>
-                <ChevronRight size={14} color="#4B5563" style={{ flexShrink: 0 }} />
+                <ChevronRight size={14} color="var(--mk-text-secondary)" style={{ flexShrink: 0 }} />
               </button>
             </MkCard>
           ))}
@@ -1884,7 +1884,7 @@ function InvestTab({ onPortfolioSelect, onStocksSelect, onNewPlan }: {
                   <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif' }}>{a.label}</p>
                   <p style={{ fontSize: 12, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif', marginTop: 2 }}>{a.sub}</p>
                 </div>
-                <ChevronRight size={16} color="#4B5563" />
+                <ChevronRight size={16} color="var(--mk-text-secondary)" />
               </button>
             </MkCard>
           ))}
@@ -2284,7 +2284,7 @@ function LinkCardSheet({ onClose, onAdd, lang }: {
                       {n.id === 'visa' ? <VisaLogo size={14} /> : n.id === 'mastercard' ? <MastercardLogo size={18} /> : <CreditCard size={20} color="var(--mk-text)" />}
                     </div>
                     <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--mk-text)', fontFamily: 'Geist, sans-serif', flex: 1 }}>{n.label}</p>
-                    <ChevronRight size={16} color="#4B5563" />
+                    <ChevronRight size={16} color="var(--mk-text-secondary)" />
                   </motion.button>
                 ))}
               </div>
@@ -2856,7 +2856,7 @@ function WalletTab({
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', flexShrink: 0 }}
             >
               <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'var(--mk-card)', border: '1.5px dashed var(--mk-border)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <UserPlus size={20} color="#4B5563" />
+                <UserPlus size={20} color="var(--mk-text-secondary)" />
               </div>
               <span style={{ fontSize: 11, color: 'var(--mk-text-secondary)', fontFamily: 'Geist, sans-serif' }}>
                 {lang === 'sw' ? 'Zaidi' : 'More'}
@@ -3354,7 +3354,7 @@ export function Dashboard() {
                 {[
                   { icon: '💰', label: lang === 'sw' ? 'Matumizi' : 'Expense', sub: lang === 'sw' ? 'Gawanya fedha na fuatilia matumizi' : 'Allocate funds and track your expenses', color: 'var(--mk-red)', bg: 'rgba(var(--mk-red-rgb),0.08)', category: undefined as string | undefined },
                   { icon: '🧾', label: lang === 'sw' ? 'Bili' : 'Bills', sub: lang === 'sw' ? 'Matumizi ya mara kwa mara kama kodi, stima' : 'Recurring expenses like rent, utility, etc.', color: 'var(--mk-orange)', bg: 'rgba(var(--mk-orange-rgb),0.08)', category: lang === 'sw' ? 'Malipo' : 'Bills' },
-                  { icon: '📱', label: lang === 'sw' ? 'Usajili' : 'Subscription', sub: lang === 'sw' ? 'Matumizi ya kila mwezi kama Netflix, Spotify' : 'Recurring expenses like streaming, memberships', color: '#E05C7A', bg: 'rgba(224,92,122,0.08)', category: lang === 'sw' ? 'Burudani' : 'Entertainment' },
+                  { icon: '📱', label: lang === 'sw' ? 'Usajili' : 'Subscription', sub: lang === 'sw' ? 'Matumizi ya kila mwezi kama Netflix, Spotify' : 'Recurring expenses like streaming, memberships', color: 'var(--mk-purple)', bg: 'rgba(var(--mk-purple-rgb),0.08)', category: lang === 'sw' ? 'Burudani' : 'Entertainment' },
                 ].map(opt => (
                   <button
                     key={opt.label}
