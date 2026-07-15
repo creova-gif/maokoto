@@ -10,7 +10,7 @@
 
 Pesa Plan ("pesa" — Swahili for money) is a personal-finance app with wallet, budgeting, savings, and light investing views, an AI assistant for transaction tracking and financial guidance, goal-setting, transaction history, notifications, and an app-lock security feature. There's both a web dashboard and a separate mobile app directory.
 
-[ADD SCREENSHOT HERE]
+![Pesa Plan dashboard](docs/screenshots/dashboard.png)
 
 ## Status: In active development
 
